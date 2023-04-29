@@ -1,2 +1,2 @@
-# Dungeon
-## LI2 Project - Roguelike game named Dungeon (atleast for now)
+# LI2-Project
+Repositório do Projeto de LI2
