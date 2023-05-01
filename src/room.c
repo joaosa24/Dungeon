@@ -12,7 +12,7 @@ Sala createSala(int y, int x, int height, int width)
     new.centro.x = x + (int)(width / 2);
 
     return new;
-}
+} 
 
 void conectSalas(Posicao centro1, Posicao centro2)
 {
@@ -52,8 +52,10 @@ void addSalaToMap(Sala sala)
     {
         for (int x = sala.pos.x; x < (sala.pos.x + sala.width); x++)
         {
+            if(y < MAP_HEIGHT && y >= 0 && x >= 0 && x < MAP_WIDTH) {
             map[y][x].ch = '.';
             map[y][x].walkable = true;
-        }
+        }   
     }
+  } 
 }

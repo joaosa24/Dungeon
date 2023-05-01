@@ -48,9 +48,9 @@ void gameLoop(void);
 void closeGame(void);
 
 // map.c functions
-Terreno **createMapa(void);
-void freeMapa(void);
-Posicao setupMap(void);
+Terreno **generate_map(void);
+void FreeMapa(Terreno **map);
+Posicao setupMap(Terreno **map);
 
 // player.c functions
 Entidade *createPlayer(Posicao pos_inicial);
