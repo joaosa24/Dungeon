@@ -1,54 +1,137 @@
 #include <dungeon.h>
 
-Terreno **createMapa(void)
-{
-    Terreno **tiles = calloc(MAP_HEIGHT, sizeof(Terreno *));
+int WallCount(Terreno **map, int r, int col, int row) {
+    int x, y;
+    int wall_count = 0;
 
-    for (int y = 0; y < MAP_HEIGHT; y++)
-    {
-        tiles[y] = calloc(MAP_WIDTH, sizeof(Terreno));
-        for (int x = 0; x < MAP_WIDTH; x++)
-        {
-            tiles[y][x].ch = '#';
-            tiles[y][x].walkable = false;
-        }
-    }
-    return tiles;
+            for (y = col - r; y <= col + r; y++) {
+                for (x = row - r; x <= row + r; x++) {
+                    if ((y >= 1) && (y < MAP_HEIGHT-1) && (x >= 1) && (x < MAP_WIDTH - 1)) {
+                        if (map[y][x].ch == '#') {
+                            wall_count++;
+                     }
+                 }
+            }
+        } 
+return wall_count;
 }
 
-Posicao setupMap(void)
-{
-    int y, x, height, width, n_salas;
-    n_salas = (rand() % 11) + 5;
-    Sala *salas = calloc(n_salas, sizeof(Sala));
-    Posicao pos_inicial;
 
-    for (int i = 0; i < n_salas; i++)
-    {
-        y = (rand() % (MAP_HEIGHT - 10)) + 1;
-        x = (rand() % (MAP_WIDTH - 20)) + 1;
-        height = (rand() % 7) + 3;
-        width = (rand() % 15) + 5;
-        salas[i] = createSala(y, x, height, width);
-        addSalaToMap(salas[i]);
 
-        if (i > 0)
-        {
-            conectSalas(salas[i - 1].centro, salas[i].centro);
+Terreno** mapborder(Terreno **map) {
+    int x ,y;
+
+    for(y = 0; y < MAP_HEIGHT; y++){
+        for(x = 0; x < MAP_WIDTH; x++){
+            if(y == 0 || y == MAP_HEIGHT - 1) {
+                map[y][x].ch = '#';
+                map[y][x].walkable =false;               
+            }
+            if(y == 1 || y == MAP_HEIGHT -2){
+                map[y][x].ch = '#';
+                map[y][x].walkable =false;
+            }
+        }
+    }
+    for(x = 0; x < MAP_WIDTH; x++){
+        for(y = 0; y < MAP_HEIGHT; y++){
+            if(x == 0 || x == MAP_WIDTH - 1) {
+                map[y][x].ch = '#';
+                map[y][x].walkable =false;               
+            }
+            if(x == 1 || x == MAP_WIDTH -2){
+                map[y][x].ch = '#';
+                map[y][x].walkable =false;
+            }
+        }
+    }
+return map;
+}
+
+Terreno **generate_map() {
+    int i, j;
+    Terreno **map = calloc(MAP_HEIGHT, sizeof(Terreno *));
+
+    for (i = 0; i < MAP_HEIGHT; i++) {
+        map[i] = calloc(MAP_WIDTH, sizeof(Terreno)); 
+    }
+
+    for (i = 2; i < MAP_HEIGHT-2; i++) {
+        for (j = 2; j < MAP_WIDTH-2; j++) {
+            if (rand() % 100 < 46) {
+                map[i][j].ch = '#';
+                map[i][j].walkable = false;
+            } else {
+                map[i][j].ch = '.';
+                map[i][j].walkable = true;
+            }
         }
     }
 
-    pos_inicial.y = salas[0].centro.y;
-    pos_inicial.x = salas[0].centro.x;
+mapborder(map);
 
+int fst = 2, snd = 6;
+
+while(fst > 0) {
+
+for (i = 0; i < MAP_HEIGHT; i++) {
+    for (j = 0; j < MAP_WIDTH; j++) {
+        if(WallCount(map, 1, i, j) >= 5 || WallCount(map, 2, i, j) <= 2){
+            map[i][j].ch = '#';
+            map[i][j].walkable = false;
+        }else {
+            map[i][j].ch = '.';
+            map[i][j].walkable = true;
+        }        
+      }
+    }
+fst--;    
+  }
+
+mapborder(map);
+
+while(snd > 0) {
+
+for (i = 0; i < MAP_HEIGHT; i++) {
+    for (j = 0; j < MAP_WIDTH; j++) {
+        if(WallCount(map, 1, i, j) >= 5) {
+            map[i][j].ch = '#';
+            map[i][j].walkable = false;
+        }else {
+            map[i][j].ch = '.';
+            map[i][j].walkable = true;
+        }
+      }
+    } 
+snd--;    
+}
+
+mapborder(map);
+
+return map;
+}
+
+
+Posicao setupMap(Terreno **map)
+{
+    Posicao pos_inicial;
+
+    for (int i = 1; i < MAP_HEIGHT - 1; i++) {
+        for (int j = 1; j < MAP_WIDTH - 1; j++) {
+            if(WallCount(map, 3, i, j) == 0 && map[i][j].ch == '.'){
+                pos_inicial.y = i;
+                pos_inicial.x = j;
+                break;
+            } 
+        }
+    }
     return pos_inicial;
 }
 
-void freeMapa(void)
-{
-    for (int y = 0; y < MAP_HEIGHT; y++)
-    {
-        free(map[y]);
+void FreeMapa(Terreno **map) {
+        for(int i = 0; i < MAP_HEIGHT; i++) {
+        free(map[i]);
     }
     free(map);
 }
+
