@@ -4,6 +4,7 @@
 #include <ncurses.h>
 #include <stdlib.h>
 #include <time.h>
+#include <string.h>
 
 typedef struct
 {
@@ -16,14 +17,6 @@ typedef struct
     char ch;
     bool walkable;
 } Terreno;
-
-typedef struct
-{
-    int height;
-    int width;
-    Posicao pos;
-    Posicao centro;
-} Sala;
 
 typedef struct
 {
@@ -57,11 +50,6 @@ Entidade *createPlayer(Posicao pos_inicial);
 void handleInput(int input);
 void movePlayer(Posicao newPos);
 Inimigo *createInimigo(Posicao pos_inicial);
-
-// room.c functions
-Sala createSala(int y, int x, int height, int width);
-void addSalaToMap(Sala sala);
-void conectSalas(Posicao centro1, Posicao centro2);
 
 // variaveis externas
 extern const int MAP_HEIGHT;

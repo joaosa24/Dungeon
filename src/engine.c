@@ -4,7 +4,14 @@ void cursesSetup(void)
 {
     initscr();
     noecho();
+    cbreak();
     curs_set(0);
+
+    WINDOW *win;
+    win = newwin(57, 238, 5 ,5);
+    box(win, 0, 0);
+    refresh();
+
 }
 
 void gameLoop(void)

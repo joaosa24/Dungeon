@@ -52,13 +52,16 @@ Terreno **generate_map() {
     int i, j;
     Terreno **map = calloc(MAP_HEIGHT, sizeof(Terreno *));
 
+    if(map == NULL) printf("Error no memory allocated");
+
     for (i = 0; i < MAP_HEIGHT; i++) {
-        map[i] = calloc(MAP_WIDTH, sizeof(Terreno)); 
+        map[i] = calloc(MAP_WIDTH, sizeof(Terreno));
+        if(map[i] == NULL) printf("Error no memory allocated"); 
     }
 
     for (i = 2; i < MAP_HEIGHT-2; i++) {
         for (j = 2; j < MAP_WIDTH-2; j++) {
-            if (rand() % 100 < 46) {
+            if (rand() % 100 < 45) {
                 map[i][j].ch = '#';
                 map[i][j].walkable = false;
             } else {
@@ -70,7 +73,7 @@ Terreno **generate_map() {
 
 mapborder(map);
 
-int fst = 2, snd = 6;
+int fst = 2, snd = 3;
 
 while(fst > 0) {
 
@@ -115,10 +118,11 @@ return map;
 Posicao setupMap(Terreno **map)
 {
     Posicao pos_inicial;
-
-    for (int i = 1; i < MAP_HEIGHT - 1; i++) {
-        for (int j = 1; j < MAP_WIDTH - 1; j++) {
-            if(WallCount(map, 3, i, j) == 0 && map[i][j].ch == '.'){
+    int i, j;
+    
+    for (int i = 0; i < MAP_HEIGHT - 1; i++) {
+        for (int j = 0 ; j < MAP_WIDTH - 1; j++) {
+            if(WallCount(map, 2, i, j) == 0 && map[i][j].ch == '.'){
                 pos_inicial.y = i;
                 pos_inicial.x = j;
                 break;
