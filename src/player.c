@@ -7,6 +7,7 @@ Entidade *createPlayer(Posicao pos_inicial)
     newPlayer->pos.y = pos_inicial.y;
     newPlayer->pos.x = pos_inicial.x;
     newPlayer->ch = '@';
+    newPlayer->vida = 10;
 
     return newPlayer;
 }

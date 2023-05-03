@@ -61,7 +61,7 @@ Terreno **generate_map() {
 
     for (i = 2; i < MAP_HEIGHT-2; i++) {
         for (j = 2; j < MAP_WIDTH-2; j++) {
-            if (rand() % 100 < 45) {
+            if (rand() % 100 < 44) {
                 map[i][j].ch = '#';
                 map[i][j].walkable = false;
             } else {
@@ -73,7 +73,7 @@ Terreno **generate_map() {
 
 mapborder(map);
 
-int fst = 2, snd = 3;
+int fst = 4, snd = 3;
 
 while(fst > 0) {
 

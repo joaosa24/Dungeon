@@ -2,11 +2,19 @@
 
 void drawMapa(void)
 {
-    for (int y = 0; y < MAP_HEIGHT; y++)
+    for (int i = 0; i < MAP_HEIGHT ; i++)
     {
-        for (int x = 0; x < MAP_WIDTH; x++)
+        for (int j = 0; j < MAP_WIDTH ; j++)
         {
-            mvaddch(y, x, map[y][x].ch);
+        Posicao pos = {i,j};
+        if (is_visible(player, pos)) {
+
+            mvaddch(i, j, map[i][j].ch);
+
+        } else {
+
+            mvaddch(i, j, ' ');
+            }
         }
     }
 }
@@ -19,6 +27,7 @@ void drawEntidade(Entidade *entidade)
 void drawAll(void)
 {
     clear();
+    refresh();
     drawMapa();
     drawEntidade(player);
 }

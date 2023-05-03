@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
+#include <math.h>
 
 typedef struct
 {
@@ -22,6 +23,7 @@ typedef struct
 {
     Posicao pos;
     char ch;
+    int vida;
 } Entidade;
 
 typedef struct {
@@ -29,6 +31,9 @@ typedef struct {
     bool eJogador;
     char classe[20];
 } Inimigo;
+
+//vision.c functions
+int is_visible(Entidade* player, Posicao pos);
 
 // draw.c functions
 void drawMapa(void);
@@ -57,5 +62,6 @@ extern const int MAP_WIDTH;
 extern Entidade *player;
 extern Terreno **map;
 extern Inimigo *inimigo;
+extern Posicao pos_inicial;
 
 #endif
