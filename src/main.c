@@ -8,6 +8,8 @@ Entidade *player;
 Inimigo *inimigo;
 Terreno **map;
 Posicao pos_inicial;
+Posicao pos_inicial_i;
+WINDOW *win;
 
 int main(void)
 {
@@ -15,6 +17,7 @@ int main(void)
     noecho();
     cbreak();
     curs_set(0);
+    start_color();
 
     WINDOW *menuwin;
     menuwin = newwin(4,14 , 26 ,108);
@@ -32,15 +35,15 @@ int main(void)
     while (1) {
         for (int i = 0; i < 2; i++) {
             if (i == highlight) {
-                wattron (menuwin, A_REVERSE);
+                wattron (menuwin, A_BOLD);
             }
             if(i==0){
             mvwprintw (menuwin, i+1, length1/2-3, "%s", opcoes[i]);
-            wattroff (menuwin, A_REVERSE);
+            wattroff (menuwin, A_BOLD);
         }
             if(i==1){
             mvwprintw (menuwin, i+1, length2+1, "%s", opcoes[i]);
-            wattroff (menuwin, A_REVERSE);
+            wattroff (menuwin, A_BOLD);
         }
     }
         choice = wgetch(menuwin);
@@ -69,6 +72,7 @@ int main(void)
     }
 
     if(highlight == 0 && choice == 10) {
+
         clear();
         delwin(menuwin);
 
@@ -78,8 +82,9 @@ int main(void)
 
         map = generate_map();
         pos_inicial = setupMap(map);
+        pos_inicial_i = setupMapi(map);
         player = createPlayer(pos_inicial);
-        inimigo = createInimigo(pos_inicial);
+        inimigo = createInimigo(pos_inicial_i);
 
         gameLoop();
     

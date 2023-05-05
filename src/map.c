@@ -6,7 +6,7 @@ int WallCount(Terreno **map, int r, int col, int row) {
 
             for (y = col - r; y <= col + r; y++) {
                 for (x = row - r; x <= row + r; x++) {
-                    if ((y >= 1) && (y < MAP_HEIGHT-1) && (x >= 1) && (x < MAP_WIDTH - 1)) {
+                    if ((y >= 1) && (y < MAP_HEIGHT - 1) && (x >= 1) && (x < MAP_WIDTH - 1)) {
                         if (map[y][x].ch == '#') {
                             wall_count++;
                      }
@@ -120,8 +120,8 @@ Posicao setupMap(Terreno **map)
     Posicao pos_inicial;
     int i, j;
     
-    for (int i = 0; i < MAP_HEIGHT - 1; i++) {
-        for (int j = 0 ; j < MAP_WIDTH - 1; j++) {
+    for (int i = 0; i < MAP_HEIGHT; i++) {
+        for (int j = 0 ; j < MAP_WIDTH; j++) {
             if(WallCount(map, 2, i, j) == 0 && map[i][j].ch == '.'){
                 pos_inicial.y = i;
                 pos_inicial.x = j;
@@ -130,6 +130,29 @@ Posicao setupMap(Terreno **map)
         }
     }
     return pos_inicial;
+}
+
+Posicao setupMapi(Terreno **map)
+{
+    Posicao pos_inicial_i;
+    int x = rand() % MAP_WIDTH;
+    int y = rand() % MAP_HEIGHT;
+    
+    for (int i = 0; i < MAP_HEIGHT; i++) {
+        for (int j = 0; j < MAP_WIDTH; j++) {
+            if(i == y && j == x){
+            if(map[i][j].ch == '.'){
+                pos_inicial_i.y = i;
+                pos_inicial_i.x = j;
+                break;
+            }else {
+                x= x+5;
+                y= y+5;
+            } 
+        }
+    }
+}
+    return pos_inicial_i;
 }
 
 void FreeMapa(Terreno **map) {

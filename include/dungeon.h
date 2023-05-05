@@ -7,6 +7,7 @@
 #include <string.h>
 #include <math.h>
 
+
 typedef struct
 {
     int y;
@@ -34,6 +35,7 @@ typedef struct {
 
 //vision.c functions
 int is_visible(Entidade* player, Posicao pos);
+int is_enemy_visible(Entidade* player, Inimigo * inimigo);
 
 // draw.c functions
 void drawMapa(void);
@@ -49,6 +51,7 @@ void closeGame(void);
 Terreno **generate_map(void);
 void FreeMapa(Terreno **map);
 Posicao setupMap(Terreno **map);
+Posicao setupMapi(Terreno **map);
 
 // player.c functions
 Entidade *createPlayer(Posicao pos_inicial);
@@ -63,5 +66,6 @@ extern Entidade *player;
 extern Terreno **map;
 extern Inimigo *inimigo;
 extern Posicao pos_inicial;
+extern Posicao pos_inicial_i;
 
 #endif

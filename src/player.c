@@ -7,7 +7,7 @@ Entidade *createPlayer(Posicao pos_inicial)
     newPlayer->pos.y = pos_inicial.y;
     newPlayer->pos.x = pos_inicial.x;
     newPlayer->ch = '@';
-    newPlayer->vida = 10;
+    newPlayer->vida = 100;
 
     return newPlayer;
 }
@@ -16,8 +16,8 @@ Inimigo *createInimigo(Posicao pos_inicial)
 {
     Inimigo *newInimigo = calloc(1, sizeof(Inimigo));
 
-    newInimigo->ent.pos.y = pos_inicial.y + 1;
-    newInimigo->ent.pos.x = pos_inicial.x + 1;
+    newInimigo->ent.pos.y = pos_inicial_i.y ;
+    newInimigo->ent.pos.x = pos_inicial_i.x ;
     newInimigo->ent.ch = 'b';
     newInimigo->eJogador = false;
 
