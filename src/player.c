@@ -12,14 +12,14 @@ Entidade *createPlayer(Posicao pos_inicial)
     return newPlayer;
 }
 
-Inimigo *createInimigo(Posicao pos_inicial)
+Inimigo *createInimigo(Posicao pos_inicial_i)
 {
     Inimigo *newInimigo = calloc(1, sizeof(Inimigo));
 
     newInimigo->ent.pos.y = pos_inicial_i.y ;
     newInimigo->ent.pos.x = pos_inicial_i.x ;
     newInimigo->ent.ch = 'b';
-    newInimigo->eJogador = false;
+    newInimigo->walkable = false;
 
     return newInimigo;
 }
@@ -45,14 +45,40 @@ void handleInput(int input)
         break;
     }
 
-    movePlayer(newPos);
+    movePlayer(newPos, inimigo);
 }
 
-void movePlayer(Posicao newPos)
+int is_enemy(Posicao newPos, Inimigo* inimigo) {
+    if((newPos.y == inimigo->ent.pos.y) && (newPos.x == inimigo->ent.pos.x)) return 0;
+
+    return 1;
+}
+
+void movePlayer(Posicao newPos, Inimigo* inimigo)
 {
-    if (map[newPos.y][newPos.x].walkable)
+    if (map[newPos.y][newPos.x].walkable && is_enemy(newPos, inimigo))
     {
         player->pos.y = newPos.y;
         player->pos.x = newPos.x;
     }
 }
+
+int distance_inimigo(Entidade *player, Inimigo *inimigo)
+{
+    int x = player->pos.x;
+    int y = player->pos.y;
+    int ini_x = inimigo->ent.pos.x;
+    int ini_y = inimigo->ent.pos.y;
+    int distancia = sqrt(pow((x - ini_x), 2) + pow((y - ini_y), 2));
+
+    return distancia;
+}
+
+void damage(Inimigo* inimigo, Entidade* player) {
+    if(distance_inimigo(player, inimigo) == 1) {
+        player->vida -= 10;
+    }
+}
+
+
+

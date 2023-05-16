@@ -8,6 +8,8 @@
 #include <math.h>
 
 
+
+
 typedef struct
 {
     int y;
@@ -29,8 +31,8 @@ typedef struct
 
 typedef struct {
     Entidade ent;
-    bool eJogador;
     char classe[20];
+    bool walkable;
 } Inimigo;
 
 //vision.c functions
@@ -56,8 +58,10 @@ Posicao setupMapi(Terreno **map);
 // player.c functions
 Entidade *createPlayer(Posicao pos_inicial);
 void handleInput(int input);
-void movePlayer(Posicao newPos);
+void movePlayer(Posicao newPos, Inimigo* inimigo);
 Inimigo *createInimigo(Posicao pos_inicial);
+int distance_inimigo(Entidade *player, Inimigo *inimigo);
+void damage(Inimigo* inimigo, Entidade* player);
 
 // variaveis externas
 extern const int MAP_HEIGHT;

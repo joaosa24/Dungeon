@@ -22,16 +22,18 @@ void gameLoop(void)
     
     drawAll();
 
-    while (ch = getch())
+    while (player->vida > 0 && (ch = getch()))
     {
         if (ch == 'q')
         {
             break;
         }
         handleInput(ch);
+        damage(inimigo, player);
         drawAll();
     }
 }
+
 
 void closeGame(void)
 {

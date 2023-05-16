@@ -85,6 +85,7 @@ int main(void)
         pos_inicial_i = setupMapi(map);
         player = createPlayer(pos_inicial);
         inimigo = createInimigo(pos_inicial_i);
+        damage(inimigo, player);
 
         gameLoop();
     
