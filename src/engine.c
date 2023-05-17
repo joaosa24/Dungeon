@@ -29,6 +29,7 @@ void gameLoop(void)
             break;
         }
         handleInput(ch);
+        moveInimigo(inimigo, player, map);
         damage(inimigo, player);
         drawAll();
     }
