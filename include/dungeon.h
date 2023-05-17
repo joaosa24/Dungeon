@@ -59,6 +59,7 @@ Inimigo *createInimigo(Posicao pos_inicial);
 int distance_inimigo(Entidade *player, Inimigo *inimigo);
 void damage(Inimigo* inimigo, Entidade* player);
 int enemy_pos(Posicao newPos, Inimigo* inimigo);
+void moveInimigo(Inimigo *inimigo, Entidade *player, Terreno **map);
 
 // variaveis externas
 extern int MAP_HEIGHT;
