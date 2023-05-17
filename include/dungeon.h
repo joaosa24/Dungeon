@@ -7,9 +7,6 @@
 #include <string.h>
 #include <math.h>
 
-
-
-
 typedef struct
 {
     int y;
@@ -43,11 +40,13 @@ int is_enemy_visible(Entidade* player, Inimigo * inimigo);
 void drawMapa(void);
 void drawEntidade(Entidade *entidade);
 void drawAll(void);
+int drawMenuMorte();
 
 // engine.c functions
 void cursesSetup(void);
 void gameLoop(void);
 void closeGame(void);
+void Menuloop();
 
 // map.c functions
 Terreno **generate_map(void);
@@ -62,10 +61,11 @@ void movePlayer(Posicao newPos, Inimigo* inimigo);
 Inimigo *createInimigo(Posicao pos_inicial);
 int distance_inimigo(Entidade *player, Inimigo *inimigo);
 void damage(Inimigo* inimigo, Entidade* player);
+is_enemy(Posicao newPos, Inimigo* inimigo);
 
 // variaveis externas
-extern const int MAP_HEIGHT;
-extern const int MAP_WIDTH;
+extern int MAP_HEIGHT;
+extern int MAP_WIDTH;
 extern Entidade *player;
 extern Terreno **map;
 extern Inimigo *inimigo;

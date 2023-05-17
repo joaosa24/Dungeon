@@ -76,7 +76,7 @@ int distance_inimigo(Entidade *player, Inimigo *inimigo)
 
 void damage(Inimigo* inimigo, Entidade* player) {
     if(distance_inimigo(player, inimigo) == 1) {
-        player->vida -= 10;
+        player->vida -= 5;
     }
 }
 

@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <dungeon.h>
 
-const int MAP_HEIGHT = 56;
-const int MAP_WIDTH = 238;
+int MAP_HEIGHT;
+int MAP_WIDTH;
 
 Entidade *player;
 Inimigo *inimigo;
@@ -14,13 +14,14 @@ WINDOW *win;
 int main(void)
 {
     initscr();
+    getmaxyx(stdscr, MAP_HEIGHT, MAP_WIDTH);
+    MAP_HEIGHT--;
     noecho();
     cbreak();
     curs_set(0);
-    start_color();
 
     WINDOW *menuwin;
-    menuwin = newwin(4,14 , 26 ,108);
+    menuwin = newwin(4,14 , MAP_HEIGHT /2 - 2 ,MAP_WIDTH / 2 - 10);
     box(menuwin, 0, 0);
     refresh();
     wrefresh(menuwin);
@@ -85,12 +86,8 @@ int main(void)
         pos_inicial_i = setupMapi(map);
         player = createPlayer(pos_inicial);
         inimigo = createInimigo(pos_inicial_i);
-        damage(inimigo, player);
 
         gameLoop();
-    
-        FreeMapa(map);
-
         closeGame();
 
     }else if(highlight == 1 || choice == 'q') {
