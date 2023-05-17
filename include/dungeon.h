@@ -69,5 +69,6 @@ extern Terreno **map;
 extern Inimigo *inimigo;
 extern Posicao pos_inicial;
 extern Posicao pos_inicial_i;
+extern WINDOW *win;
 
 #endif

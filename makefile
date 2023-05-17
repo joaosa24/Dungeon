@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -lncurses -I./include/
+CFLAGS = -lncurses -Wall -Wextra -pedantic -O2 -lm -I./include/
 SOURCES = ./src/*.c 
 
 all: dungeon run clean 

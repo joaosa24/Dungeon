@@ -117,8 +117,7 @@ Terreno **generate_map() {
 
 Posicao setupMap(Terreno **map) {
     Posicao pos_inicial;
-    int i, j;
-    
+
     for (int i = 0; i < MAP_HEIGHT; i++) {
         for (int j = 0 ; j < MAP_WIDTH; j++) {
             if(WallCount(map, 2, i, j) == 0 && map[i][j].ch == '.'){

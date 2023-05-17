@@ -17,7 +17,7 @@ void cursesSetup(void) {
 
 void gameLoop(void) {
     int ch;
-    int highlight;
+    int menu;
 
     drawAll();
 
@@ -33,11 +33,11 @@ void gameLoop(void) {
 
     if(player->vida <= 0) {
 
-        highlight = drawMenuMorte();
+        menu = drawMenuMorte();
 
-    } else highlight = 1;
+    } else menu = 0;
 
-    if(highlight == 0) {
+    if(menu == 1) {
 
         srand(time(NULL));
 

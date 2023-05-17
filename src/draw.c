@@ -39,9 +39,9 @@ void drawInimigo(Inimigo *inimigo) {
 
 int drawMenuMorte() {
 
-    WINDOW* win;
+    WINDOW* win = NULL;
     clear();
-    delwin(win);
+    if(win != NULL) delwin(win);
 
     char opcoes [2] [40] = {"Play Again", "Exit"};
     int choice;
@@ -101,10 +101,11 @@ int drawMenuMorte() {
     }
 
     if(highlight == 0 && choice == 10) {
-        return 0;
-    } else if(highlight == 1 || choice == 'q') {
         return 1;
+    } else if(highlight == 1 || choice == 'q') {
+        return 2;
     }
+    return 0;
 }
 
 void drawAll(void) {
