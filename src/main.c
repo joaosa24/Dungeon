@@ -3,12 +3,14 @@
 
 int MAP_HEIGHT;
 int MAP_WIDTH;
+int dungeon_level=1;
 
 Entidade *player;
 Inimigo *inimigo;
 Terreno **map;
 Posicao pos_inicial;
 Posicao pos_inicial_i;
+Posicao pos_lvl;
 WINDOW *win;
 
 int main(void) {
@@ -85,6 +87,7 @@ int main(void) {
         pos_inicial_i = setupMapi(map);
         player = createPlayer(pos_inicial);
         inimigo = createInimigo(pos_inicial_i);
+        pos_lvl=level_entry(map);
 
         gameLoop();
         closeGame();

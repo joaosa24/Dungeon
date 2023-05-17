@@ -8,6 +8,7 @@ Entidade *createPlayer(Posicao pos_inicial)
     newPlayer->pos.x = pos_inicial.x;
     newPlayer->ch = '@';
     newPlayer->vida = 100;
+    newPlayer->damage = 10;
 
     return newPlayer;
 }
@@ -29,17 +30,33 @@ void handleInput(int input)
     Posicao newPos = {player->pos.y, player->pos.x};
     switch (input)
     {
-    case 'w': // cima
+    case '8': // cima
         newPos.y--;
         break;
-    case 's': // baixo
+    case '5': // baixo
         newPos.y++;
         break;
-    case 'a': // esquerda
+    case '4': // esquerda
         newPos.x--;
         break;
-    case 'd': // direita
+    case '6': // direita
         newPos.x++;
+        break;
+    case '7':
+        newPos.x--;
+        newPos.y--;
+        break;
+    case '9':
+        newPos.x++;
+        newPos.y--;
+        break;
+    case '1':
+        newPos.x--;
+        newPos.y++;
+        break;
+    case '3':
+        newPos.x++;
+        newPos.y++;
         break;
     default:
         break;
@@ -65,7 +82,7 @@ void movePlayer(Posicao newPos, Inimigo *inimigo)
     }
     else if (!(enemy_pos(newPos, inimigo)))
     {
-        inimigo->ent.vida -= 10;
+        inimigo->ent.vida -= player->damage;
     }
 }
 
@@ -88,10 +105,9 @@ void moveInimigo(Inimigo *inimigo, Entidade *player, Terreno **map)
     if (inimigo->ent.vida <= 0)
     {
         map[inimigo->ent.pos.y][inimigo->ent.pos.x].walkable = true;
-        map[inimigo->ent.pos.y][inimigo->ent.pos.x].ch = '.';
         return;
     }
-    if (distance_inimigo(player, inimigo) < 10)
+    if (distance_inimigo(player, inimigo) < 300)
     {
         int next_x = inimigo->ent.pos.x;
         int next_y = inimigo->ent.pos.y;
@@ -139,5 +155,18 @@ void heal(Inimigo *inimigo, Entidade *player, int trigger)
     {
         player->vida += 15;
         inimigo->ent.vida--;
+    }
+}
+
+void respawn(Inimigo *inimigo)
+{
+    if (inimigo->ent.vida == (-2) || ((inimigo->ent.vida <= 0) && distance_inimigo(player, inimigo) > 8))
+    {
+        do
+        {
+            inimigo->ent.vida = 50;
+            inimigo->ent.pos.x = rand() % MAP_WIDTH;
+            inimigo->ent.pos.y = rand() % MAP_HEIGHT;
+        } while (map[inimigo->ent.pos.y][inimigo->ent.pos.x].walkable == false);
     }
 }

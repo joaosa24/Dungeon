@@ -48,6 +48,12 @@ void drawHUD()
         mvprintw(MAP_HEIGHT, 1, "Health : %d", player->vida);
         attroff(COLOR_PAIR(3) | A_BOLD);
     }
+    attron(COLOR_PAIR(5) | A_BOLD);
+    mvprintw(MAP_HEIGHT, 20, "Dungeon Level: %d", dungeon_level);
+    attroff(COLOR_PAIR(5) | A_BOLD);
+    attron(COLOR_PAIR(6));
+    mvprintw(MAP_HEIGHT, 50, "Press 'e' to interact");
+    attroff(COLOR_PAIR(6));
 }
 
 void drawEntidade(Entidade *entidade)
@@ -80,9 +86,9 @@ void drawInimigo(Inimigo *inimigo)
         {
             if (is_enemy_visible(player, inimigo) && inimigo->ent.vida > 0)
             {
-                attron(COLOR_PAIR(2) | A_BOLD);
+                attron(COLOR_PAIR(5) | A_BOLD);
                 mvaddch(inimigo->ent.pos.y, inimigo->ent.pos.x, inimigo->ent.ch);
-                attroff(COLOR_PAIR(2) | A_BOLD);
+                attroff(COLOR_PAIR(5) | A_BOLD);
             }
             else
             {
@@ -95,6 +101,18 @@ void drawInimigo(Inimigo *inimigo)
             }
         }
     }
+}
+
+void drawLvlEntry(Posicao pos_lvl)
+{
+    char lvl = '>';
+    if (is_visible(player,pos_lvl))
+    {
+    attron(COLOR_PAIR(2) | A_BOLD);
+    mvaddch(pos_lvl.y, pos_lvl.x, lvl);
+    attroff(COLOR_PAIR(2) | A_BOLD);   
+    }
+    
 }
 
 int drawMenuMorte()
@@ -194,4 +212,5 @@ void drawAll(void)
     drawHUD();
     drawEntidade(player);
     drawInimigo(inimigo);
+    drawLvlEntry(pos_lvl);
 }
