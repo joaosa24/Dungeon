@@ -8,7 +8,7 @@ int is_visible(Entidade* player, Posicao pos) {
     if (distance <= 100) {
         return 1;
     }
-return 0;
+    return 0;
 }
 
 int is_enemy_visible(Entidade* player, Inimigo * inimigo) {
@@ -19,7 +19,7 @@ int is_enemy_visible(Entidade* player, Inimigo * inimigo) {
     if (distance <= 100) {
         return 1;
     }
-return 0;
+    return 0;
 }
 
 

@@ -1,14 +1,13 @@
 #include <dungeon.h>
 
-void cursesSetup(void)
-{
+void cursesSetup(void) {
     initscr();
     noecho();
     cbreak();
     curs_set(0);
 
     WINDOW *win;
-    win = newwin(50, 230, 5 ,5);
+    win = newwin(MAP_HEIGHT, MAP_WIDTH, 5 ,5);
     box(win, 0, 0);
     refresh();
     wrefresh(win);
@@ -16,17 +15,14 @@ void cursesSetup(void)
 
 }
 
-void gameLoop(void)
-{
+void gameLoop(void) {
     int ch;
     int highlight;
 
     drawAll();
 
-    while (player->vida > 0 && (ch = getch()))
-    {
-        if (ch == 'q')
-        {
+    while (player->vida > 0 && (ch = getch())) {
+        if (ch == 'q') {
             break;
         }
         handleInput(ch);
@@ -34,13 +30,13 @@ void gameLoop(void)
         drawAll();
     }
 
-    if(player->vida <= 0){
+    if(player->vida <= 0) {
 
         highlight = drawMenuMorte();
 
-    }else highlight = 1;
+    } else highlight = 1;
 
-    if(highlight == 0){
+    if(highlight == 0) {
 
         srand(time(NULL));
 
@@ -52,11 +48,9 @@ void gameLoop(void)
 
         gameLoop();
     }
-
 }
 
-void closeGame(void)
-{
+void closeGame(void) {
     endwin();
     free(player);
     FreeMapa(map);

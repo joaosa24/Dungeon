@@ -4,16 +4,16 @@ int WallCount(Terreno **map, int r, int col, int row) {
     int x, y;
     int wall_count = 0;
 
-            for (y = col - r; y <= col + r; y++) {
-                for (x = row - r; x <= row + r; x++) {
-                    if ((y >= 1) && (y < MAP_HEIGHT - 1) && (x >= 1) && (x < MAP_WIDTH - 1)) {
-                        if (map[y][x].ch == '#') {
-                            wall_count++;
-                     }
-                 }
+    for (y = col - r; y <= col + r; y++) {
+        for (x = row - r; x <= row + r; x++) {
+            if ((y >= 1) && (y < MAP_HEIGHT - 1) && (x >= 1) && (x < MAP_WIDTH - 1)) {
+                if (map[y][x].ch == '#') {
+                    wall_count++;
+                }
             }
-        } 
-return wall_count;
+        }
+    } 
+    return wall_count;
 }
 
 
@@ -27,25 +27,25 @@ Terreno** mapborder(Terreno **map) {
                 map[y][x].ch = '#';
                 map[y][x].walkable =false;               
             }
-            if(y == 1 || y == MAP_HEIGHT -2){
+            if(y == 1 || y == MAP_HEIGHT -2) {
                 map[y][x].ch = '#';
                 map[y][x].walkable =false;
             }
         }
     }
-    for(x = 0; x < MAP_WIDTH; x++){
-        for(y = 0; y < MAP_HEIGHT; y++){
+    for(x = 0; x < MAP_WIDTH; x++) {
+        for(y = 0; y < MAP_HEIGHT; y++) {
             if(x == 0 || x == MAP_WIDTH - 1) {
                 map[y][x].ch = '#';
                 map[y][x].walkable =false;               
             }
-            if(x == 1 || x == MAP_WIDTH -2){
+            if(x == 1 || x == MAP_WIDTH -2) {
                 map[y][x].ch = '#';
                 map[y][x].walkable =false;
             }
         }
     }
-return map;
+    return map;
 }
 
 Terreno **generate_map() {
@@ -71,52 +71,51 @@ Terreno **generate_map() {
         }
     }
 
-mapborder(map);
+    mapborder(map);
 
-int fst = 4, snd = 3;
+    int fst = 4, snd = 3;
 
-while(fst > 0) {
+    while(fst > 0) {
 
-for (i = 0; i < MAP_HEIGHT; i++) {
-    for (j = 0; j < MAP_WIDTH; j++) {
-        if(WallCount(map, 1, i, j) >= 5 || WallCount(map, 2, i, j) <= 2){
-            map[i][j].ch = '#';
-            map[i][j].walkable = false;
-        }else {
-            map[i][j].ch = '.';
-            map[i][j].walkable = true;
-        }        
-      }
-    }
-fst--;    
-  }
-
-mapborder(map);
-
-while(snd > 0) {
-
-for (i = 0; i < MAP_HEIGHT; i++) {
-    for (j = 0; j < MAP_WIDTH; j++) {
-        if(WallCount(map, 1, i, j) >= 5) {
-            map[i][j].ch = '#';
-            map[i][j].walkable = false;
-        }else {
-            map[i][j].ch = '.';
-            map[i][j].walkable = true;
+        for (i = 0; i < MAP_HEIGHT; i++) {
+            for (j = 0; j < MAP_WIDTH; j++) {
+                if(WallCount(map, 1, i, j) >= 5 || WallCount(map, 2, i, j) <= 2){
+                    map[i][j].ch = '#';
+                    map[i][j].walkable = false;
+                } else {
+                    map[i][j].ch = '.';
+                    map[i][j].walkable = true;
+                }        
+            }
         }
-      }
-    } 
-snd--;    
+    fst--;    
+    }
+
+    mapborder(map);
+
+    while(snd > 0) {
+
+        for (i = 0; i < MAP_HEIGHT; i++) {
+            for (j = 0; j < MAP_WIDTH; j++) {
+                if(WallCount(map, 1, i, j) >= 5) {
+                    map[i][j].ch = '#';
+                    map[i][j].walkable = false;
+                } else {
+                    map[i][j].ch = '.';
+                    map[i][j].walkable = true;
+                }
+            }
+        } 
+        snd--;    
+    }
+
+    mapborder(map);
+
+    return map;
 }
 
-mapborder(map);
 
-return map;
-}
-
-
-Posicao setupMap(Terreno **map)
-{
+Posicao setupMap(Terreno **map) {
     Posicao pos_inicial;
     int i, j;
     
@@ -132,33 +131,31 @@ Posicao setupMap(Terreno **map)
     return pos_inicial;
 }
 
-Posicao setupMapi(Terreno **map)
-{
+Posicao setupMapi(Terreno **map) {
     Posicao pos_inicial_i;
     int x = rand() % MAP_WIDTH;
     int y = rand() % MAP_HEIGHT;
     
     for (int i = 0; i < MAP_HEIGHT; i++) {
         for (int j = 0; j < MAP_WIDTH; j++) {
-            if(i == y && j == x){
-            if((map[i][j].ch == '.') && (i != pos_inicial.x) && (j != pos_inicial.y)){
-                pos_inicial_i.y = i;
-                pos_inicial_i.x = j;
-                break;
-            }else {
-                x++;
-                y++;
-            } 
+            if(i == y && j == x) {
+                if((map[i][j].ch == '.') && (i != pos_inicial.x) && (j != pos_inicial.y)){
+                    pos_inicial_i.y = i;
+                    pos_inicial_i.x = j;
+                    break;
+                } else {
+                    x++;
+                    y++;
+                } 
+            }
         }
     }
-}
     return pos_inicial_i;
 }
 
 void FreeMapa(Terreno **map) {
-        for(int i = 0; i < MAP_HEIGHT; i++) {
+    for(int i = 0; i < MAP_HEIGHT; i++) {
         free(map[i]);
     }
     free(map);
 }
-

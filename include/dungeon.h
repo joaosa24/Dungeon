@@ -7,20 +7,17 @@
 #include <string.h>
 #include <math.h>
 
-typedef struct
-{
+typedef struct {
     int y;
     int x;
 } Posicao;
 
-typedef struct
-{
+typedef struct {
     char ch;
     bool walkable;
 } Terreno;
 
-typedef struct
-{
+typedef struct {
     Posicao pos;
     char ch;
     int vida;
@@ -61,7 +58,7 @@ void movePlayer(Posicao newPos, Inimigo* inimigo);
 Inimigo *createInimigo(Posicao pos_inicial);
 int distance_inimigo(Entidade *player, Inimigo *inimigo);
 void damage(Inimigo* inimigo, Entidade* player);
-is_enemy(Posicao newPos, Inimigo* inimigo);
+int enemy_pos(Posicao newPos, Inimigo* inimigo);
 
 // variaveis externas
 extern int MAP_HEIGHT;

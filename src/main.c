@@ -11,8 +11,7 @@ Posicao pos_inicial;
 Posicao pos_inicial_i;
 WINDOW *win;
 
-int main(void)
-{
+int main(void) {
     initscr();
     getmaxyx(stdscr, MAP_HEIGHT, MAP_WIDTH);
     MAP_HEIGHT--;
@@ -39,14 +38,14 @@ int main(void)
                 wattron (menuwin, A_BOLD);
             }
             if(i==0){
-            mvwprintw (menuwin, i+1, length1/2-3, "%s", opcoes[i]);
-            wattroff (menuwin, A_BOLD);
-        }
+                mvwprintw (menuwin, i+1, length1/2-3, "%s", opcoes[i]);
+                wattroff (menuwin, A_BOLD);
+            }
             if(i==1){
-            mvwprintw (menuwin, i+1, length2+1, "%s", opcoes[i]);
-            wattroff (menuwin, A_BOLD);
+                mvwprintw (menuwin, i+1, length2+1, "%s", opcoes[i]);
+                wattroff (menuwin, A_BOLD);
+            }
         }
-    }
         choice = wgetch(menuwin);
 
         switch (choice){
@@ -90,7 +89,7 @@ int main(void)
         gameLoop();
         closeGame();
 
-    }else if(highlight == 1 || choice == 'q') {
+    } else if(highlight == 1 || choice == 'q') {
         endwin();
     }
     return 0;

@@ -1,7 +1,6 @@
 #include <dungeon.h>
 
-Entidade *createPlayer(Posicao pos_inicial)
-{
+Entidade *createPlayer(Posicao pos_inicial) {
     Entidade *newPlayer = calloc(1, sizeof(Entidade));
 
     newPlayer->pos.y = pos_inicial.y;
@@ -12,8 +11,7 @@ Entidade *createPlayer(Posicao pos_inicial)
     return newPlayer;
 }
 
-Inimigo *createInimigo(Posicao pos_inicial_i)
-{
+Inimigo *createInimigo(Posicao pos_inicial_i) {
     Inimigo *newInimigo = calloc(1, sizeof(Inimigo));
 
     newInimigo->ent.pos.y = pos_inicial_i.y ;
@@ -24,11 +22,9 @@ Inimigo *createInimigo(Posicao pos_inicial_i)
     return newInimigo;
 }
 
-void handleInput(int input)
-{
+void handleInput(int input) {
     Posicao newPos = {player->pos.y, player->pos.x};
-    switch (input)
-    {
+    switch (input) {
     case 'w': // cima
         newPos.y--;
         break;
@@ -48,23 +44,20 @@ void handleInput(int input)
     movePlayer(newPos, inimigo);
 }
 
-int is_enemy(Posicao newPos, Inimigo* inimigo) {
+int enemy_pos(Posicao newPos, Inimigo* inimigo) {
     if((newPos.y == inimigo->ent.pos.y) && (newPos.x == inimigo->ent.pos.x)) return 0;
 
     return 1;
 }
 
-void movePlayer(Posicao newPos, Inimigo* inimigo)
-{
-    if (map[newPos.y][newPos.x].walkable && is_enemy(newPos, inimigo))
-    {
+void movePlayer(Posicao newPos, Inimigo* inimigo) {
+    if (map[newPos.y][newPos.x].walkable && enemy_pos(newPos, inimigo)) {
         player->pos.y = newPos.y;
         player->pos.x = newPos.x;
     }
 }
 
-int distance_inimigo(Entidade *player, Inimigo *inimigo)
-{
+int distance_inimigo(Entidade *player, Inimigo *inimigo) {
     int x = player->pos.x;
     int y = player->pos.y;
     int ini_x = inimigo->ent.pos.x;
@@ -79,6 +72,3 @@ void damage(Inimigo* inimigo, Entidade* player) {
         player->vida -= 5;
     }
 }
-
-
-
