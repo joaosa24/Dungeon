@@ -1,6 +1,7 @@
 #include <dungeon.h>
 
-Entidade *createPlayer(Posicao pos_inicial) {
+Entidade *createPlayer(Posicao pos_inicial)
+{
     Entidade *newPlayer = calloc(1, sizeof(Entidade));
 
     newPlayer->pos.y = pos_inicial.y;
@@ -11,21 +12,23 @@ Entidade *createPlayer(Posicao pos_inicial) {
     return newPlayer;
 }
 
-Inimigo *createInimigo(Posicao pos_inicial_i) {
+Inimigo *createInimigo(Posicao pos_inicial_i)
+{
     Inimigo *newInimigo = calloc(1, sizeof(Inimigo));
 
-    newInimigo->ent.pos.y = pos_inicial_i.y ;
-    newInimigo->ent.pos.x = pos_inicial_i.x ;
+    newInimigo->ent.pos.y = pos_inicial_i.y;
+    newInimigo->ent.pos.x = pos_inicial_i.x;
     newInimigo->ent.ch = 'b';
-    newInimigo->ent.vida = 50;    
-    newInimigo->walkable = false;
+    newInimigo->ent.vida = 50;
 
     return newInimigo;
 }
 
-void handleInput(int input) {
+void handleInput(int input)
+{
     Posicao newPos = {player->pos.y, player->pos.x};
-    switch (input) {
+    switch (input)
+    {
     case 'w': // cima
         newPos.y--;
         break;
@@ -45,23 +48,29 @@ void handleInput(int input) {
     movePlayer(newPos, inimigo);
 }
 
-int enemy_pos(Posicao newPos, Inimigo* inimigo) {
-    if((newPos.y == inimigo->ent.pos.y) && (newPos.x == inimigo->ent.pos.x) && (inimigo->ent.vida > 0)) return 0;
+int enemy_pos(Posicao newPos, Inimigo *inimigo)
+{
+    if ((newPos.y == inimigo->ent.pos.y) && (newPos.x == inimigo->ent.pos.x) && (inimigo->ent.vida > 0))
+        return 0;
 
     return 1;
 }
 
-void movePlayer(Posicao newPos, Inimigo* inimigo) {
-    if (map[newPos.y][newPos.x].walkable && enemy_pos(newPos, inimigo)) {
+void movePlayer(Posicao newPos, Inimigo *inimigo)
+{
+    if (map[newPos.y][newPos.x].walkable && enemy_pos(newPos, inimigo))
+    {
         player->pos.y = newPos.y;
         player->pos.x = newPos.x;
-    } else    
+    }
+    else if (!(enemy_pos(newPos, inimigo)))
     {
         inimigo->ent.vida -= 10;
     }
 }
 
-int distance_inimigo(Entidade *player, Inimigo *inimigo) {
+int distance_inimigo(Entidade *player, Inimigo *inimigo)
+{
     int x = player->pos.x;
     int y = player->pos.y;
     int ini_x = inimigo->ent.pos.x;
@@ -115,8 +124,20 @@ void moveInimigo(Inimigo *inimigo, Entidade *player, Terreno **map)
     }
 }
 
-void damage(Inimigo* inimigo, Entidade* player) {
-    if((inimigo->ent.vida > 0) && (distance_inimigo(player, inimigo) == 1)) {
+void damage(Inimigo *inimigo, Entidade *player)
+{
+    if ((inimigo->ent.vida > 0) && (distance_inimigo(player, inimigo) == 1))
+    {
         player->vida -= 5;
+    }
+}
+
+void heal(Inimigo *inimigo, Entidade *player, int trigger)
+{
+
+    if (inimigo->ent.vida <= 0 && inimigo->ent.vida > (-2) && (distance_inimigo(player, inimigo) == 0) && trigger == 'e')
+    {
+        player->vida += 15;
+        inimigo->ent.vida--;
     }
 }

@@ -138,7 +138,7 @@ Posicao setupMapi(Terreno **map) {
     for (int i = 0; i < MAP_HEIGHT; i++) {
         for (int j = 0; j < MAP_WIDTH; j++) {
             if(i == y && j == x) {
-                if((map[i][j].ch == '.') && (i != pos_inicial.x) && (j != pos_inicial.y)){
+                if((map[i][j].walkable == true ) && (i != pos_inicial.x) && (j != pos_inicial.y)){
                     pos_inicial_i.y = i;
                     pos_inicial_i.x = j;
                     break;

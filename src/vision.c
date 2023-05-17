@@ -5,7 +5,7 @@ int is_visible(Entidade* player, Posicao pos) {
     int dy = abs(pos.y - player->pos.y);
     int distance = sqrt(pow(dx, 2) + pow(dy, 2));
 
-    if (distance <= 100) {
+    if (distance <= 8) {
         return 1;
     }
     return 0;
@@ -16,7 +16,7 @@ int is_enemy_visible(Entidade* player, Inimigo * inimigo) {
     int dy = abs(inimigo->ent.pos.y - player->pos.y);
     int distance = sqrt(pow(dx, 2) + pow(dy, 2));
 
-    if (distance <= 100) {
+    if (distance <= 8) {
         return 1;
     }
     return 0;

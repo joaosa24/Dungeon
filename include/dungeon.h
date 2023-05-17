@@ -25,8 +25,6 @@ typedef struct {
 
 typedef struct {
     Entidade ent;
-    char classe[20];
-    bool walkable;
 } Inimigo;
 
 //vision.c functions
@@ -60,6 +58,7 @@ int distance_inimigo(Entidade *player, Inimigo *inimigo);
 void damage(Inimigo* inimigo, Entidade* player);
 int enemy_pos(Posicao newPos, Inimigo* inimigo);
 void moveInimigo(Inimigo *inimigo, Entidade *player, Terreno **map);
+void heal(Inimigo *inimigo, Entidade *player,int trigger);
 
 // variaveis externas
 extern int MAP_HEIGHT;
