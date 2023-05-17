@@ -73,7 +73,7 @@ Terreno **generate_map() {
 
     mapborder(map);
 
-    int fst = 4, snd = 3;
+    int fst = 3, snd = 4;
 
     while(fst > 0) {
 
