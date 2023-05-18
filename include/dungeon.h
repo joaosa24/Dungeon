@@ -7,36 +7,40 @@
 #include <string.h>
 #include <math.h>
 
-typedef struct {
+typedef struct
+{
     int y;
     int x;
 } Posicao;
 
-typedef struct {
+typedef struct
+{
     char ch;
     bool walkable;
 } Terreno;
 
-typedef struct {
+typedef struct
+{
     Posicao pos;
     char ch;
     int vida;
     int damage;
 } Entidade;
 
-typedef struct {
+typedef struct
+{
     Entidade ent;
 } Inimigo;
 
-//vision.c functions
-int is_visible(Entidade* player, Posicao pos);
-int is_enemy_visible(Entidade* player, Inimigo * inimigo);
+// vision.c functions
+int is_visible(Entidade *player, Posicao pos);
+int is_enemy_visible(Entidade *player, Inimigo *inimigo);
 
 // draw.c functions
 void drawMapa(void);
 void drawEntidade(Entidade *entidade);
 void drawAll(void);
-int drawMenuMorte();
+int drawMenuMorte(int choice);
 
 // engine.c functions
 void cursesSetup(void);
@@ -54,13 +58,13 @@ int next_level(Entidade *player, int trigger);
 // player.c functions
 Entidade *createPlayer(Posicao pos_inicial);
 void handleInput(int input);
-void movePlayer(Posicao newPos, Inimigo* inimigo);
+void movePlayer(Posicao newPos, Inimigo *inimigo);
 Inimigo *createInimigo(Posicao pos_inicial);
 int distance_inimigo(Entidade *player, Inimigo *inimigo);
-void damage(Inimigo* inimigo, Entidade* player);
-int enemy_pos(Posicao newPos, Inimigo* inimigo);
+void damage(Inimigo *inimigo, Entidade *player);
+int enemy_pos(Posicao newPos, Inimigo *inimigo);
 void moveInimigo(Inimigo *inimigo, Entidade *player, Terreno **map);
-void heal(Inimigo *inimigo, Entidade *player,int trigger);
+void heal(Inimigo *inimigo, Entidade *player, int trigger);
 void respawn(Inimigo *inimigo);
 
 // variaveis externas

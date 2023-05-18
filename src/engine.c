@@ -11,8 +11,8 @@ void cursesSetup(void)
     init_pair(2, COLOR_YELLOW, COLOR_BLACK);
     init_pair(3, COLOR_RED, COLOR_BLACK);
     init_pair(4, COLOR_BLUE, COLOR_BLACK);
-    init_pair(5,COLOR_CYAN,COLOR_BLACK);
-    init_pair(6,COLOR_BLACK,COLOR_WHITE);
+    init_pair(5, COLOR_CYAN, COLOR_BLACK);
+    init_pair(6, COLOR_BLACK, COLOR_WHITE);
 
     WINDOW *win;
     win = newwin(MAP_HEIGHT, MAP_WIDTH, 5, 5);
@@ -24,7 +24,7 @@ void cursesSetup(void)
 
 void gameLoop(void)
 {
-    int ch=-1; // inicializamos o inteiro com -1 (valor default) para não aparecer um warning "uninitialized" na chamada da função next_level;
+    int ch = -1; // inicializamos o inteiro com -1 (valor default) para não aparecer um warning "uninitialized" na chamada da função next_level;
     int menu;
 
     drawAll();
@@ -52,10 +52,10 @@ void gameLoop(void)
         pos_inicial_i = setupMapi(map);
         player = createPlayer(pos_inicial);
         inimigo = createInimigo(pos_inicial_i);
-        player->vida=vida_atual;
-        inimigo->ent.vida += 10;
-        inimigo->ent.damage +=2;
-        player->damage += 5;
+        player->vida = vida_atual;
+        player->damage += 10;
+        inimigo->ent.vida += 20;
+        player->damage += 4;
         dungeon_level++;
         pos_lvl = level_entry(map);
 
@@ -65,7 +65,7 @@ void gameLoop(void)
     if (player->vida <= 0)
     {
 
-        menu = drawMenuMorte();
+        menu = drawMenuMorte(ch);
     }
     else
         menu = 0;

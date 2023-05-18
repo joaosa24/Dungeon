@@ -106,16 +106,15 @@ void drawInimigo(Inimigo *inimigo)
 void drawLvlEntry(Posicao pos_lvl)
 {
     char lvl = '>';
-    if (is_visible(player,pos_lvl))
+    if (is_visible(player, pos_lvl))
     {
-    attron(COLOR_PAIR(2) | A_BOLD);
-    mvaddch(pos_lvl.y, pos_lvl.x, lvl);
-    attroff(COLOR_PAIR(2) | A_BOLD);   
+        attron(COLOR_PAIR(2) | A_BOLD);
+        mvaddch(pos_lvl.y, pos_lvl.x, lvl);
+        attroff(COLOR_PAIR(2) | A_BOLD);
     }
-    
 }
 
-int drawMenuMorte()
+int drawMenuMorte(int choice)
 {
 
     WINDOW *win = NULL;
@@ -124,7 +123,6 @@ int drawMenuMorte()
         delwin(win);
 
     char opcoes[2][40] = {"Play Again", "Exit"};
-    int choice;
     int highlight = 0;
     int length1 = strlen(opcoes[0]);
     int length2 = strlen(opcoes[1]);

@@ -3,7 +3,7 @@
 
 int MAP_HEIGHT;
 int MAP_WIDTH;
-int dungeon_level=1;
+int dungeon_level = 1;
 
 Entidade *player;
 Inimigo *inimigo;
@@ -13,7 +13,8 @@ Posicao pos_inicial_i;
 Posicao pos_lvl;
 WINDOW *win;
 
-int main(void) {
+int main(void)
+{
     initscr();
     getmaxyx(stdscr, MAP_HEIGHT, MAP_WIDTH);
     MAP_HEIGHT--;
@@ -22,58 +23,72 @@ int main(void) {
     curs_set(0);
 
     WINDOW *menuwin;
-    menuwin = newwin(4,14 , MAP_HEIGHT /2 - 2 ,MAP_WIDTH / 2 - 10);
+    menuwin = newwin(4, 14, MAP_HEIGHT / 2 - 2, MAP_WIDTH / 2 - 10);
     box(menuwin, 0, 0);
     refresh();
     wrefresh(menuwin);
     keypad(menuwin, true);
 
-    char opcoes [2] [40] = {"Start Game", "Exit"};
+    char opcoes[2][40] = {"Start Game", "Exit"};
     int choice;
     int highlight = 0;
-    int length1 = strlen(opcoes [0]);
-    int length2 = strlen(opcoes [1]);
+    int length1 = strlen(opcoes[0]);
+    int length2 = strlen(opcoes[1]);
 
-    while (1) {
-        for (int i = 0; i < 2; i++) {
-            if (i == highlight) {
-                wattron (menuwin, A_BOLD);
+    while (1)
+    {
+        for (int i = 0; i < 2; i++)
+        {
+            if (i == highlight)
+            {
+                wattron(menuwin, A_BOLD);
             }
-            if(i==0){
-                mvwprintw (menuwin, i+1, length1/2-3, "%s", opcoes[i]);
-                wattroff (menuwin, A_BOLD);
+            if (i == 0)
+            {
+                mvwprintw(menuwin, i + 1, length1 / 2 - 3, "%s", opcoes[i]);
+                wattroff(menuwin, A_BOLD);
             }
-            if(i==1){
-                mvwprintw (menuwin, i+1, length2+1, "%s", opcoes[i]);
-                wattroff (menuwin, A_BOLD);
+            if (i == 1)
+            {
+                mvwprintw(menuwin, i + 1, length2 + 1, "%s", opcoes[i]);
+                wattroff(menuwin, A_BOLD);
             }
         }
         choice = wgetch(menuwin);
 
-        switch (choice){
-            case KEY_UP:
-                if (highlight > 0) {
-                    highlight--;
-                } else {
-                    highlight = 1;
-                }
-                break;
-            case KEY_DOWN:
-                if (highlight < 1) {
-                    highlight++;
-                } else {
-                    highlight = 0;
-                }
-                break;
-            default:
-                break;
+        switch (choice)
+        {
+        case KEY_UP:
+            if (highlight > 0)
+            {
+                highlight--;
+            }
+            else
+            {
+                highlight = 1;
+            }
+            break;
+        case KEY_DOWN:
+            if (highlight < 1)
+            {
+                highlight++;
+            }
+            else
+            {
+                highlight = 0;
+            }
+            break;
+        default:
+            break;
         }
-        if ((choice == 10) || (choice == 'q')){
+        if ((choice == 10) || (choice == 'q'))
+        {
             break;
         }
     }
 
-    if(highlight == 0 && choice == 10) {
+    if (highlight == 0 && choice == 10)
+    {
 
         clear();
         delwin(menuwin);
@@ -87,12 +102,13 @@ int main(void) {
         pos_inicial_i = setupMapi(map);
         player = createPlayer(pos_inicial);
         inimigo = createInimigo(pos_inicial_i);
-        pos_lvl=level_entry(map);
+        pos_lvl = level_entry(map);
 
         gameLoop();
         closeGame();
-
-    } else if(highlight == 1 || choice == 'q') {
+    }
+    else if (highlight == 1 || choice == 'q')
+    {
         endwin();
     }
     return 0;

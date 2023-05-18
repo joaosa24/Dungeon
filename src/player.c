@@ -20,7 +20,7 @@ Inimigo *createInimigo(Posicao pos_inicial_i)
     newInimigo->ent.pos.y = pos_inicial_i.y;
     newInimigo->ent.pos.x = pos_inicial_i.x;
     newInimigo->ent.ch = 'b';
-    newInimigo->ent.vida = 50;
+    newInimigo->ent.vida = 40;
 
     return newInimigo;
 }
@@ -30,16 +30,16 @@ void handleInput(int input)
     Posicao newPos = {player->pos.y, player->pos.x};
     switch (input)
     {
-    case '8': // cima
+    case 'w': // cima
         newPos.y--;
         break;
-    case '5': // baixo
+    case 's': // baixo
         newPos.y++;
         break;
-    case '4': // esquerda
+    case 'a': // esquerda
         newPos.x--;
         break;
-    case '6': // direita
+    case 'd': // direita
         newPos.x++;
         break;
     case '7':
@@ -150,21 +150,23 @@ void damage(Inimigo *inimigo, Entidade *player)
 
 void heal(Inimigo *inimigo, Entidade *player, int trigger)
 {
+    int flag = 0;
 
-    if (inimigo->ent.vida <= 0 && inimigo->ent.vida > (-2) && (distance_inimigo(player, inimigo) == 0) && trigger == 'e')
+    if (inimigo->ent.vida <= 0 && flag < 2 && (distance_inimigo(player, inimigo) == 0) && trigger == 'e')
     {
         player->vida += 15;
-        inimigo->ent.vida--;
+        flag++;
     }
 }
 
 void respawn(Inimigo *inimigo)
 {
-    if (inimigo->ent.vida == (-2) || ((inimigo->ent.vida <= 0) && distance_inimigo(player, inimigo) > 8))
+    if (inimigo->ent.vida <= -2 || ((inimigo->ent.vida <= 0) && distance_inimigo(player, inimigo) > 8))
     {
         do
         {
-            inimigo->ent.vida = 50;
+            inimigo->ent.vida = 40;
+            inimigo->ent.damage = 5;
             inimigo->ent.pos.x = rand() % MAP_WIDTH;
             inimigo->ent.pos.y = rand() % MAP_HEIGHT;
         } while (map[inimigo->ent.pos.y][inimigo->ent.pos.x].walkable == false);
