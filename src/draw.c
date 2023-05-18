@@ -30,22 +30,25 @@ void drawMapa(void)
 
 void drawHUD()
 {
+    attron(A_BOLD);
+    mvprintw(MAP_HEIGHT,1,"Health: ");
+    attroff(A_BOLD);
     if (player->vida >= 70)
     {
         attron(COLOR_PAIR(1) | A_BOLD);
-        mvprintw(MAP_HEIGHT, 1, "Health : %d", player->vida);
+        mvprintw(MAP_HEIGHT, 9, "%d", player->vida);
         attroff(COLOR_PAIR(1) | A_BOLD);
     }
     else if (player->vida >= 35)
     {
         attron(COLOR_PAIR(2) | A_BOLD);
-        mvprintw(MAP_HEIGHT, 1, "Health : %d", player->vida);
+        mvprintw(MAP_HEIGHT, 9, "%d", player->vida);
         attroff(COLOR_PAIR(2) | A_BOLD);
     }
     else
     {
         attron(COLOR_PAIR(3) | A_BOLD);
-        mvprintw(MAP_HEIGHT, 1, "Health : %d", player->vida);
+        mvprintw(MAP_HEIGHT, 9, "%d", player->vida);
         attroff(COLOR_PAIR(3) | A_BOLD);
     }
     attron(COLOR_PAIR(5) | A_BOLD);
@@ -54,6 +57,12 @@ void drawHUD()
     attron(COLOR_PAIR(6));
     mvprintw(MAP_HEIGHT, 50, "Press 'e' to interact");
     attroff(COLOR_PAIR(6));
+    attron(A_BOLD);
+    mvprintw(MAP_HEIGHT+1,1,"Damage: ");
+    attroff(A_BOLD);
+    attron(COLOR_PAIR(3) | A_BOLD);
+    mvprintw(MAP_HEIGHT+1,9,"%d",player->damage);
+    attroff(COLOR_PAIR(3) | A_BOLD);
 }
 
 void drawEntidade(Entidade *entidade)

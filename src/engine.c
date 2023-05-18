@@ -52,14 +52,13 @@ void gameLoop(void)
         pos_inicial_i = setupMapi(map);
         player = createPlayer(pos_inicial);
         inimigo = createInimigo(pos_inicial_i);
+        pos_lvl = level_entry(map);
+        dungeon_level++;
         player->vida = vida_atual;
         player->damage += 10;
-        inimigo->ent.vida += 20;
-        player->damage += 4;
-        dungeon_level++;
-        pos_lvl = level_entry(map);
-
         gameLoop();
+       
+
     }
 
     if (player->vida <= 0)

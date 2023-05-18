@@ -77,6 +77,7 @@ extern Posicao pos_inicial;
 extern Posicao pos_inicial_i;
 extern Posicao pos_lvl;
 extern int dungeon_level;
+extern int vida_atual_inimigo;
 extern WINDOW *win;
 
 #endif

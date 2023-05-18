@@ -4,6 +4,7 @@
 int MAP_HEIGHT;
 int MAP_WIDTH;
 int dungeon_level = 1;
+int vida_atual_inimigo= 40;
 
 Entidade *player;
 Inimigo *inimigo;
@@ -17,7 +18,7 @@ int main(void)
 {
     initscr();
     getmaxyx(stdscr, MAP_HEIGHT, MAP_WIDTH);
-    MAP_HEIGHT--;
+    MAP_HEIGHT-=2;
     noecho();
     cbreak();
     curs_set(0);

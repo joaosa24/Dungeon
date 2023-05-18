@@ -188,7 +188,6 @@ Posicao level_entry(Terreno **map)
         pos_lvl.x = x;
 
     } while (map[y][x].walkable == false || (x == pos_inicial.x && y == pos_inicial.y) || (x == pos_inicial_i.x && y == pos_inicial_i.y));
-
     return pos_lvl;
 }
 
@@ -196,6 +195,7 @@ int next_level(Entidade *player, int trigger)
 {
     if (trigger == 'e' && ((player->pos.y == pos_lvl.y) && (player->pos.x == pos_lvl.x)))
     {
+        vida_atual_inimigo += 10; // para aumentar 20 pois a função é chamada duas vezes no gameloop! 
         return 1;
     }
     else
