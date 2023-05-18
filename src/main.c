@@ -27,8 +27,7 @@ int main(void)
     curs_set(0);
 
     WINDOW *menuwin;
-    menuwin = newwin(4, 14, MAP_HEIGHT / 2 - 2, MAP_WIDTH / 2 - 10);
-    box(menuwin, 0, 0);
+    menuwin = newwin(40, 80, MAP_HEIGHT / 2 - 20, MAP_WIDTH / 2 - 40);
     refresh();
     wrefresh(menuwin);
     keypad(menuwin, true);
@@ -39,23 +38,23 @@ int main(void)
     int length1 = strlen(opcoes[0]);
     int length2 = strlen(opcoes[1]);
 
-    while (1)
-    {
-        for (int i = 0; i < 2; i++)
-        {
-            if (i == highlight)
-            {
-                wattron(menuwin, A_BOLD);
+    while (1) {
+        mvwprintw(menuwin, 1, 0, "#########  ##    ##  ##        ##  ########   ########  ########  ##        ##");
+        mvwprintw(menuwin, 2, 0, "##     ##  ##    ##  ## ##     ##  ##         ##        ##    ##  ## ##     ##");
+        mvwprintw(menuwin, 3, 0, "##     ##  ##    ##  ##   ##   ##  ##   ####  #######   ##    ##  ##   ##   ##");
+        mvwprintw(menuwin, 4, 0, "##     ##  ##    ##  ##     ## ##  ##     ##  ##        ##    ##  ##     ## ##");
+        mvwprintw(menuwin, 5, 0, "#########  ########  ##        ##  #########  ########  ########  ##        ##");
+         for (int i = 0; i < 2; i++) {
+            if (i == highlight) {
+                wattron (menuwin, A_BOLD);
             }
-            if (i == 0)
-            {
-                mvwprintw(menuwin, i + 1, length1 / 2 - 3, "%s", opcoes[i]);
-                wattroff(menuwin, A_BOLD);
+            if(i==0){
+                mvwprintw (menuwin, i+20, 40 - length1/2, "%s", opcoes[i]);
+                wattroff (menuwin, A_BOLD);
             }
-            if (i == 1)
-            {
-                mvwprintw(menuwin, i + 1, length2 + 1, "%s", opcoes[i]);
-                wattroff(menuwin, A_BOLD);
+            if(i==1){
+                mvwprintw (menuwin, i+20, 40 - length2/2, "%s", opcoes[i]);
+                wattroff (menuwin, A_BOLD);
             }
         }
         choice = wgetch(menuwin);
