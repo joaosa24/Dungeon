@@ -54,6 +54,9 @@ void drawHUD()
     attron(COLOR_PAIR(5) | A_BOLD);
     mvprintw(MAP_HEIGHT, 20, "Dungeon Level: %d", dungeon_level);
     attroff(COLOR_PAIR(5) | A_BOLD);
+    attron(COLOR_PAIR(2) | A_BOLD);
+    mvprintw(MAP_HEIGHT + 1, 20, "Damage Buff: %d%c", damage_buff, 'x');
+    attroff(COLOR_PAIR(2) | A_BOLD);
     attron(COLOR_PAIR(6));
     mvprintw(MAP_HEIGHT, 50, "Press 'e' to INTERACT with the mob");
     attroff(COLOR_PAIR(6));
@@ -261,8 +264,8 @@ void drawAll(void)
     drawMapa();
     drawHUD();
     drawDica();
-    drawInimigo(inimigo);
-    drawLvlEntry(pos_lvl);
-    drawEntidade(player);
     drawObjDamage(pos_damage);
+    drawLvlEntry(pos_lvl);
+    drawInimigo(inimigo);
+    drawEntidade(player);
 }

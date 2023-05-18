@@ -6,6 +6,7 @@
 #include <time.h>
 #include <string.h>
 #include <math.h>
+#include <unistd.h>
 
 #define N 5
 
@@ -90,6 +91,7 @@ extern Posicao pos_inicial_i;
 extern Posicao pos_lvl;
 extern Posicao *pos_damage;
 extern int dungeon_level;
+extern int damage_buff;
 extern int vida_atual_inimigo;
 extern int trigger;
 extern WINDOW *win;

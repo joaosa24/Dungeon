@@ -6,6 +6,7 @@ int MAP_WIDTH;
 int dungeon_level = 1;
 int vida_atual_inimigo = 40;
 int trigger = 0;
+int damage_buff = 0;
 
 Entidade *player;
 Inimigo *inimigo;

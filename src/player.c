@@ -151,9 +151,9 @@ void damage(Inimigo *inimigo, Entidade *player)
 void heal(Inimigo *inimigo, Entidade *player, int trigger)
 {
 
-    if (inimigo->ent.vida <= 0 && inimigo->ent.vida > (-2) && (distance_inimigo(player, inimigo) == 0) && trigger == 'e')
+    if ((inimigo->ent.vida <= 0) && (inimigo->ent.vida % 2 == 0) && (distance_inimigo(player, inimigo) == 0) && trigger == 'e')
     {
-        player->vida += 15;
+        player->vida += 25;
         player->gold += 20;
         inimigo->ent.vida--;
     }
@@ -217,8 +217,9 @@ void plus_damage(Entidade *player, int trigger)
         if ((player->pos.x == pos_damage[i].x && player->pos.y == pos_damage[i].y) && trigger == 'e')
         {
             player->damage += 10;
-            pos_damage[i].x = 100;
+            pos_damage[i].x = 400;
             pos_damage[i].y = MAP_HEIGHT;
+            damage_buff++;
         }
     }
 }
