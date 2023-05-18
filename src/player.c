@@ -30,16 +30,16 @@ void handleInput(int input)
     Posicao newPos = {player->pos.y, player->pos.x};
     switch (input)
     {
-    case '8': // cima
+    case 'w': // cima
         newPos.y--;
         break;
-    case '5': // baixo
+    case 's': // baixo
         newPos.y++;
         break;
-    case '4': // esquerda
+    case 'a': // esquerda
         newPos.x--;
         break;
-    case '6': // direita
+    case 'd': // direita
         newPos.x++;
         break;
     case '7':
@@ -154,13 +154,14 @@ void heal(Inimigo *inimigo, Entidade *player, int trigger)
     if (inimigo->ent.vida <= 0 && inimigo->ent.vida > (-2) && (distance_inimigo(player, inimigo) == 0) && trigger == 'e')
     {
         player->vida += 15;
+        player->gold += 20;
         inimigo->ent.vida--;
     }
 }
 
 void respawn(Inimigo *inimigo)
 {
-    if (inimigo->ent.vida <= (-2) || ((inimigo->ent.vida <= 0) && distance_inimigo(player, inimigo) > 8))
+    if (((inimigo->ent.vida <= 0) && distance_inimigo(player, inimigo) > 8))
     {
         do
         {
@@ -168,5 +169,56 @@ void respawn(Inimigo *inimigo)
             inimigo->ent.pos.x = rand() % MAP_WIDTH;
             inimigo->ent.pos.y = rand() % MAP_HEIGHT;
         } while (map[inimigo->ent.pos.y][inimigo->ent.pos.x].walkable == false);
+    }
+}
+
+int dica(Entidade *player, int ch)
+{
+    if (player->gold >= 80)
+    {
+        if (ch == 'g')
+        {
+            if (player->gold == 80)
+            {
+                player->gold = 0;
+            }
+            else
+                player->gold -= 80;
+            return 1;
+        }
+    }
+    else
+    {
+        return 0;
+    }
+
+    // Retorno padrão caso nenhuma das condições seja atendida
+    return 0;
+}
+
+int distancia_portal(Entidade *player, Posicao entrada)
+{
+    int dx = player->pos.x - entrada.x;
+    if (dx > 0) // porta está à esquerda
+    {
+        return 1;
+    }
+    else
+        return 0; // portal está à direita
+}
+
+void plus_damage(Entidade *player, int trigger)
+{
+    int i;
+
+    for (i = 0; i < N; i++)
+    {
+
+        if ((player->pos.x == pos_damage[i].x && player->pos.y == pos_damage[i].y) && trigger == 'e')
+        {
+            player->damage += 10;
+            pos_damage[i].x = 100;
+            pos_damage[i].y = MAP_HEIGHT;
+        }
     }
 }

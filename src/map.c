@@ -195,11 +195,32 @@ int next_level(Entidade *player, int trigger)
 {
     if (trigger == 'e' && ((player->pos.y == pos_lvl.y) && (player->pos.x == pos_lvl.x)))
     {
-        vida_atual_inimigo += 10; // para aumentar 20 pois a função é chamada duas vezes no gameloop! 
+        vida_atual_inimigo += 10; // para aumentar 20 pois a função é chamada duas vezes no gameloop!
         return 1;
     }
     else
         return 0;
+}
+
+Posicao* plus_damage_obj(Terreno **map)
+{
+
+    Posicao* pos_damage = calloc(5, sizeof(Posicao));
+    int x, y;
+
+    for (int i = 0; i < 5; i++)
+    {
+
+        do
+        {
+            x = rand() % MAP_WIDTH;
+            y = rand() % MAP_HEIGHT;
+            pos_damage[i].y = y;
+            pos_damage[i].x = x;
+
+        } while (map[y][x].walkable == false || (x == pos_inicial.x && y == pos_inicial.y) || (x == pos_inicial_i.x && y == pos_inicial_i.y) || (x == pos_lvl.x && y == pos_lvl.y));
+    }
+    return pos_damage;
 }
 
 void FreeMapa(Terreno **map)

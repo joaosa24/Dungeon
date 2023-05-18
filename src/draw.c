@@ -31,7 +31,7 @@ void drawMapa(void)
 void drawHUD()
 {
     attron(A_BOLD);
-    mvprintw(MAP_HEIGHT,1,"Health: ");
+    mvprintw(MAP_HEIGHT, 1, "Health: ");
     attroff(A_BOLD);
     if (player->vida >= 70)
     {
@@ -55,14 +55,23 @@ void drawHUD()
     mvprintw(MAP_HEIGHT, 20, "Dungeon Level: %d", dungeon_level);
     attroff(COLOR_PAIR(5) | A_BOLD);
     attron(COLOR_PAIR(6));
-    mvprintw(MAP_HEIGHT, 50, "Press 'e' to interact");
+    mvprintw(MAP_HEIGHT, 50, "Press 'e' to INTERACT with the mob");
+    attroff(COLOR_PAIR(6));
+    attron(COLOR_PAIR(6));
+    mvprintw(MAP_HEIGHT + 1, 50, "Press 'g' to get a HINT (80 gold) ");
     attroff(COLOR_PAIR(6));
     attron(A_BOLD);
-    mvprintw(MAP_HEIGHT+1,1,"Damage: ");
+    mvprintw(MAP_HEIGHT + 1, 1, "Damage: ");
     attroff(A_BOLD);
     attron(COLOR_PAIR(3) | A_BOLD);
-    mvprintw(MAP_HEIGHT+1,9,"%d",player->damage);
+    mvprintw(MAP_HEIGHT + 1, 9, "%d", player->damage);
     attroff(COLOR_PAIR(3) | A_BOLD);
+    attron(A_BOLD);
+    mvprintw(MAP_HEIGHT + 2, 1, "Gold: ");
+    attroff(A_BOLD);
+    attron(COLOR_PAIR(7) | A_BOLD);
+    mvprintw(MAP_HEIGHT + 2, 9, "%d", player->gold);
+    attroff(COLOR_PAIR(7) | A_BOLD);
 }
 
 void drawEntidade(Entidade *entidade)
@@ -120,6 +129,40 @@ void drawLvlEntry(Posicao pos_lvl)
         attron(COLOR_PAIR(2) | A_BOLD);
         mvaddch(pos_lvl.y, pos_lvl.x, lvl);
         attroff(COLOR_PAIR(2) | A_BOLD);
+    }
+}
+
+void drawDica()
+{
+    if (trigger)
+    {
+        if (distancia_portal(player, pos_lvl))
+        {
+            attron(COLOR_PAIR(7) | A_BOLD);
+            mvprintw(MAP_HEIGHT + 2, 20, "THE GATE IS IN THE WEST");
+            attroff(COLOR_PAIR(7) | A_BOLD);
+        }
+        else
+        {
+            attron(A_BOLD);
+            mvprintw(MAP_HEIGHT + 2, 20, "THE GATE IS IN THE EAST");
+            attron(A_BOLD);
+        }
+    }
+}
+
+void drawObjDamage(Posicao *pos_damage)
+{
+    char obj = '+';
+
+    for (int i = 0; i < 5; i++)
+    {
+        if (is_visible(player, pos_damage[i]))
+        {
+            attron(COLOR_PAIR(2) | A_BOLD);
+            mvaddch(pos_damage[i].y, pos_damage[i].x, obj);
+            attroff(COLOR_PAIR(2) | A_BOLD);
+        }
     }
 }
 
@@ -217,7 +260,9 @@ void drawAll(void)
     refresh();
     drawMapa();
     drawHUD();
-    drawEntidade(player);
+    drawDica();
     drawInimigo(inimigo);
     drawLvlEntry(pos_lvl);
+    drawEntidade(player);
+    drawObjDamage(pos_damage);
 }

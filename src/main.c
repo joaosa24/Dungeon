@@ -4,7 +4,8 @@
 int MAP_HEIGHT;
 int MAP_WIDTH;
 int dungeon_level = 1;
-int vida_atual_inimigo= 40;
+int vida_atual_inimigo = 40;
+int trigger = 0;
 
 Entidade *player;
 Inimigo *inimigo;
@@ -12,13 +13,14 @@ Terreno **map;
 Posicao pos_inicial;
 Posicao pos_inicial_i;
 Posicao pos_lvl;
+Posicao *pos_damage;
 WINDOW *win;
 
 int main(void)
 {
     initscr();
     getmaxyx(stdscr, MAP_HEIGHT, MAP_WIDTH);
-    MAP_HEIGHT-=2;
+    MAP_HEIGHT -= 3;
     noecho();
     cbreak();
     curs_set(0);
@@ -104,6 +106,7 @@ int main(void)
         player = createPlayer(pos_inicial);
         inimigo = createInimigo(pos_inicial_i);
         pos_lvl = level_entry(map);
+        pos_damage = plus_damage_obj(map);
 
         gameLoop();
         closeGame();
