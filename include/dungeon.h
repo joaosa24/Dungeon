@@ -37,9 +37,9 @@ typedef struct
 } Inimigo;
 
 // vision.c functions
-int
-is_visible(Entidade *player, Posicao pos);
+int is_visible(Entidade *player, Posicao pos);
 int is_enemy_visible(Entidade *player, Inimigo *inimigo);
+int vision_range(Entidade *player);
 
 // draw.c functions
 void drawMapa(void);
@@ -65,7 +65,7 @@ Posicao setupMap(Terreno **map);
 Posicao setupMapi(Terreno **map);
 Posicao level_entry(Terreno **map);
 int next_level(Entidade *player, int input);
-Posicao* plus_damage_obj(Terreno **map);
+Posicao *plus_damage_obj(Terreno **map);
 Posicao *traps(Terreno **map);
 Posicao *fruits(Terreno **map);
 
@@ -81,11 +81,11 @@ void moveInimigo(Inimigo *inimigo, Entidade *player, Terreno **map);
 void heal(Inimigo *inimigo, Entidade *player, int input);
 void respawn(Inimigo *inimigo);
 void plus_damage(Entidade *player, int input);
-int dica(Entidade *player,int input);
+int dica(Entidade *player, int input);
 int distancia_portal(Entidade *player, Posicao entrada);
 int pickaxe(Entidade *player, int ch);
 void traps_damage(Entidade *player);
-void fruits_heal(Entidade *player,int input);
+void fruits_heal(Entidade *player, int input);
 
 // variaveis externas
 extern int MAP_HEIGHT;

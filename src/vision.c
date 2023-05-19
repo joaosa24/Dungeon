@@ -1,12 +1,27 @@
 #include <dungeon.h>
 
+int vision_range(Entidade * player)
+{
+    if (player->vida >= 75)
+    {
+        return 8;
+    }
+    else if (player->vida >= 35)
+    {
+        return 6;
+    }
+    else
+        return 4;
+}
+
 int is_visible(Entidade *player, Posicao pos)
 {
+    int range = vision_range(player);
     int dx = abs(pos.x - player->pos.x);
     int dy = abs(pos.y - player->pos.y);
     int distance = sqrt(pow(dx, 2) + pow(dy, 2));
 
-    if (distance <= 200)
+    if (distance <= range)
     {
         return 1;
     }
@@ -15,11 +30,12 @@ int is_visible(Entidade *player, Posicao pos)
 
 int is_enemy_visible(Entidade *player, Inimigo *inimigo)
 {
+    int range = vision_range(player);
     int dx = abs(inimigo->ent.pos.x - player->pos.x);
     int dy = abs(inimigo->ent.pos.y - player->pos.y);
     int distance = sqrt(pow(dx, 2) + pow(dy, 2));
 
-    if (distance <= 200)
+    if (distance <= range)
     {
         return 1;
     }

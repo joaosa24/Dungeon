@@ -218,7 +218,7 @@ void drawHealFruit(Posicao *pos_fruit)
 
     for (int i = 0; i < 3; i++)
     {
-        if (is_visible(player, pos_traps[i]))
+        if (is_visible(player, pos_fruit[i]))
         {
             attron(COLOR_PAIR(1) | A_BOLD);
             mvaddch(pos_fruit[i].y, pos_fruit[i].x, fruit);
