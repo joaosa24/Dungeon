@@ -19,6 +19,7 @@ Posicao pos_lvl;
 Posicao *pos_damage;
 Posicao *pos_traps;
 Posicao *pos_fruit;
+Posicao pos_treasure;
 WINDOW *win;
 
 int main(void)
@@ -129,8 +130,9 @@ int main(void)
         inimigo = createInimigo(pos_inicial_i);
         pos_lvl = level_entry(map);
         pos_damage = plus_damage_obj(map);
-        pos_traps= traps(map);
-        pos_fruit=fruits(map);
+        pos_traps = traps(map);
+        pos_fruit = fruits(map);
+        pos_treasure = treasure(map);
 
         gameLoop();
         closeGame();

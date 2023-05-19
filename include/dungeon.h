@@ -52,6 +52,7 @@ int drawMenuMorte(int choice);
 void drawObjDamage(Posicao *pos_damage);
 void drawtraps(Posicao *pos_traps);
 void drawHealFruit(Posicao *pos_fruit);
+void drawTreasure(Posicao pos_treasure);
 
 // engine.c functions
 void cursesSetup(void);
@@ -68,6 +69,7 @@ int next_level(Entidade *player, int input);
 Posicao *plus_damage_obj(Terreno **map);
 Posicao *traps(Terreno **map);
 Posicao *fruits(Terreno **map);
+Posicao treasure(Terreno **map);
 
 // player.c functions
 Entidade *createPlayer(Posicao pos_inicial);
@@ -86,6 +88,7 @@ int distancia_portal(Entidade *player, Posicao entrada);
 int pickaxe(Entidade *player, int ch);
 void traps_damage(Entidade *player);
 void fruits_heal(Entidade *player, int input);
+void treasure_loot(Entidade *player, int input);
 
 // variaveis externas
 extern int MAP_HEIGHT;
@@ -99,6 +102,7 @@ extern Posicao pos_lvl;
 extern Posicao *pos_damage;
 extern Posicao *pos_traps;
 extern Posicao *pos_fruit;
+extern Posicao pos_treasure;
 extern int dungeon_level;
 extern int damage_buff;
 extern int vida_atual_inimigo;

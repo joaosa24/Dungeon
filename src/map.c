@@ -262,6 +262,21 @@ Posicao *fruits(Terreno **map)
     return pos_fruit;
 }
 
+Posicao treasure(Terreno **map)
+{
+    Posicao pos_treasure;
+    int x, y;
+    do
+    {
+        x = rand() % MAP_WIDTH;
+        y = rand() % MAP_HEIGHT;
+        pos_treasure.y = y;
+        pos_treasure.x = x;
+
+    } while (map[y][x].walkable == false || (x == pos_inicial.x && y == pos_inicial.y) || (x == pos_inicial_i.x && y == pos_inicial_i.y) || (x == pos_lvl.x && y == pos_lvl.y));
+    return pos_treasure;
+}
+
 void FreeMapa(Terreno **map)
 {
     for (int i = 0; i < MAP_HEIGHT; i++)

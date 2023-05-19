@@ -307,3 +307,15 @@ void traps_damage(Entidade *player)
         }
     }
 }
+
+void treasure_loot(Entidade *player, int input)
+{
+    if ((player->pos.x == pos_treasure.x && player->pos.y == pos_treasure.y) && input == 'e')
+    {
+        player->gold += 250;
+        player->damage += 20;
+        pos_treasure.x = 600;
+        pos_treasure.y = MAP_HEIGHT;
+        trigger = 7;
+    }
+}

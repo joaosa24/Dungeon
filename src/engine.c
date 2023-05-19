@@ -37,6 +37,7 @@ void gameLoop(void)
             respawn(inimigo);
         }
         trigger = dica(player, ch);
+        treasure_loot(player,ch);
         plus_damage(player, ch);
         fruits_heal(player,ch);
         traps_damage(player);
@@ -68,6 +69,7 @@ void gameLoop(void)
         pos_damage = plus_damage_obj(map);
         pos_traps = traps(map);
         pos_fruit=fruits(map);
+        pos_treasure=treasure(map);
         player->vida = vida_atual;
         player->damage = damage_atual;
         player->gold = gold_atual;

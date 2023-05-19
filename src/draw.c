@@ -211,6 +211,19 @@ void drawtraps(Posicao *pos_traps)
         }
     }
 }
+void drawTreasure(Posicao pos_treasure)
+{
+    char treasure = '$';
+    if (dungeon_level % 5 == 0)
+    {
+        if (is_visible(player, pos_treasure))
+        {
+            attron(COLOR_PAIR(2) | A_BOLD);
+            mvaddch(pos_treasure.y, pos_treasure.x, treasure);
+            attroff(COLOR_PAIR(2) | A_BOLD);
+        }
+    }
+}
 
 void drawHealFruit(Posicao *pos_fruit)
 {
@@ -249,14 +262,19 @@ void drawEventMessage(int trigger)
         attron(COLOR_PAIR(5) | A_BOLD);
         mvprintw(MAP_HEIGHT + 1, 100, "YOU ADVENTURED DEEP INTO THE DUNGEON");
         attron(COLOR_PAIR(5) | A_BOLD);
-    } else if (trigger == 6)
+    }
+    else if (trigger == 6)
     {
         attron(COLOR_PAIR(1) | A_BOLD);
         mvprintw(MAP_HEIGHT + 1, 100, "THE PLAYER'S VITALITY IS RENEWED AS THE MYSTERIOUS FRUIT IS CONSUMED");
         attron(COLOR_PAIR(1) | A_BOLD);
     }
-    
-    
+    else if (trigger == 7)
+    {
+        attron(COLOR_PAIR(7) | A_BOLD);
+        mvprintw(MAP_HEIGHT + 1, 100, "YOU DECIDED TO OPEN THE MOLDY CHEST THAT WAS GLOWING");
+        attron(COLOR_PAIR(7) | A_BOLD);
+    }
 }
 
 int drawMenuMorte(int choice)
@@ -364,6 +382,7 @@ void drawAll(void)
     drawtraps(pos_traps);
     drawObjDamage(pos_damage);
     drawHealFruit(pos_fruit);
+    drawTreasure(pos_treasure);
     drawEventMessage(trigger);
     drawLvlEntry(pos_lvl);
     drawInimigo(inimigo);
