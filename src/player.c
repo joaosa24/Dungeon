@@ -19,7 +19,11 @@ Inimigo *createInimigo(Posicao pos_inicial_i)
 
     newInimigo->ent.pos.y = pos_inicial_i.y;
     newInimigo->ent.pos.x = pos_inicial_i.x;
-    newInimigo->ent.ch = 'b';
+    if (dungeon_level % 5 != 0)
+    {
+        newInimigo->ent.ch = 'b';
+    } else newInimigo->ent.ch = 'B';
+
     newInimigo->ent.vida = vida_atual_inimigo;
     newInimigo->ent.damage = 5;
 

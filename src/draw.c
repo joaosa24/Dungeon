@@ -11,9 +11,18 @@ void drawMapa(void)
             {
                 if ((map[i][j].ch == '#'))
                 {
-                    attron(COLOR_PAIR(4));
-                    mvaddch(i, j, map[i][j].ch);
-                    attroff(COLOR_PAIR(4));
+                    if (dungeon_level % 5 != 0)
+                    {
+                        attron(COLOR_PAIR(4));
+                        mvaddch(i, j, map[i][j].ch);
+                        attroff(COLOR_PAIR(4));
+                    }
+                    else
+                    {
+                        attron(COLOR_PAIR(3));
+                        mvaddch(i, j, map[i][j].ch);
+                        attroff(COLOR_PAIR(3));
+                    }
                 }
                 else if (map[i][j].ch == '.')
                 {
@@ -33,7 +42,7 @@ void drawHUD()
     attron(A_BOLD);
     mvprintw(MAP_HEIGHT, 1, "Health: ");
     attroff(A_BOLD);
-    if (player->vida >= 70)
+    if (player->vida >= 70 && player->vida <= 100)
     {
         attron(COLOR_PAIR(1) | A_BOLD);
         mvprintw(MAP_HEIGHT, 9, "%d", player->vida);
@@ -45,12 +54,19 @@ void drawHUD()
         mvprintw(MAP_HEIGHT, 9, "%d", player->vida);
         attroff(COLOR_PAIR(2) | A_BOLD);
     }
-    else
+    else if (player->vida < 35)
     {
         attron(COLOR_PAIR(3) | A_BOLD);
         mvprintw(MAP_HEIGHT, 9, "%d", player->vida);
         attroff(COLOR_PAIR(3) | A_BOLD);
     }
+    else if (player->vida > 100)
+    {
+        attron(COLOR_PAIR(7) | A_BOLD);
+        mvprintw(MAP_HEIGHT, 9, "%d", player->vida);
+        attroff(COLOR_PAIR(7) | A_BOLD);
+    }
+
     attron(COLOR_PAIR(5) | A_BOLD);
     mvprintw(MAP_HEIGHT, 20, "Dungeon Level: %d", dungeon_level);
     attroff(COLOR_PAIR(5) | A_BOLD);
@@ -78,9 +94,9 @@ void drawHUD()
     attron(A_BOLD);
     mvprintw(MAP_HEIGHT + 2, 1, "Gold: ");
     attroff(A_BOLD);
-    attron(COLOR_PAIR(7) | A_BOLD);
+    attron(COLOR_PAIR(2) | A_BOLD); // a corlor_pair(7) que deveria ser dourado está amarelo ?? 
     mvprintw(MAP_HEIGHT + 2, 9, "%d", player->gold);
-    attroff(COLOR_PAIR(7) | A_BOLD);
+    attroff(COLOR_PAIR(2) | A_BOLD);
 }
 
 void drawEntidade(Entidade *entidade)
@@ -153,9 +169,9 @@ void drawDica()
         }
         else
         {
-            attron(A_BOLD);
+            attron(COLOR_PAIR(7) | A_BOLD);
             mvprintw(MAP_HEIGHT + 1, 100, "THE GATE IS IN THE EAST");
-            attron(A_BOLD);
+            attron(COLOR_PAIR(7) | A_BOLD);
         }
     }
 }
