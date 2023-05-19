@@ -61,13 +61,13 @@ void drawHUD()
     mvprintw(MAP_HEIGHT + 2, 20, "Pickaxe uses: %d%c", has_pickaxe, 'x');
     attroff(COLOR_PAIR(2) | A_BOLD);
     attron(COLOR_PAIR(6));
-    mvprintw(MAP_HEIGHT, 190, "Press 'e' to INTERACT with the mob    ");
+    mvprintw(MAP_HEIGHT, MAP_WIDTH - 38, "Press 'e' to INTERACT with the mob    ");
     attroff(COLOR_PAIR(6));
     attron(COLOR_PAIR(6));
-    mvprintw(MAP_HEIGHT + 1, 190, "Press 'h' to get a HINT (80 gold)     ");
+    mvprintw(MAP_HEIGHT + 1, MAP_WIDTH - 38, "Press 'h' to get a HINT (80 gold)     ");
     attroff(COLOR_PAIR(6));
     attron(COLOR_PAIR(6));
-    mvprintw(MAP_HEIGHT + 2, 190, "Press 'p' to buy a PICKAXE (200 gold) ");
+    mvprintw(MAP_HEIGHT + 2, MAP_WIDTH - 38, "Press 'p' to buy a PICKAXE (200 gold) ");
     attroff(COLOR_PAIR(6));
     attron(A_BOLD);
     mvprintw(MAP_HEIGHT + 1, 1, "Damage: ");
@@ -188,7 +188,7 @@ int drawMenuMorte(int choice)
     int length1 = strlen(opcoes[0]);
     int length2 = strlen(opcoes[1]);
 
-    WINDOW *menu_win_morte = newwin(40, 84, MAP_HEIGHT / 2 - 20, MAP_WIDTH / 2 - 46);
+    WINDOW *menu_win_morte = newwin(40, 72, MAP_HEIGHT / 2 - 20, MAP_WIDTH / 2 - 36);
 
     initscr();
     noecho();
@@ -202,11 +202,11 @@ int drawMenuMorte(int choice)
     while (1)
     {
         wattron(menu_win_morte, COLOR_PAIR(4) | A_BOLD);
-        mvwprintw(menu_win_morte, 10, 0, "    #######    ##    ##   ##        ##  ########   ########  ########  ##        ##");
-        mvwprintw(menu_win_morte, 11, 0, "   ##    ##   ##    ##   ## ##     ##  ##         ##        ##    ##  ## ##     ##");
-        mvwprintw(menu_win_morte, 12, 0, "  ##     ##  ##    ##   ##   ##   ##  ##   ####  #######   ##    ##  ##   ##   ##");
-        mvwprintw(menu_win_morte, 13, 0, " ##    ##   ##    ##   ##     ## ##  ##     ##  ##        ##    ##  ##     ## ##");
-        mvwprintw(menu_win_morte, 14, 0, "#######    ########   ##        ##  #########  ########  ########  ##        ##");
+        mvwprintw(menu_win_morte, 10, 0, "    ##     ##  ########  ##    ##      #######    ##  ########  #######");
+        mvwprintw(menu_win_morte, 11, 0, "     ##  ##   ##    ##  ##    ##      ##    ##   ##  ##        ##    ##");
+        mvwprintw(menu_win_morte, 12, 0, "       ##    ##    ##  ##    ##      ##     ##  ##  #######   ##     ##");
+        mvwprintw(menu_win_morte, 13, 0, "     ##     ##    ##  ##    ##      ##    ##   ##  ##        ##    ##");
+        mvwprintw(menu_win_morte, 14, 0, "   ##      ########  ########      #######    ##  ########  #######");
         wattroff(menu_win_morte, COLOR_PAIR(4) | A_BOLD);
 
         for (int i = 0; i < 2; i++)
@@ -217,12 +217,12 @@ int drawMenuMorte(int choice)
             }
             if (i == 0)
             {
-                mvwprintw(menu_win_morte, i + 20, 40 - length1 / 2 - 1, "%s", opcoes[i]);
+                mvwprintw(menu_win_morte, i + 20, 34 - length1 / 2, "%s", opcoes[i]);
                 wattroff(menu_win_morte, A_BOLD);
             }
             if (i == 1)
             {
-                mvwprintw(menu_win_morte, i + 20, 40 - length2 / 2 - 1, "%s", opcoes[i]);
+                mvwprintw(menu_win_morte, i + 20, 34 - length2 / 2, "%s", opcoes[i]);
                 wattroff(menu_win_morte, A_BOLD);
             }
         }
