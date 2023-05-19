@@ -79,6 +79,7 @@ void respawn(Inimigo *inimigo);
 void plus_damage(Entidade *player, int trigger);
 int dica(Entidade *player,int trigger);
 int distancia_portal(Entidade *player, Posicao entrada);
+int pickaxe(Entidade *player, int ch);
 
 // variaveis externas
 extern int MAP_HEIGHT;
@@ -94,6 +95,7 @@ extern int dungeon_level;
 extern int damage_buff;
 extern int vida_atual_inimigo;
 extern int trigger;
+extern int has_pickaxe;
 extern WINDOW *win;
 
 #endif

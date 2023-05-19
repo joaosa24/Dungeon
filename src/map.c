@@ -79,7 +79,7 @@ Terreno **generate_map()
     {
         for (j = 2; j < MAP_WIDTH - 2; j++)
         {
-            if (rand() % 100 < 44)
+            if (rand() % 100 < 45)
             {
                 map[i][j].ch = '#';
                 map[i][j].walkable = false;
@@ -96,9 +96,8 @@ Terreno **generate_map()
 
     int fst = 4, snd = 3;
 
-    while (fst > 0)
+    for (int k = 0; k < fst; k++)
     {
-
         for (i = 0; i < MAP_HEIGHT; i++)
         {
             for (j = 0; j < MAP_WIDTH; j++)
@@ -115,12 +114,11 @@ Terreno **generate_map()
                 }
             }
         }
-        fst--;
     }
 
     mapborder(map);
 
-    while (snd > 0)
+    for (int k = 0; k < snd; k++)
     {
 
         for (i = 0; i < MAP_HEIGHT; i++)
@@ -139,7 +137,6 @@ Terreno **generate_map()
                 }
             }
         }
-        snd--;
     }
 
     mapborder(map);
@@ -195,17 +192,17 @@ int next_level(Entidade *player, int trigger)
 {
     if (trigger == 'e' && ((player->pos.y == pos_lvl.y) && (player->pos.x == pos_lvl.x)))
     {
-        vida_atual_inimigo += 10; // para aumentar 20 pois a função é chamada duas vezes no gameloop!
+        // vida_atual_inimigo += 10; // para aumentar 20 pois a função é chamada duas vezes no gameloop!
         return 1;
     }
     else
         return 0;
 }
 
-Posicao* plus_damage_obj(Terreno **map)
+Posicao *plus_damage_obj(Terreno **map)
 {
 
-    Posicao* pos_damage = calloc(5, sizeof(Posicao));
+    Posicao *pos_damage = calloc(5, sizeof(Posicao));
     int x, y;
 
     for (int i = 0; i < 5; i++)

@@ -21,6 +21,7 @@ Inimigo *createInimigo(Posicao pos_inicial_i)
     newInimigo->ent.pos.x = pos_inicial_i.x;
     newInimigo->ent.ch = 'b';
     newInimigo->ent.vida = vida_atual_inimigo;
+    newInimigo->ent.damage = 5;
 
     return newInimigo;
 }
@@ -84,6 +85,12 @@ void movePlayer(Posicao newPos, Inimigo *inimigo)
     {
         inimigo->ent.vida -= player->damage;
     }
+    else if (!(map[newPos.y][newPos.x].walkable) && enemy_pos(newPos, inimigo) && has_pickaxe != 0)
+    {
+        map[newPos.y][newPos.x].walkable = true;
+        map[newPos.y][newPos.x].ch = '.';
+        has_pickaxe--;
+    }
 }
 
 int distance_inimigo(Entidade *player, Inimigo *inimigo)
@@ -107,7 +114,7 @@ void moveInimigo(Inimigo *inimigo, Entidade *player, Terreno **map)
         map[inimigo->ent.pos.y][inimigo->ent.pos.x].walkable = true;
         return;
     }
-    if (distance_inimigo(player, inimigo) < 300)
+    if (distance_inimigo(player, inimigo) < 350)
     {
         int next_x = inimigo->ent.pos.x;
         int next_y = inimigo->ent.pos.y;
@@ -144,7 +151,7 @@ void damage(Inimigo *inimigo, Entidade *player)
 {
     if ((inimigo->ent.vida > 0) && (distance_inimigo(player, inimigo) == 1))
     {
-        player->vida -= 5;
+        player->vida -= inimigo->ent.damage;
     }
 }
 
@@ -153,9 +160,33 @@ void heal(Inimigo *inimigo, Entidade *player, int trigger)
 
     if ((inimigo->ent.vida <= 0) && (inimigo->ent.vida % 2 == 0) && (distance_inimigo(player, inimigo) == 0) && trigger == 'e')
     {
-        player->vida += 25;
-        player->gold += 20;
-        inimigo->ent.vida--;
+        if (dungeon_level % 5 == 0)
+        {
+            if (player->vida + 40 > 150)
+            {
+                player->vida = 150;
+                player->gold += 80;
+                inimigo->ent.vida--;
+            }
+            else
+            {
+                player->vida += 40;
+                player->gold += 80;
+                inimigo->ent.vida--;
+            }
+        }
+        else if (player->vida + 25 > 150) // Repetimos o caso em cima para funcionar tanto nos bosses como nos minions
+        {
+            player->vida = 150;
+            player->gold += 20;
+            inimigo->ent.vida--;
+        }
+        else
+        {
+            player->vida += 25;
+            player->gold += 20;
+            inimigo->ent.vida--;
+        }
     }
 }
 
@@ -168,7 +199,7 @@ void respawn(Inimigo *inimigo)
             inimigo->ent.vida = vida_atual_inimigo;
             inimigo->ent.pos.x = rand() % MAP_WIDTH;
             inimigo->ent.pos.y = rand() % MAP_HEIGHT;
-        } while (map[inimigo->ent.pos.y][inimigo->ent.pos.x].walkable == false);
+        } while (map[inimigo->ent.pos.y][inimigo->ent.pos.x].walkable == false || (distance_inimigo(player, inimigo) < 8));
     }
 }
 
@@ -176,7 +207,7 @@ int dica(Entidade *player, int ch)
 {
     if (player->gold >= 80)
     {
-        if (ch == 'g')
+        if (ch == 'h')
         {
             if (player->gold == 80)
             {
@@ -187,11 +218,26 @@ int dica(Entidade *player, int ch)
             return 1;
         }
     }
-    else
-    {
-        return 0;
-    }
+    // Retorno padrão caso nenhuma das condições seja atendida
+    return 0;
+}
 
+int pickaxe(Entidade *player, int ch)
+{
+    if (player->gold >= 200)
+    {
+        if (ch == 'p')
+        {
+            has_pickaxe = 5;
+            if (player->gold == 200)
+            {
+                player->gold = 0;
+            }
+            else
+                player->gold -= 200;
+            return 1;
+        }
+    }
     // Retorno padrão caso nenhuma das condições seja atendida
     return 0;
 }

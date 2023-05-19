@@ -57,11 +57,17 @@ void drawHUD()
     attron(COLOR_PAIR(2) | A_BOLD);
     mvprintw(MAP_HEIGHT + 1, 20, "Damage Buff: %d%c", damage_buff, 'x');
     attroff(COLOR_PAIR(2) | A_BOLD);
+    attron(COLOR_PAIR(2) | A_BOLD);
+    mvprintw(MAP_HEIGHT + 2, 20, "Pickaxe uses: %d%c", has_pickaxe, 'x');
+    attroff(COLOR_PAIR(2) | A_BOLD);
     attron(COLOR_PAIR(6));
-    mvprintw(MAP_HEIGHT, 50, "Press 'e' to INTERACT with the mob");
+    mvprintw(MAP_HEIGHT, 190, "Press 'e' to INTERACT with the mob    ");
     attroff(COLOR_PAIR(6));
     attron(COLOR_PAIR(6));
-    mvprintw(MAP_HEIGHT + 1, 50, "Press 'g' to get a HINT (80 gold) ");
+    mvprintw(MAP_HEIGHT + 1, 190, "Press 'h' to get a HINT (80 gold)     ");
+    attroff(COLOR_PAIR(6));
+    attron(COLOR_PAIR(6));
+    mvprintw(MAP_HEIGHT + 2, 190, "Press 'p' to buy a PICKAXE (200 gold) ");
     attroff(COLOR_PAIR(6));
     attron(A_BOLD);
     mvprintw(MAP_HEIGHT + 1, 1, "Damage: ");
@@ -142,13 +148,13 @@ void drawDica()
         if (distancia_portal(player, pos_lvl))
         {
             attron(COLOR_PAIR(7) | A_BOLD);
-            mvprintw(MAP_HEIGHT + 2, 20, "THE GATE IS IN THE WEST");
+            mvprintw(MAP_HEIGHT + 1, 100, "THE GATE IS IN THE WEST");
             attroff(COLOR_PAIR(7) | A_BOLD);
         }
         else
         {
             attron(A_BOLD);
-            mvprintw(MAP_HEIGHT + 2, 20, "THE GATE IS IN THE EAST");
+            mvprintw(MAP_HEIGHT + 1, 100, "THE GATE IS IN THE EAST");
             attron(A_BOLD);
         }
     }
@@ -182,20 +188,27 @@ int drawMenuMorte(int choice)
     int length1 = strlen(opcoes[0]);
     int length2 = strlen(opcoes[1]);
 
-    WINDOW *menu_win_morte = newwin(4, 14, MAP_HEIGHT / 2 - 2, MAP_WIDTH / 2 - 10);
+    WINDOW *menu_win_morte = newwin(40, 84, MAP_HEIGHT / 2 - 20, MAP_WIDTH / 2 - 46);
 
     initscr();
     noecho();
     cbreak();
     curs_set(0);
 
-    box(menu_win_morte, 0, 0);
     refresh();
     wrefresh(menu_win_morte);
     keypad(menu_win_morte, true);
 
     while (1)
     {
+        wattron(menu_win_morte, COLOR_PAIR(4) | A_BOLD);
+        mvwprintw(menu_win_morte, 10, 0, "    #######    ##    ##   ##        ##  ########   ########  ########  ##        ##");
+        mvwprintw(menu_win_morte, 11, 0, "   ##    ##   ##    ##   ## ##     ##  ##         ##        ##    ##  ## ##     ##");
+        mvwprintw(menu_win_morte, 12, 0, "  ##     ##  ##    ##   ##   ##   ##  ##   ####  #######   ##    ##  ##   ##   ##");
+        mvwprintw(menu_win_morte, 13, 0, " ##    ##   ##    ##   ##     ## ##  ##     ##  ##        ##    ##  ##     ## ##");
+        mvwprintw(menu_win_morte, 14, 0, "#######    ########   ##        ##  #########  ########  ########  ##        ##");
+        wattroff(menu_win_morte, COLOR_PAIR(4) | A_BOLD);
+
         for (int i = 0; i < 2; i++)
         {
             if (i == highlight)
@@ -204,12 +217,12 @@ int drawMenuMorte(int choice)
             }
             if (i == 0)
             {
-                mvwprintw(menu_win_morte, i + 1, length1 / 2 - 3, "%s", opcoes[i]);
+                mvwprintw(menu_win_morte, i + 20, 40 - length1 / 2 - 1, "%s", opcoes[i]);
                 wattroff(menu_win_morte, A_BOLD);
             }
             if (i == 1)
             {
-                mvwprintw(menu_win_morte, i + 1, length2 + 1, "%s", opcoes[i]);
+                mvwprintw(menu_win_morte, i + 20, 40 - length2 / 2 - 1, "%s", opcoes[i]);
                 wattroff(menu_win_morte, A_BOLD);
             }
         }
