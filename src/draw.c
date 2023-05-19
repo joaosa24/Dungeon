@@ -195,7 +195,7 @@ void drawtraps(Posicao *pos_traps)
 {
     char trap = '^';
 
-    for (int i = 0; i < 8; i++)
+    for (int i = 0; i < 30; i++)
     {
         if (is_visible(player, pos_traps[i]))
         {

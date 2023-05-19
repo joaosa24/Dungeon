@@ -220,14 +220,13 @@ Posicao *plus_damage_obj(Terreno **map)
     return pos_damage;
 }
 
-
 Posicao *traps(Terreno **map)
 {
 
-    Posicao *pos_traps = calloc(10, sizeof(Posicao));
+    Posicao *pos_traps = calloc(30, sizeof(Posicao));
     int x, y;
 
-    for (int i = 0; i < 10; i++)
+    for (int i = 0; i < 30; i++)
     {
 
         do
@@ -237,7 +236,7 @@ Posicao *traps(Terreno **map)
             pos_traps[i].y = y;
             pos_traps[i].x = x;
 
-        } while (map[y][x].walkable == false || (x == pos_inicial.x && y == pos_inicial.y) || (x == pos_inicial_i.x && y == pos_inicial_i.y) || (x == pos_lvl.x && y == pos_lvl.y));
+        } while (map[y][x].walkable == false || (x == pos_inicial.x && y == pos_inicial.y) || (x == pos_inicial_i.x && y == pos_inicial_i.y) || (x == pos_lvl.x && y == pos_lvl.y) || ((x == (pos_traps->x + 1) && (x == pos_traps->x - 1) && (y == pos_traps->y + 1) && (y == pos_traps->y - 1))));
     }
     return pos_traps;
 }

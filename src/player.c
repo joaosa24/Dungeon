@@ -281,7 +281,7 @@ void traps_damage(Entidade *player)
 {
     int i;
 
-    for (i = 0; i < 10; i++)
+    for (i = 0; i < 25; i++)
     {
 
         if ((player->pos.x == pos_traps[i].x && player->pos.y == pos_traps[i].y))
