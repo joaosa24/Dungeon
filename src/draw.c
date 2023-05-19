@@ -194,14 +194,35 @@ void drawObjDamage(Posicao *pos_damage)
 void drawtraps(Posicao *pos_traps)
 {
     char trap = '^';
+    if (dungeon_level % 5 == 0)
+    {
+        flag_boss = 50;
+    }
+    else
+        flag_boss = 30;
 
-    for (int i = 0; i < 30; i++)
+    for (int i = 0; i < flag_boss; i++)
     {
         if (is_visible(player, pos_traps[i]))
         {
             attron(COLOR_PAIR(3) | A_BOLD);
             mvaddch(pos_traps[i].y, pos_traps[i].x, trap);
             attroff(COLOR_PAIR(3) | A_BOLD);
+        }
+    }
+}
+
+void drawHealFruit(Posicao *pos_fruit)
+{
+    char fruit = 'f';
+
+    for (int i = 0; i < 3; i++)
+    {
+        if (is_visible(player, pos_traps[i]))
+        {
+            attron(COLOR_PAIR(1) | A_BOLD);
+            mvaddch(pos_fruit[i].y, pos_fruit[i].x, fruit);
+            attroff(COLOR_PAIR(1) | A_BOLD);
         }
     }
 }
@@ -228,7 +249,14 @@ void drawEventMessage(int trigger)
         attron(COLOR_PAIR(5) | A_BOLD);
         mvprintw(MAP_HEIGHT + 1, 100, "YOU ADVENTURED DEEP INTO THE DUNGEON");
         attron(COLOR_PAIR(5) | A_BOLD);
+    } else if (trigger == 6)
+    {
+        attron(COLOR_PAIR(1) | A_BOLD);
+        mvprintw(MAP_HEIGHT + 1, 100, "THE PLAYER'S VITALITY IS RENEWED AS THE MYSTERIOUS FRUIT IS CONSUMED");
+        attron(COLOR_PAIR(1) | A_BOLD);
     }
+    
+    
 }
 
 int drawMenuMorte(int choice)
@@ -335,6 +363,7 @@ void drawAll(void)
     drawDica();
     drawtraps(pos_traps);
     drawObjDamage(pos_damage);
+    drawHealFruit(pos_fruit);
     drawEventMessage(trigger);
     drawLvlEntry(pos_lvl);
     drawInimigo(inimigo);

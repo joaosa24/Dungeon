@@ -241,6 +241,27 @@ Posicao *traps(Terreno **map)
     return pos_traps;
 }
 
+Posicao *fruits(Terreno **map)
+{
+
+    Posicao *pos_fruit = calloc(3, sizeof(Posicao));
+    int x, y;
+
+    for (int i = 0; i < 3; i++)
+    {
+
+        do
+        {
+            x = rand() % MAP_WIDTH;
+            y = rand() % MAP_HEIGHT;
+            pos_fruit[i].y = y;
+            pos_fruit[i].x = x;
+
+        } while (map[y][x].walkable == false || (x == pos_inicial.x && y == pos_inicial.y) || (x == pos_inicial_i.x && y == pos_inicial_i.y) || (x == pos_lvl.x && y == pos_lvl.y) || ((x == (pos_fruit->x + 20) && (x == pos_fruit->x - 20) && (y == pos_fruit->y + 20) && (y == pos_fruit->y - 20))));
+    }
+    return pos_fruit;
+}
+
 void FreeMapa(Terreno **map)
 {
     for (int i = 0; i < MAP_HEIGHT; i++)

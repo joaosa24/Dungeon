@@ -91,7 +91,7 @@ void movePlayer(Posicao newPos, Inimigo *inimigo)
     {
         inimigo->ent.vida -= player->damage;
     }
-    else if (!(map[newPos.y][newPos.x].walkable) && enemy_pos(newPos, inimigo) && has_pickaxe != 0)
+    else if (!(map[newPos.y][newPos.x].walkable) && enemy_pos(newPos, inimigo) && has_pickaxe != 0 && ((newPos.y != MAP_HEIGHT - 2) && (newPos.y != 1) && (newPos.x != MAP_WIDTH - 2) && (newPos.x != 1)))
     {
         map[newPos.y][newPos.x].walkable = true;
         map[newPos.y][newPos.x].ch = '.';
@@ -277,11 +277,27 @@ void plus_damage(Entidade *player, int input)
     }
 }
 
+void fruits_heal(Entidade *player, int input)
+{
+    int i;
+
+    for (i = 0; i < 3; i++)
+    {
+
+        if ((player->pos.x == pos_fruit[i].x && player->pos.y == pos_fruit[i].y) && input == 'e')
+        {
+            player->vida += 10;
+            pos_fruit[i].x = 500;
+            pos_fruit[i].y = MAP_HEIGHT;
+            trigger = 6;
+        }
+    }
+}
 void traps_damage(Entidade *player)
 {
     int i;
 
-    for (i = 0; i < 25; i++)
+    for (i = 0; i < flag_boss; i++)
     {
 
         if ((player->pos.x == pos_traps[i].x && player->pos.y == pos_traps[i].y))

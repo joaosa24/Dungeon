@@ -38,6 +38,7 @@ void gameLoop(void)
         }
         trigger = dica(player, ch);
         plus_damage(player, ch);
+        fruits_heal(player,ch);
         traps_damage(player);
         pickaxe(player, ch);
         drawAll();
@@ -66,6 +67,7 @@ void gameLoop(void)
         pos_lvl = level_entry(map);
         pos_damage = plus_damage_obj(map);
         pos_traps = traps(map);
+        pos_fruit=fruits(map);
         player->vida = vida_atual;
         player->damage = damage_atual;
         player->gold = gold_atual;

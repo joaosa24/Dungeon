@@ -8,6 +8,7 @@ int vida_atual_inimigo = 40;
 int trigger = 0;
 int damage_buff = 1;
 int has_pickaxe = 0;
+int flag_boss = 0;
 
 Entidade *player;
 Inimigo *inimigo;
@@ -17,6 +18,7 @@ Posicao pos_inicial_i;
 Posicao pos_lvl;
 Posicao *pos_damage;
 Posicao *pos_traps;
+Posicao *pos_fruit;
 WINDOW *win;
 
 int main(void)
@@ -128,6 +130,7 @@ int main(void)
         pos_lvl = level_entry(map);
         pos_damage = plus_damage_obj(map);
         pos_traps= traps(map);
+        pos_fruit=fruits(map);
 
         gameLoop();
         closeGame();
