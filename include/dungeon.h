@@ -50,6 +50,7 @@ void drawInimigo(Inimigo *inimigo);
 void drawLvlEntry(Posicao pos_lvl);
 int drawMenuMorte(int choice);
 void drawObjDamage(Posicao *pos_damage);
+void drawtraps(Posicao *pos_traps);
 
 // engine.c functions
 void cursesSetup(void);
@@ -62,8 +63,9 @@ void FreeMapa(Terreno **map);
 Posicao setupMap(Terreno **map);
 Posicao setupMapi(Terreno **map);
 Posicao level_entry(Terreno **map);
-int next_level(Entidade *player, int trigger);
+int next_level(Entidade *player, int input);
 Posicao* plus_damage_obj(Terreno **map);
+Posicao *traps(Terreno **map);
 
 // player.c functions
 Entidade *createPlayer(Posicao pos_inicial);
@@ -74,12 +76,13 @@ int distance_inimigo(Entidade *player, Inimigo *inimigo);
 void damage(Inimigo *inimigo, Entidade *player);
 int enemy_pos(Posicao newPos, Inimigo *inimigo);
 void moveInimigo(Inimigo *inimigo, Entidade *player, Terreno **map);
-void heal(Inimigo *inimigo, Entidade *player, int trigger);
+void heal(Inimigo *inimigo, Entidade *player, int input);
 void respawn(Inimigo *inimigo);
-void plus_damage(Entidade *player, int trigger);
-int dica(Entidade *player,int trigger);
+void plus_damage(Entidade *player, int input);
+int dica(Entidade *player,int input);
 int distancia_portal(Entidade *player, Posicao entrada);
 int pickaxe(Entidade *player, int ch);
+void traps_damage(Entidade *player);
 
 // variaveis externas
 extern int MAP_HEIGHT;
@@ -91,6 +94,7 @@ extern Posicao pos_inicial;
 extern Posicao pos_inicial_i;
 extern Posicao pos_lvl;
 extern Posicao *pos_damage;
+extern Posicao *pos_traps;
 extern int dungeon_level;
 extern int damage_buff;
 extern int vida_atual_inimigo;

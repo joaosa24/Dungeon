@@ -94,7 +94,7 @@ void drawHUD()
     attron(A_BOLD);
     mvprintw(MAP_HEIGHT + 2, 1, "Gold: ");
     attroff(A_BOLD);
-    attron(COLOR_PAIR(2) | A_BOLD); // a corlor_pair(7) que deveria ser dourado está amarelo ?? 
+    attron(COLOR_PAIR(2) | A_BOLD); // a corlor_pair(7) que deveria ser dourado está amarelo ??
     mvprintw(MAP_HEIGHT + 2, 9, "%d", player->gold);
     attroff(COLOR_PAIR(2) | A_BOLD);
 }
@@ -159,7 +159,7 @@ void drawLvlEntry(Posicao pos_lvl)
 
 void drawDica()
 {
-    if (trigger)
+    if (trigger == 1)
     {
         if (distancia_portal(player, pos_lvl))
         {
@@ -188,6 +188,46 @@ void drawObjDamage(Posicao *pos_damage)
             mvaddch(pos_damage[i].y, pos_damage[i].x, obj);
             attroff(COLOR_PAIR(2) | A_BOLD);
         }
+    }
+}
+
+void drawtraps(Posicao *pos_traps)
+{
+    char trap = '^';
+
+    for (int i = 0; i < 8; i++)
+    {
+        if (is_visible(player, pos_traps[i]))
+        {
+            attron(COLOR_PAIR(3) | A_BOLD);
+            mvaddch(pos_traps[i].y, pos_traps[i].x, trap);
+            attroff(COLOR_PAIR(3) | A_BOLD);
+        }
+    }
+}
+
+void drawEventMessage(int trigger)
+{
+    attron(COLOR_PAIR(6) | A_BOLD);
+    mvprintw(MAP_HEIGHT, 100, "RECENT EVENTS:");
+    attron(COLOR_PAIR(6) | A_BOLD);
+    if (trigger == 3)
+    {
+        attron(COLOR_PAIR(7) | A_BOLD);
+        mvprintw(MAP_HEIGHT + 1, 100, "YOU PICKED UP A RUSTY SWORD");
+        attron(COLOR_PAIR(7) | A_BOLD);
+    }
+    else if (trigger == 4)
+    {
+        attron(COLOR_PAIR(3) | A_BOLD);
+        mvprintw(MAP_HEIGHT + 1, 100, "SOMETHING STUNG YOU");
+        attron(COLOR_PAIR(3) | A_BOLD);
+    }
+    else if (trigger == 5)
+    {
+        attron(COLOR_PAIR(5) | A_BOLD);
+        mvprintw(MAP_HEIGHT + 1, 100, "YOU ADVENTURED DEEP INTO THE DUNGEON");
+        attron(COLOR_PAIR(5) | A_BOLD);
     }
 }
 
@@ -293,7 +333,9 @@ void drawAll(void)
     drawMapa();
     drawHUD();
     drawDica();
+    drawtraps(pos_traps);
     drawObjDamage(pos_damage);
+    drawEventMessage(trigger);
     drawLvlEntry(pos_lvl);
     drawInimigo(inimigo);
     drawEntidade(player);

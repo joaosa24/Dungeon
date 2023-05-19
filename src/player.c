@@ -22,7 +22,9 @@ Inimigo *createInimigo(Posicao pos_inicial_i)
     if (dungeon_level % 5 != 0)
     {
         newInimigo->ent.ch = 'b';
-    } else newInimigo->ent.ch = 'B';
+    }
+    else
+        newInimigo->ent.ch = 'B';
 
     newInimigo->ent.vida = vida_atual_inimigo;
     newInimigo->ent.damage = 5;
@@ -159,10 +161,10 @@ void damage(Inimigo *inimigo, Entidade *player)
     }
 }
 
-void heal(Inimigo *inimigo, Entidade *player, int trigger)
+void heal(Inimigo *inimigo, Entidade *player, int input)
 {
 
-    if ((inimigo->ent.vida <= 0) && (inimigo->ent.vida % 2 == 0) && (distance_inimigo(player, inimigo) == 0) && trigger == 'e')
+    if ((inimigo->ent.vida <= 0) && (inimigo->ent.vida % 2 == 0) && (distance_inimigo(player, inimigo) == 0) && input == 'e')
     {
         if (dungeon_level % 5 == 0)
         {
@@ -207,11 +209,11 @@ void respawn(Inimigo *inimigo)
     }
 }
 
-int dica(Entidade *player, int ch)
+int dica(Entidade *player, int input)
 {
     if (player->gold >= 80)
     {
-        if (ch == 'h')
+        if (input == 'h')
         {
             if (player->gold == 80)
             {
@@ -257,19 +259,35 @@ int distancia_portal(Entidade *player, Posicao entrada)
         return 0; // portal está à direita
 }
 
-void plus_damage(Entidade *player, int trigger)
+void plus_damage(Entidade *player, int input)
 {
     int i;
 
-    for (i = 0; i < N; i++)
+    for (i = 0; i < 5; i++)
     {
 
-        if ((player->pos.x == pos_damage[i].x && player->pos.y == pos_damage[i].y) && trigger == 'e')
+        if ((player->pos.x == pos_damage[i].x && player->pos.y == pos_damage[i].y) && input == 'e')
         {
             player->damage += 10;
             pos_damage[i].x = 400;
             pos_damage[i].y = MAP_HEIGHT;
             damage_buff++;
+            trigger = 3;
+        }
+    }
+}
+
+void traps_damage(Entidade *player)
+{
+    int i;
+
+    for (i = 0; i < 10; i++)
+    {
+
+        if ((player->pos.x == pos_traps[i].x && player->pos.y == pos_traps[i].y))
+        {
+            player->vida -= 10;
+            trigger = 4;
         }
     }
 }

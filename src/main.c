@@ -16,6 +16,7 @@ Posicao pos_inicial;
 Posicao pos_inicial_i;
 Posicao pos_lvl;
 Posicao *pos_damage;
+Posicao *pos_traps;
 WINDOW *win;
 
 int main(void)
@@ -126,6 +127,7 @@ int main(void)
         inimigo = createInimigo(pos_inicial_i);
         pos_lvl = level_entry(map);
         pos_damage = plus_damage_obj(map);
+        pos_traps= traps(map);
 
         gameLoop();
         closeGame();
