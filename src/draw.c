@@ -217,13 +217,13 @@ int drawMenuMorte(int choice)
 
     while (1)
     {
-        wattron(menu_win_morte, COLOR_PAIR(4) | A_BOLD);
+        wattron(menu_win_morte, COLOR_PAIR(3) | A_BOLD);
         mvwprintw(menu_win_morte, 10, 0, "    ##     ##  ########  ##    ##      #######    ##  ########  #######");
         mvwprintw(menu_win_morte, 11, 0, "     ##  ##   ##    ##  ##    ##      ##    ##   ##  ##        ##    ##");
         mvwprintw(menu_win_morte, 12, 0, "       ##    ##    ##  ##    ##      ##     ##  ##  #######   ##     ##");
         mvwprintw(menu_win_morte, 13, 0, "     ##     ##    ##  ##    ##      ##    ##   ##  ##        ##    ##");
         mvwprintw(menu_win_morte, 14, 0, "   ##      ########  ########      #######    ##  ########  #######");
-        wattroff(menu_win_morte, COLOR_PAIR(4) | A_BOLD);
+        wattroff(menu_win_morte, COLOR_PAIR(3) | A_BOLD);
 
         for (int i = 0; i < 2; i++)
         {

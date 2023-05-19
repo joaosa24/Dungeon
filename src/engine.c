@@ -89,6 +89,7 @@ void gameLoop(void)
         player = createPlayer(pos_inicial);
         inimigo = createInimigo(pos_inicial_i);
         pos_lvl = level_entry(map);
+        dungeon_level=1;
         pos_damage = plus_damage_obj(map);
 
         gameLoop();
