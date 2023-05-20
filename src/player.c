@@ -228,11 +228,11 @@ int dica(Entidade *player, int input)
     return 0;
 }
 
-int pickaxe(Entidade *player, int ch)
+int pickaxe(Entidade *player, int input)
 {
     if (player->gold >= 200)
     {
-        if (ch == 'p')
+        if (input == 'p')
         {
             has_pickaxe = 5;
             if (player->gold == 200)

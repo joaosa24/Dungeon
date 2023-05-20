@@ -85,7 +85,7 @@ void respawn(Inimigo *inimigo);
 void plus_damage(Entidade *player, int input);
 int dica(Entidade *player, int input);
 int distancia_portal(Entidade *player, Posicao entrada);
-int pickaxe(Entidade *player, int ch);
+int pickaxe(Entidade *player, int input);
 void traps_damage(Entidade *player);
 void fruits_heal(Entidade *player, int input);
 void treasure_loot(Entidade *player, int input);
