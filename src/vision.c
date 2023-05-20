@@ -2,7 +2,7 @@
 
 int vision_range(Entidade * player)
 {
-    if (player->vida >= 75)
+    if (player->vida >= 70)
     {
         return 8;
     }
@@ -10,8 +10,12 @@ int vision_range(Entidade * player)
     {
         return 6;
     }
-    else
+    else if (player->vida >= 20)
+    {
         return 4;
+    }
+    else return 2;
+    
 }
 
 int is_visible(Entidade *player, Posicao pos)
