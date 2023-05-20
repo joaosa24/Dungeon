@@ -37,11 +37,12 @@ void gameLoop(void)
             respawn(inimigo);
         }
         trigger = dica(player, ch);
-        treasure_loot(player,ch);
+        treasure_loot(player, ch);
         plus_damage(player, ch);
-        fruits_heal(player,ch);
+        fruits_heal(player, ch);
         traps_damage(player);
         pickaxe(player, ch);
+        mystery_loot(player, ch);
         drawAll();
     }
     if (next_level(player, ch) == 1)
@@ -61,15 +62,17 @@ void gameLoop(void)
         {
             inimigo = createInimigo(pos_inicial_i);
             inimigo->ent.vida = vida_atual_inimigo + 100;
-            inimigo->ent.damage += dungeon_level ;
+            inimigo->ent.damage += dungeon_level;
         }
-        else inimigo = createInimigo(pos_inicial_i);
+        else
+            inimigo = createInimigo(pos_inicial_i);
 
         pos_lvl = level_entry(map);
         pos_damage = plus_damage_obj(map);
         pos_traps = traps(map);
-        pos_fruit=fruits(map);
-        pos_treasure=treasure(map);
+        pos_fruit = fruits(map);
+        pos_treasure = treasure(map);
+        pos_mystery = mystery(map);
         player->vida = vida_atual;
         player->damage = damage_atual;
         player->gold = gold_atual;
@@ -95,8 +98,12 @@ void gameLoop(void)
         player = createPlayer(pos_inicial);
         inimigo = createInimigo(pos_inicial_i);
         pos_lvl = level_entry(map);
-        dungeon_level=1;
+        dungeon_level = 1;
         pos_damage = plus_damage_obj(map);
+        pos_traps = traps(map);
+        pos_fruit = fruits(map);
+        pos_treasure = treasure(map);
+        pos_mystery=mystery(map);
 
         gameLoop();
     }
@@ -108,5 +115,7 @@ void closeGame(void)
     free(player);
     free(inimigo);
     free(pos_damage);
+    free(pos_fruit);
+    free(pos_traps);
     FreeMapa(map);
 }

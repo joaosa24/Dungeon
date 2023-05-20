@@ -176,6 +176,17 @@ void drawDica()
     }
 }
 
+void drawDicaBoss()
+{
+    if ((dungeon_level % 5 == 0) && inimigo->ent.vida <= 0)
+    {
+        attron(COLOR_PAIR(7) | A_BOLD);
+        mvprintw(MAP_HEIGHT + 1, 50, "AS THE BOSS DROPS DEAD, A CHEST STARTS TO GLOW");
+        mvprintw(MAP_HEIGHT+2,65,"Location: %d, %d", pos_treasure.x,pos_treasure.y);
+        attron(COLOR_PAIR(7) | A_BOLD);
+    }
+}
+
 void drawObjDamage(Posicao *pos_damage)
 {
     char obj = '+';
@@ -220,6 +231,20 @@ void drawTreasure(Posicao pos_treasure)
         {
             attron(COLOR_PAIR(2) | A_BOLD);
             mvaddch(pos_treasure.y, pos_treasure.x, treasure);
+            attroff(COLOR_PAIR(2) | A_BOLD);
+        }
+    }
+}
+
+void drawMysteryBox(Posicao pos_mystery)
+{
+    char mystery = '?';
+    if (dungeon_level % 5 != 0)
+    {
+        if (is_visible(player, pos_mystery))
+        {
+            attron(COLOR_PAIR(2) | A_BOLD);
+            mvaddch(pos_mystery.y, pos_mystery.x, mystery);
             attroff(COLOR_PAIR(2) | A_BOLD);
         }
     }
@@ -274,6 +299,30 @@ void drawEventMessage(int trigger)
         attron(COLOR_PAIR(7) | A_BOLD);
         mvprintw(MAP_HEIGHT + 1, 100, "YOU DECIDED TO OPEN THE MOLDY CHEST THAT WAS GLOWING");
         attron(COLOR_PAIR(7) | A_BOLD);
+    }
+    else if (trigger == 8)
+    {
+        attron(COLOR_PAIR(7) | A_BOLD);
+        mvprintw(MAP_HEIGHT + 1, 100, "THERE'S A STRANGE BOX LYING IN THE FLOOR, DO YOU WANT TO OPEN IT? (press 'e' to open)");
+        attron(COLOR_PAIR(7) | A_BOLD);
+    }
+    else if (trigger == 9)
+    {
+        attron(COLOR_PAIR(7) | A_BOLD);
+        mvprintw(MAP_HEIGHT + 1, 100, "YOU PICKED UP A HOLY SWORD AND SOME ANCIENT COINS (+150 Gold / +20 Damage)");
+        attron(COLOR_PAIR(7) | A_BOLD);
+    }
+    else if (trigger == 10)
+    {
+        attron(COLOR_PAIR(3) | A_BOLD);
+        mvprintw(MAP_HEIGHT + 1, 100, "A BUNCH OF SPIDERS STUNG YOU AND STOLE SOME OF YOUR GOLD (-40 Gold / -20 Health)");
+        attron(COLOR_PAIR(3) | A_BOLD);
+    }
+    else if (trigger == 11)
+    {
+        attron(COLOR_PAIR(1) | A_BOLD);
+        mvprintw(MAP_HEIGHT + 1, 100, "YOU FOUND A ROTTEN AND SMELLY SHOE (NOW YOU STINK)");
+        attron(COLOR_PAIR(1) | A_BOLD);
     }
 }
 
@@ -379,10 +428,12 @@ void drawAll(void)
     drawMapa();
     drawHUD();
     drawDica();
+    drawDicaBoss();
     drawtraps(pos_traps);
     drawObjDamage(pos_damage);
     drawHealFruit(pos_fruit);
     drawTreasure(pos_treasure);
+    drawMysteryBox(pos_mystery);
     drawEventMessage(trigger);
     drawLvlEntry(pos_lvl);
     drawInimigo(inimigo);

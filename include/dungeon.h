@@ -44,6 +44,8 @@ int vision_range(Entidade *player);
 // draw.c functions
 void drawMapa(void);
 void drawEntidade(Entidade *entidade);
+void drawDicaBoss();
+void drawDica();
 void drawAll(void);
 void drawHUD();
 void drawInimigo(Inimigo *inimigo);
@@ -53,6 +55,7 @@ void drawObjDamage(Posicao *pos_damage);
 void drawtraps(Posicao *pos_traps);
 void drawHealFruit(Posicao *pos_fruit);
 void drawTreasure(Posicao pos_treasure);
+void drawMysteryBox(Posicao pos_mystery);
 
 // engine.c functions
 void cursesSetup(void);
@@ -70,6 +73,8 @@ Posicao *plus_damage_obj(Terreno **map);
 Posicao *traps(Terreno **map);
 Posicao *fruits(Terreno **map);
 Posicao treasure(Terreno **map);
+Posicao mystery(Terreno **map);
+int distance(Posicao pos1, Posicao pos2);
 
 // player.c functions
 Entidade *createPlayer(Posicao pos_inicial);
@@ -89,6 +94,7 @@ int pickaxe(Entidade *player, int input);
 void traps_damage(Entidade *player);
 void fruits_heal(Entidade *player, int input);
 void treasure_loot(Entidade *player, int input);
+void mystery_loot(Entidade *player, int input);
 
 // variaveis externas
 extern int MAP_HEIGHT;
@@ -103,6 +109,7 @@ extern Posicao *pos_damage;
 extern Posicao *pos_traps;
 extern Posicao *pos_fruit;
 extern Posicao pos_treasure;
+extern Posicao pos_mystery;
 extern int dungeon_level;
 extern int damage_buff;
 extern int vida_atual_inimigo;

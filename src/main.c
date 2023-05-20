@@ -20,6 +20,7 @@ Posicao *pos_damage;
 Posicao *pos_traps;
 Posicao *pos_fruit;
 Posicao pos_treasure;
+Posicao pos_mystery;
 WINDOW *win;
 
 int main(void)
@@ -133,6 +134,7 @@ int main(void)
         pos_traps = traps(map);
         pos_fruit = fruits(map);
         pos_treasure = treasure(map);
+        pos_mystery = mystery(map);
 
         gameLoop();
         closeGame();

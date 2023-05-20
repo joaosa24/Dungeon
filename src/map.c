@@ -257,7 +257,7 @@ Posicao *fruits(Terreno **map)
             pos_fruit[i].y = y;
             pos_fruit[i].x = x;
 
-        } while (map[y][x].walkable == false || (x == pos_inicial.x && y == pos_inicial.y) || (x == pos_inicial_i.x && y == pos_inicial_i.y) || (x == pos_lvl.x && y == pos_lvl.y) || ((x == (pos_fruit->x + 20) && (x == pos_fruit->x - 20) && (y == pos_fruit->y + 20) && (y == pos_fruit->y - 20))));
+        } while (map[y][x].walkable == false || (x == pos_inicial.x && y == pos_inicial.y) || (x == pos_inicial_i.x && y == pos_inicial_i.y) || (x == pos_lvl.x && y == pos_lvl.y) || ((x > (pos_fruit->x + 20) && (x > pos_fruit->x - 20) && (y > pos_fruit->y + 20) && (y > pos_fruit->y - 20))));
     }
     return pos_fruit;
 }
@@ -275,6 +275,29 @@ Posicao treasure(Terreno **map)
 
     } while (map[y][x].walkable == false || (x == pos_inicial.x && y == pos_inicial.y) || (x == pos_inicial_i.x && y == pos_inicial_i.y) || (x == pos_lvl.x && y == pos_lvl.y));
     return pos_treasure;
+}
+
+Posicao mystery(Terreno **map)
+{
+    Posicao pos_mystery;
+    int x, y;
+    do
+    {
+        x = rand() % MAP_WIDTH;
+        y = rand() % MAP_HEIGHT;
+        pos_mystery.y = y;
+        pos_mystery.x = x;
+
+    } while (map[y][x].walkable == false || (x == pos_inicial.x && y == pos_inicial.y) || (x == pos_inicial_i.x && y == pos_inicial_i.y) || (x == pos_lvl.x && y == pos_lvl.y));
+    return pos_mystery;
+}
+
+int distance(Posicao pos1, Posicao pos2)
+{
+    int dx = pos1.x-pos2.x;
+    int dy=pos1.y-pos2.y;
+    int distancia=sqrt(pow(dx,2)+pow(dy,2));
+    return distancia;
 }
 
 void FreeMapa(Terreno **map)

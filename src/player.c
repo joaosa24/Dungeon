@@ -330,3 +330,50 @@ void treasure_loot(Entidade *player, int input)
         trigger = 7;
     }
 }
+
+void mystery_loot(Entidade *player, int input)
+{
+    srand(time(NULL));
+    static int flag = 0; // uso a static int pois assim quando a função for chamada da proxima vez o valor vai ser mantido
+    int random = rand();
+    if (player->pos.x == pos_mystery.x && player->pos.y == pos_mystery.y)
+    {
+        if (input == 'e')
+            flag++;
+
+        if (flag == 1)
+        {
+            trigger = 8;
+        }
+        else if (flag == 2)
+        {
+            if (random % 3 == 0)
+            {
+                player->gold += 150;
+                player->damage += 20;
+                pos_mystery.x = 601;
+                pos_mystery.y = MAP_HEIGHT;
+                trigger = 9;
+            }
+            else if (random % 3 == 1)
+            {
+                player->vida -= 20;
+                if (player->gold - 40 <= 0)
+                {
+                    player->gold = 0;
+                }
+                else
+                    player->gold -= 40;
+                pos_mystery.x = 601;
+                pos_mystery.y = MAP_HEIGHT;
+                trigger = 10;
+            }
+            else
+            {
+                pos_mystery.x = 601;
+                pos_mystery.y = MAP_HEIGHT;
+                trigger = 11;
+            }
+        }
+    }
+}
