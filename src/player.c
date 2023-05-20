@@ -286,13 +286,24 @@ void fruits_heal(Entidade *player, int input)
 
         if ((player->pos.x == pos_fruit[i].x && player->pos.y == pos_fruit[i].y) && input == 'e')
         {
-            player->vida += 10;
-            pos_fruit[i].x = 500;
-            pos_fruit[i].y = MAP_HEIGHT;
-            trigger = 6;
+            if (player->vida + 10 > 150)
+            {
+                player->vida = 150;
+                pos_fruit[i].x = 500;
+                pos_fruit[i].y = MAP_HEIGHT;
+                trigger = 6;
+            }
+            else
+            {
+                player->vida += 10;
+                pos_fruit[i].x = 500;
+                pos_fruit[i].y = MAP_HEIGHT;
+                trigger = 6;
+            }
         }
     }
 }
+
 void traps_damage(Entidade *player)
 {
     int i;
