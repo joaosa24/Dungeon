@@ -273,13 +273,13 @@ void drawEventMessage(int trigger)
     if (trigger == 3)
     {
         attron(COLOR_PAIR(7) | A_BOLD);
-        mvprintw(MAP_HEIGHT + 1, 100, "YOU PICKED UP A RUSTY SWORD");
+        mvprintw(MAP_HEIGHT + 1, 100, "YOU PICKED UP A RUSTY SWORD (+10 Damage)");
         attron(COLOR_PAIR(7) | A_BOLD);
     }
     else if (trigger == 4)
     {
         attron(COLOR_PAIR(3) | A_BOLD);
-        mvprintw(MAP_HEIGHT + 1, 100, "SOMETHING STUNG YOU");
+        mvprintw(MAP_HEIGHT + 1, 100, "SOMETHING STUNG YOU (-10 Health)");
         attron(COLOR_PAIR(3) | A_BOLD);
     }
     else if (trigger == 5)
@@ -291,7 +291,7 @@ void drawEventMessage(int trigger)
     else if (trigger == 6)
     {
         attron(COLOR_PAIR(1) | A_BOLD);
-        mvprintw(MAP_HEIGHT + 1, 100, "THE PLAYER'S VITALITY IS RENEWED AS THE MYSTERIOUS FRUIT IS CONSUMED");
+        mvprintw(MAP_HEIGHT + 1, 100, "THE PLAYER'S VITALITY IS RENEWED AS THE MYSTERIOUS FRUIT IS CONSUMED (+10 Health)");
         attron(COLOR_PAIR(1) | A_BOLD);
     }
     else if (trigger == 7)
@@ -323,7 +323,13 @@ void drawEventMessage(int trigger)
         attron(COLOR_PAIR(1) | A_BOLD);
         mvprintw(MAP_HEIGHT + 1, 100, "YOU FOUND A ROTTEN AND SMELLY SHOE (NOW YOU STINK)");
         attron(COLOR_PAIR(1) | A_BOLD);
+    } else if (trigger == 12)
+    {
+        attron(COLOR_PAIR(1) | A_BOLD);
+        mvprintw(MAP_HEIGHT + 1, 100, "YOU SEARCH THE CORPSE AND FIND SOME POTIONS AND SOME COINS (+10 Health / +20 Gold");
+        attron(COLOR_PAIR(1) | A_BOLD);
     }
+    
 }
 
 int drawMenuMorte(int choice)

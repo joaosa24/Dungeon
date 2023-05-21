@@ -104,6 +104,7 @@ void gameLoop(void)
         pos_fruit = fruits(map);
         pos_treasure = treasure(map);
         pos_mystery=mystery(map);
+        inimigo->ent.ch= 'b';
 
         gameLoop();
     }

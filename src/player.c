@@ -163,7 +163,6 @@ void damage(Inimigo *inimigo, Entidade *player)
 
 void heal(Inimigo *inimigo, Entidade *player, int input)
 {
-
     if ((inimigo->ent.vida <= 0) && (inimigo->ent.vida % 2 == 0) && (distance_inimigo(player, inimigo) == 0) && input == 'e')
     {
         if (dungeon_level % 5 == 0)
@@ -186,12 +185,14 @@ void heal(Inimigo *inimigo, Entidade *player, int input)
             player->vida = 150;
             player->gold += 20;
             inimigo->ent.vida--;
+            trigger = 12;
         }
         else
         {
             player->vida += 25;
             player->gold += 20;
             inimigo->ent.vida--;
+            trigger = 12;
         }
     }
 }
@@ -374,6 +375,7 @@ void mystery_loot(Entidade *player, int input)
                 pos_mystery.y = MAP_HEIGHT;
                 trigger = 11;
             }
+            flag = 0;
         }
     }
 }
