@@ -176,13 +176,37 @@ void drawDica()
     }
 }
 
+void drawBossHealth()
+{
+    if (dungeon_level % 5 == 0 && inimigo->ent.vida > 0)
+    {
+        if (dungeon_level == 5)
+        {
+            attron(COLOR_PAIR(3) | A_BOLD);
+            mvprintw(MAP_HEIGHT + 1, 50, "Brutalus Health: %d", inimigo->ent.vida);
+            attroff(COLOR_PAIR(3) | A_BOLD);
+        }
+        else if (dungeon_level == 10)
+        {
+            attron(COLOR_PAIR(3) | A_BOLD);
+            mvprintw(MAP_HEIGHT + 1, 50, "Blackheart Health: %d", inimigo->ent.vida);
+            attroff(COLOR_PAIR(3) | A_BOLD);
+        }
+        else if (dungeon_level == 15)
+        {
+            attron(COLOR_PAIR(3) | A_BOLD);
+            mvprintw(MAP_HEIGHT + 1, 50, "Betrayer Health: %d", inimigo->ent.vida);
+            attroff(COLOR_PAIR(3) | A_BOLD);
+        }
+    }
+}
 void drawDicaBoss()
 {
     if ((dungeon_level % 5 == 0) && inimigo->ent.vida <= 0)
     {
         attron(COLOR_PAIR(7) | A_BOLD);
         mvprintw(MAP_HEIGHT + 1, 50, "AS THE BOSS DROPS DEAD, A CHEST STARTS TO GLOW");
-        mvprintw(MAP_HEIGHT+2,65,"Location: %d, %d", pos_treasure.x,pos_treasure.y);
+        mvprintw(MAP_HEIGHT + 2, 65, "Location: %d, %d", pos_treasure.x, pos_treasure.y);
         attron(COLOR_PAIR(7) | A_BOLD);
     }
 }
@@ -225,7 +249,7 @@ void drawtraps(Posicao *pos_traps)
 void drawTreasure(Posicao pos_treasure)
 {
     char treasure = '$';
-    if (dungeon_level % 5 == 0)
+    if (dungeon_level % 5 == 0 && inimigo->ent.vida <= 0)
     {
         if (is_visible(player, pos_treasure))
         {
@@ -323,13 +347,13 @@ void drawEventMessage(int trigger)
         attron(COLOR_PAIR(1) | A_BOLD);
         mvprintw(MAP_HEIGHT + 1, 100, "YOU FOUND A ROTTEN AND SMELLY SHOE (NOW YOU STINK)");
         attron(COLOR_PAIR(1) | A_BOLD);
-    } else if (trigger == 12)
+    }
+    else if (trigger == 12)
     {
         attron(COLOR_PAIR(1) | A_BOLD);
         mvprintw(MAP_HEIGHT + 1, 100, "YOU SEARCH THE CORPSE AND FIND SOME POTIONS AND SOME COINS (+10 Health / +20 Gold");
         attron(COLOR_PAIR(1) | A_BOLD);
     }
-    
 }
 
 int drawMenuMorte(int choice)
@@ -434,6 +458,7 @@ void drawAll(void)
     drawMapa();
     drawHUD();
     drawDica();
+    drawBossHealth();
     drawDicaBoss();
     drawtraps(pos_traps);
     drawObjDamage(pos_damage);

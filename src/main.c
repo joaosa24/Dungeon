@@ -9,6 +9,7 @@ int trigger = 0;
 int damage_buff = 1;
 int has_pickaxe = 0;
 int flag_boss = 0;
+int visao_teste=200;
 
 Entidade *player;
 Inimigo *inimigo;

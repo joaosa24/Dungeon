@@ -8,7 +8,7 @@ Entidade *createPlayer(Posicao pos_inicial)
     newPlayer->pos.x = pos_inicial.x;
     newPlayer->ch = '@';
     newPlayer->vida = 100;
-    newPlayer->damage = 10;
+    newPlayer->damage = 10000;
 
     return newPlayer;
 }
@@ -114,16 +114,90 @@ void moveInimigo(Inimigo *inimigo, Entidade *player, Terreno **map)
 {
     int difx = player->pos.x - inimigo->ent.pos.x;
     int dify = player->pos.y - inimigo->ent.pos.y;
+    int next_x = inimigo->ent.pos.x;
+    int next_y = inimigo->ent.pos.y;
 
     if (inimigo->ent.vida <= 0)
     {
         map[inimigo->ent.pos.y][inimigo->ent.pos.x].walkable = true;
         return;
     }
-    if (distance_inimigo(player, inimigo) < 350)
+
+    if (distance_inimigo(player, inimigo) < 350 && distance_inimigo(player, inimigo) >= 5)
     {
-        int next_x = inimigo->ent.pos.x;
-        int next_y = inimigo->ent.pos.y;
+
+        if (abs(difx) > abs(dify))
+        {
+            if (difx > 0)
+            {
+                if (next_x + 1 != player->pos.x && map[next_y][next_x + 1].walkable)
+                {
+                    next_x++;
+                }
+                else if (dify > 0 && next_y + 1 != player->pos.y && map[next_y + 1][next_x].walkable)
+                {
+                    next_y++;
+                }
+                else if (dify < 0 && next_y - 1 != player->pos.y && map[next_y - 1][next_x].walkable)
+                {
+                    next_y--;
+                }
+            }
+            else
+            {
+                if (next_x - 1 != player->pos.x && map[next_y][next_x - 1].walkable)
+                {
+                    next_x--;
+                }
+                else if (dify > 0 && next_y + 1 != player->pos.y && map[next_y + 1][next_x].walkable)
+                {
+                    next_y++;
+                }
+                else if (dify < 0 && next_y - 1 != player->pos.y && map[next_y - 1][next_x].walkable)
+                {
+                    next_y--;
+                }
+            }
+        }
+        else
+        {
+            if (dify > 0)
+            {
+                if (next_y + 1 != player->pos.y && map[next_y + 1][next_x].walkable)
+                {
+                    next_y++;
+                }
+                else if (difx > 0 && next_x + 1 != player->pos.x && map[next_y][next_x + 1].walkable)
+                {
+                    next_x++;
+                }
+                else if (difx < 0 && next_x - 1 != player->pos.x && map[next_y][next_x - 1].walkable)
+                {
+                    next_x--;
+                }
+            }
+            else
+            {
+                if (next_y - 1 != player->pos.y && map[next_y - 1][next_x].walkable)
+                {
+                    next_y--;
+                }
+                else if (difx > 0 && next_x + 1 != player->pos.x && map[next_y][next_x + 1].walkable)
+                {
+                    next_x++;
+                }
+                else if (difx < 0 && next_x - 1 != player->pos.x && map[next_y][next_x - 1].walkable)
+                {
+                    next_x--;
+                }
+            }
+        }
+
+        inimigo->ent.pos.x = next_x;
+        inimigo->ent.pos.y = next_y;
+    }
+    else if (distance_inimigo(player, inimigo) <= 5)
+    {
 
         if (abs(difx) > abs(dify))
         {
@@ -147,11 +221,10 @@ void moveInimigo(Inimigo *inimigo, Entidade *player, Terreno **map)
                 next_y--;
             }
         }
-
         inimigo->ent.pos.x = next_x;
         inimigo->ent.pos.y = next_y;
     }
-}
+}   
 
 void damage(Inimigo *inimigo, Entidade *player)
 {

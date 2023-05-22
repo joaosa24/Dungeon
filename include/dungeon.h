@@ -56,6 +56,7 @@ void drawtraps(Posicao *pos_traps);
 void drawHealFruit(Posicao *pos_fruit);
 void drawTreasure(Posicao pos_treasure);
 void drawMysteryBox(Posicao pos_mystery);
+void drawBossHealth();
 
 // engine.c functions
 void cursesSetup(void);
@@ -116,6 +117,7 @@ extern int vida_atual_inimigo;
 extern int trigger;
 extern int has_pickaxe;
 extern int flag_boss;
+extern int visao_teste;
 extern WINDOW *win;
 
 #endif
