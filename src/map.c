@@ -236,7 +236,7 @@ Posicao *traps(Terreno **map)
             pos_traps[i].y = y;
             pos_traps[i].x = x;
 
-        } while (map[y][x].walkable == false || !(distance(pos_traps[i],pos_inicial)) || !(distance(pos_traps[i],pos_inicial_i)) || !(distance(pos_traps[i],pos_lvl)) || ((x == (pos_traps->x + 1) && (x == pos_traps->x - 1) && (y == pos_traps->y + 1) && (y == pos_traps->y - 1))));
+        } while (map[y][x].walkable == false || !(distance(pos_traps[i], pos_inicial)) || !(distance(pos_traps[i], pos_inicial_i)) || !(distance(pos_traps[i], pos_lvl)) || ((x == (pos_traps->x + 1) && (x == pos_traps->x - 1) && (y == pos_traps->y + 1) && (y == pos_traps->y - 1))));
     }
     return pos_traps;
 }
@@ -257,7 +257,7 @@ Posicao *fruits(Terreno **map)
             pos_fruit[i].y = y;
             pos_fruit[i].x = x;
 
-        } while (map[y][x].walkable == false || !(distance(pos_fruit[i],pos_inicial)) || !(distance(pos_fruit[i],pos_inicial_i)) || !(distance(pos_fruit[i],pos_lvl)) || ((x > (pos_fruit->x + 20) && (x > pos_fruit->x - 20) && (y > pos_fruit->y + 20) && (y > pos_fruit->y - 20))));
+        } while (map[y][x].walkable == false || !(distance(pos_fruit[i], pos_inicial)) || !(distance(pos_fruit[i], pos_inicial_i)) || !(distance(pos_fruit[i], pos_lvl)) || ((x > (pos_fruit->x + 20) && (x > pos_fruit->x - 20) && (y > pos_fruit->y + 20) && (y > pos_fruit->y - 20))));
     }
     return pos_fruit;
 }
@@ -273,7 +273,7 @@ Posicao treasure(Terreno **map)
         pos_treasure.y = y;
         pos_treasure.x = x;
 
-    } while (map[y][x].walkable == false || !(distance(pos_treasure,pos_inicial)) || !(distance(pos_treasure,pos_inicial_i))|| !(distance(pos_treasure,pos_lvl)));
+    } while (map[y][x].walkable == false || !(distance(pos_treasure, pos_inicial)) || !(distance(pos_treasure, pos_inicial_i)) || !(distance(pos_treasure, pos_lvl)));
     return pos_treasure;
 }
 
@@ -288,15 +288,15 @@ Posicao mystery(Terreno **map)
         pos_mystery.y = y;
         pos_mystery.x = x;
 
-    } while (map[y][x].walkable == false || !(distance(pos_mystery,pos_inicial)) || !(distance(pos_mystery,pos_inicial_i)) || !(distance(pos_mystery,pos_lvl)));
+    } while (map[y][x].walkable == false || !(distance(pos_mystery, pos_inicial)) || !(distance(pos_mystery, pos_inicial_i)) || !(distance(pos_mystery, pos_lvl)));
     return pos_mystery;
 }
 
 int distance(Posicao pos1, Posicao pos2)
 {
-    int dx = pos1.x-pos2.x;
-    int dy=pos1.y-pos2.y;
-    int distancia=sqrt(pow(dx,2)+pow(dy,2));
+    int dx = pos1.x - pos2.x;
+    int dy = pos1.y - pos2.y;
+    int distancia = sqrt(pow(dx, 2) + pow(dy, 2));
     return distancia;
 }
 

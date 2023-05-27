@@ -9,6 +9,7 @@ Entidade *createPlayer(Posicao pos_inicial)
     newPlayer->ch = '@';
     newPlayer->vida = 100;
     newPlayer->damage = 10000;
+    newPlayer->gold = 2000;
 
     return newPlayer;
 }
@@ -308,7 +309,7 @@ int pickaxe(Entidade *player, int input)
     {
         if (input == 'p')
         {
-            has_pickaxe = 5;
+            has_pickaxe += 5;
             if (player->gold == 200)
             {
                 player->gold = 0;
