@@ -202,7 +202,7 @@ void drawBossHealth()
 }
 void drawDicaBoss()
 {
-    if ((dungeon_level % 5 == 0) && inimigo->ent.vida <= 0)
+    if ((dungeon_level % 5 == 0) && inimigo->ent.vida <= 0 && pos_treasure.x < 600) // pos_treasure.x < 600 pois quando apanhamos o loot, para remover o bau do mapa, atribuimos a coordenada x = 600
     {
         attron(COLOR_PAIR(7) | A_BOLD);
         mvprintw(MAP_HEIGHT + 1, 50, "AS THE BOSS DROPS DEAD, A CHEST STARTS TO GLOW");
