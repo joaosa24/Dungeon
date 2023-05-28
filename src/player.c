@@ -225,7 +225,7 @@ void moveInimigo(Inimigo *inimigo, Entidade *player, Terreno **map)
         inimigo->ent.pos.x = next_x;
         inimigo->ent.pos.y = next_y;
     }
-}   
+}
 
 void damage(Inimigo *inimigo, Entidade *player)
 {
@@ -259,14 +259,12 @@ void heal(Inimigo *inimigo, Entidade *player, int input)
             player->vida = 150;
             player->gold += 20;
             inimigo->ent.vida--;
-            trigger = 12;
         }
         else
         {
             player->vida += 25;
             player->gold += 20;
             inimigo->ent.vida--;
-            trigger = 12;
         }
     }
 }
@@ -422,7 +420,7 @@ void mystery_loot(Entidade *player, int input)
         }
         else if (flag == 2)
         {
-            if (random % 3 == 0)
+            if (random % 4 == 0)
             {
                 player->gold += 150;
                 player->damage += 20;
@@ -430,7 +428,7 @@ void mystery_loot(Entidade *player, int input)
                 pos_mystery.y = MAP_HEIGHT;
                 trigger = 9;
             }
-            else if (random % 3 == 1)
+            else if (random % 4 == 1)
             {
                 player->vida -= 20;
                 if (player->gold - 40 <= 0)
@@ -443,11 +441,18 @@ void mystery_loot(Entidade *player, int input)
                 pos_mystery.y = MAP_HEIGHT;
                 trigger = 10;
             }
+            else if (random % 4 == 2)
+            {
+                has_pickaxe += 5;
+                pos_mystery.x=601;
+                pos_mystery.y=MAP_HEIGHT;
+                trigger = 11;
+            }
             else
             {
                 pos_mystery.x = 601;
                 pos_mystery.y = MAP_HEIGHT;
-                trigger = 11;
+                trigger = 12;
             }
             flag = 0;
         }

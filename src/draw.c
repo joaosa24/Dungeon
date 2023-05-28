@@ -321,7 +321,7 @@ void drawEventMessage(int trigger)
     else if (trigger == 7)
     {
         attron(COLOR_PAIR(7) | A_BOLD);
-        mvprintw(MAP_HEIGHT + 1, 100, "YOU DECIDED TO OPEN THE MOLDY CHEST THAT WAS GLOWING");
+        mvprintw(MAP_HEIGHT + 1, 100, "YOU DECIDED TO OPEN THE MOLDY CHEST THAT WAS GLOWING (+250 Gold / +20 Damage)");
         attron(COLOR_PAIR(7) | A_BOLD);
     }
     else if (trigger == 8)
@@ -344,14 +344,15 @@ void drawEventMessage(int trigger)
     }
     else if (trigger == 11)
     {
-        attron(COLOR_PAIR(1) | A_BOLD);
-        mvprintw(MAP_HEIGHT + 1, 100, "YOU FOUND A ROTTEN AND SMELLY SHOE (NOW YOU STINK)");
-        attron(COLOR_PAIR(1) | A_BOLD);
+        attron(COLOR_PAIR(7) | A_BOLD);
+        mvprintw(MAP_HEIGHT + 1, 100, "YOU PICKED UP AN IRON PICKAXE");
+        attron(COLOR_PAIR(7) | A_BOLD);
     }
+
     else if (trigger == 12)
     {
         attron(COLOR_PAIR(1) | A_BOLD);
-        mvprintw(MAP_HEIGHT + 1, 100, "YOU SEARCH THE CORPSE AND FIND SOME POTIONS AND SOME COINS (+10 Health / +20 Gold");
+        mvprintw(MAP_HEIGHT + 1, 100, "YOU FOUND A ROTTEN AND SMELLY SHOE (NOW YOU STINK)");
         attron(COLOR_PAIR(1) | A_BOLD);
     }
 }
