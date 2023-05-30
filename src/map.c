@@ -1,6 +1,6 @@
 #include <dungeon.h>
 
-int WallCount(Terreno **map, int r, int col, int row)
+int WallCount(Terreno **map, int r, int col, int row,int MAP_HEIGHT, int MAP_WIDTH)
 {
     int x, y;
     int wall_count = 0;
@@ -21,7 +21,7 @@ int WallCount(Terreno **map, int r, int col, int row)
     return wall_count;
 }
 
-Terreno **mapborder(Terreno **map)
+Terreno **mapborder(Terreno **map,int MAP_HEIGHT, int MAP_WIDTH)
 {
     int x, y;
 
@@ -60,7 +60,7 @@ Terreno **mapborder(Terreno **map)
     return map;
 }
 
-Terreno **generate_map()
+Terreno **generate_map(int MAP_HEIGHT, int MAP_WIDTH)
 {
     int i, j;
     Terreno **map = calloc(MAP_HEIGHT, sizeof(Terreno *));
@@ -92,7 +92,7 @@ Terreno **generate_map()
         }
     }
 
-    mapborder(map);
+    mapborder(map,MAP_HEIGHT,MAP_WIDTH);
 
     int fst = 4, snd = 3;
 
@@ -102,7 +102,7 @@ Terreno **generate_map()
         {
             for (j = 0; j < MAP_WIDTH; j++)
             {
-                if (WallCount(map, 1, i, j) >= 5 || WallCount(map, 2, i, j) <= 2)
+                if (WallCount(map, 1, i, j,MAP_HEIGHT,MAP_WIDTH) >= 5 || WallCount(map, 2, i, j,MAP_HEIGHT,MAP_WIDTH) <= 2)
                 {
                     map[i][j].ch = '#';
                     map[i][j].walkable = false;
@@ -116,7 +116,7 @@ Terreno **generate_map()
         }
     }
 
-    mapborder(map);
+    mapborder(map,MAP_HEIGHT,MAP_WIDTH);
 
     for (int k = 0; k < snd; k++)
     {
@@ -125,7 +125,7 @@ Terreno **generate_map()
         {
             for (j = 0; j < MAP_WIDTH; j++)
             {
-                if (WallCount(map, 1, i, j) >= 5)
+                if (WallCount(map, 1, i, j,MAP_HEIGHT,MAP_WIDTH) >= 5)
                 {
                     map[i][j].ch = '#';
                     map[i][j].walkable = false;
@@ -139,12 +139,12 @@ Terreno **generate_map()
         }
     }
 
-    mapborder(map);
+    mapborder(map,MAP_HEIGHT,MAP_WIDTH);
 
     return map;
 }
 
-Posicao setupMap(Terreno **map)
+Posicao setupMap(Terreno **map,int MAP_HEIGHT, int MAP_WIDTH)
 {
     Posicao pos_inicial;
     int x, y;
@@ -154,11 +154,11 @@ Posicao setupMap(Terreno **map)
         y = rand() % MAP_HEIGHT;
         pos_inicial.x = x;
         pos_inicial.y = y;
-    } while (map[y][x].walkable == false || (WallCount(map, 3, y, x) != 0));
+    } while (map[y][x].walkable == false || (WallCount(map, 3, y, x,MAP_HEIGHT,MAP_WIDTH) != 0));
     return pos_inicial;
 }
 
-Posicao setupMapi(Terreno **map)
+Posicao setupMapi(Terreno **map,int MAP_HEIGHT, int MAP_WIDTH,Posicao pos_inicial)
 {
     Posicao pos_inicial_i;
     int x, y;
@@ -173,7 +173,7 @@ Posicao setupMapi(Terreno **map)
     return pos_inicial_i;
 }
 
-Posicao level_entry(Terreno **map)
+Posicao level_entry(Terreno **map,int MAP_HEIGHT,int MAP_WIDTH,Posicao pos_inicial,Posicao pos_inicial_i)
 {
     Posicao pos_lvl;
     int x, y;
@@ -188,7 +188,7 @@ Posicao level_entry(Terreno **map)
     return pos_lvl;
 }
 
-int next_level(Entidade *player, int input)
+int next_level(Entidade *player, int input,Posicao pos_lvl)
 {
     if (input == 'e' && ((player->pos.y == pos_lvl.y) && (player->pos.x == pos_lvl.x)))
     {
@@ -199,7 +199,8 @@ int next_level(Entidade *player, int input)
         return 0;
 }
 
-Posicao *plus_damage_obj(Terreno **map)
+
+Posicao *plus_damage_obj(Terreno **map,int MAP_HEIGHT,int MAP_WIDTH,Posicao pos_inicial,Posicao pos_inicial_i,Posicao pos_lvl)
 {
 
     Posicao *pos_damage = calloc(5, sizeof(Posicao));
@@ -220,7 +221,7 @@ Posicao *plus_damage_obj(Terreno **map)
     return pos_damage;
 }
 
-Posicao *traps(Terreno **map)
+Posicao *traps(Terreno **map,int MAP_HEIGHT,int MAP_WIDTH,Posicao pos_inicial,Posicao pos_inicial_i,Posicao pos_lvl)
 {
 
     Posicao *pos_traps = calloc(30, sizeof(Posicao));
@@ -241,7 +242,7 @@ Posicao *traps(Terreno **map)
     return pos_traps;
 }
 
-Posicao *fruits(Terreno **map)
+Posicao *fruits(Terreno **map,int MAP_HEIGHT,int MAP_WIDTH,Posicao pos_inicial,Posicao pos_inicial_i,Posicao pos_lvl)
 {
 
     Posicao *pos_fruit = calloc(3, sizeof(Posicao));
@@ -262,7 +263,7 @@ Posicao *fruits(Terreno **map)
     return pos_fruit;
 }
 
-Posicao treasure(Terreno **map)
+Posicao treasure(Terreno **map,int MAP_HEIGHT,int MAP_WIDTH,Posicao pos_inicial,Posicao pos_inicial_i,Posicao pos_lvl)
 {
     Posicao pos_treasure;
     int x, y;
@@ -277,7 +278,7 @@ Posicao treasure(Terreno **map)
     return pos_treasure;
 }
 
-Posicao mystery(Terreno **map)
+Posicao mystery(Terreno **map,int MAP_HEIGHT,int MAP_WIDTH,Posicao pos_inicial,Posicao pos_inicial_i,Posicao pos_lvl)
 {
     Posicao pos_mystery;
     int x, y;
@@ -300,7 +301,7 @@ int distance(Posicao pos1, Posicao pos2)
     return distancia;
 }
 
-void FreeMapa(Terreno **map)
+void FreeMapa(Terreno **map,int MAP_HEIGHT)
 {
     for (int i = 0; i < MAP_HEIGHT; i++)
     {

@@ -9,12 +9,13 @@ Entidade *createPlayer(Posicao pos_inicial)
     newPlayer->ch = '@';
     newPlayer->vida = 100;
     newPlayer->damage = 10000;
+    newPlayer->mana = 100;
     newPlayer->gold = 2000;
 
     return newPlayer;
 }
 
-Inimigo *createInimigo(Posicao pos_inicial_i)
+Inimigo *createInimigo(Posicao pos_inicial_i, int dungeon_level)
 {
     Inimigo *newInimigo = calloc(1, sizeof(Inimigo));
 
@@ -33,7 +34,7 @@ Inimigo *createInimigo(Posicao pos_inicial_i)
     return newInimigo;
 }
 
-void handleInput(int input)
+void handleInput(Entidade *player, Inimigo *inimigo, int input, int MAP_HEIGHT, int MAP_WIDTH, Terreno **map)
 {
     Posicao newPos = {player->pos.y, player->pos.x};
     switch (input)
@@ -66,11 +67,23 @@ void handleInput(int input)
         newPos.x++;
         newPos.y++;
         break;
+    case '8':
+        newPos.y--;
+        break;
+    case '2':
+        newPos.y++;
+        break;
+    case '4':
+        newPos.x--;
+        break;
+    case '6':
+        newPos.x++;
+        break;
     default:
         break;
     }
 
-    movePlayer(newPos, inimigo);
+    movePlayer(newPos, player, inimigo, MAP_HEIGHT, MAP_WIDTH, map);
 }
 
 int enemy_pos(Posicao newPos, Inimigo *inimigo)
@@ -81,7 +94,7 @@ int enemy_pos(Posicao newPos, Inimigo *inimigo)
     return 1;
 }
 
-void movePlayer(Posicao newPos, Inimigo *inimigo)
+void movePlayer(Posicao newPos, Entidade *player, Inimigo *inimigo, int MAP_HEIGHT, int MAP_WIDTH, Terreno **map)
 {
     if (map[newPos.y][newPos.x].walkable && enemy_pos(newPos, inimigo))
     {
@@ -235,7 +248,7 @@ void damage(Inimigo *inimigo, Entidade *player)
     }
 }
 
-void heal(Inimigo *inimigo, Entidade *player, int input)
+void heal(Inimigo *inimigo, Entidade *player, int input, int dungeon_level)
 {
     if ((inimigo->ent.vida <= 0) && (inimigo->ent.vida % 2 == 0) && (distance_inimigo(player, inimigo) == 0) && input == 'e')
     {
@@ -266,10 +279,11 @@ void heal(Inimigo *inimigo, Entidade *player, int input)
             player->gold += 20;
             inimigo->ent.vida--;
         }
+        trigger = 13;
     }
 }
 
-void respawn(Inimigo *inimigo)
+void respawn(Entidade *player, Inimigo *inimigo, int MAP_HEIGHT, int MAP_WIDTH, Terreno **map)
 {
     if (((inimigo->ent.vida <= 0) && distance_inimigo(player, inimigo) > 8))
     {
@@ -332,7 +346,7 @@ int distancia_portal(Entidade *player, Posicao entrada)
         return 0; // portal está à direita
 }
 
-void plus_damage(Entidade *player, int input)
+void plus_damage(Entidade *player, int input, int MAP_HEIGHT, Posicao *pos_damage)
 {
     int i;
 
@@ -350,7 +364,7 @@ void plus_damage(Entidade *player, int input)
     }
 }
 
-void fruits_heal(Entidade *player, int input)
+void fruits_heal(Entidade *player, int input, int MAP_HEIGHT, Posicao *pos_fruit)
 {
     int i;
 
@@ -377,7 +391,7 @@ void fruits_heal(Entidade *player, int input)
     }
 }
 
-void traps_damage(Entidade *player)
+void traps_damage(Entidade *player, Posicao *pos_traps)
 {
     int i;
 
@@ -392,7 +406,7 @@ void traps_damage(Entidade *player)
     }
 }
 
-void treasure_loot(Entidade *player, int input)
+void treasure_loot(Entidade *player, int input, int MAP_HEIGHT)
 {
     if ((player->pos.x == pos_treasure.x && player->pos.y == pos_treasure.y) && input == 'e')
     {
@@ -404,7 +418,7 @@ void treasure_loot(Entidade *player, int input)
     }
 }
 
-void mystery_loot(Entidade *player, int input)
+void mystery_loot(Entidade *player, int input, int MAP_HEIGHT)
 {
     srand(time(NULL));
     static int flag = 0; // uso a static int pois assim quando a função for chamada da proxima vez o valor vai ser mantido
@@ -424,8 +438,6 @@ void mystery_loot(Entidade *player, int input)
             {
                 player->gold += 150;
                 player->damage += 20;
-                pos_mystery.x = 601;
-                pos_mystery.y = MAP_HEIGHT;
                 trigger = 9;
             }
             else if (random % 4 == 1)
@@ -437,23 +449,19 @@ void mystery_loot(Entidade *player, int input)
                 }
                 else
                     player->gold -= 40;
-                pos_mystery.x = 601;
-                pos_mystery.y = MAP_HEIGHT;
                 trigger = 10;
             }
             else if (random % 4 == 2)
             {
                 has_pickaxe += 5;
-                pos_mystery.x=601;
-                pos_mystery.y=MAP_HEIGHT;
                 trigger = 11;
             }
             else
             {
-                pos_mystery.x = 601;
-                pos_mystery.y = MAP_HEIGHT;
                 trigger = 12;
             }
+            pos_mystery.x = 601;
+            pos_mystery.y = MAP_HEIGHT;
             flag = 0;
         }
     }

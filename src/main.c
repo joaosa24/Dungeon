@@ -1,34 +1,34 @@
 #include <stdio.h>
 #include <dungeon.h>
 
-int MAP_HEIGHT;
-int MAP_WIDTH;
-int dungeon_level = 1;
 int vida_atual_inimigo = 40;
 int trigger = 0;
-int damage_buff = 1;
 int has_pickaxe = 0;
 int flag_boss = 0;
-int visao_teste=200;
+int damage_buff = 1;
 
-Entidade *player;
-Inimigo *inimigo;
-Terreno **map;
-Posicao pos_inicial;
-Posicao pos_inicial_i;
-Posicao pos_lvl;
-Posicao *pos_damage;
-Posicao *pos_traps;
-Posicao *pos_fruit;
-Posicao pos_treasure;
 Posicao pos_mystery;
+Posicao pos_treasure;
 WINDOW *win;
 
 int main(void)
 {
+    int MAP_HEIGHT;
+    int MAP_WIDTH;
+    Terreno **map;
+    Entidade *player;
+    Inimigo *inimigo;
+    Posicao pos_inicial;
+    Posicao pos_inicial_i;
+    Posicao pos_lvl;
+    Posicao *pos_damage;
+    Posicao *pos_traps;
+    Posicao *pos_fruit;
+    int dungeon_level = 1;
+
     initscr();
     getmaxyx(stdscr, MAP_HEIGHT, MAP_WIDTH);
-    MAP_HEIGHT -= 3;
+    MAP_HEIGHT -= 4;
     noecho();
     cbreak();
     curs_set(0);
@@ -43,6 +43,7 @@ int main(void)
     init_pair(6, COLOR_BLACK, COLOR_WHITE);
     init_color(COLOR_MAGENTA, 700, 600, 0); // iniciamos a cor magenta com um rgb correspondente a dourado para a cor do gold.
     init_pair(7, COLOR_MAGENTA, COLOR_BLACK);
+    init_pair(8, COLOR_WHITE, COLOR_BLACK);
 
     WINDOW *menuwin;
     menuwin = newwin(40, 84, MAP_HEIGHT / 2 - 20, MAP_WIDTH / 2 - 46);
@@ -121,24 +122,24 @@ int main(void)
         clear();
         delwin(menuwin);
 
-        cursesSetup();
+        cursesSetup(MAP_HEIGHT, MAP_WIDTH);
 
         srand(time(NULL));
 
-        map = generate_map();
-        pos_inicial = setupMap(map);
-        pos_inicial_i = setupMapi(map);
+        map = generate_map(MAP_HEIGHT, MAP_WIDTH);
+        pos_inicial = setupMap(map, MAP_HEIGHT, MAP_WIDTH);
+        pos_inicial_i = setupMapi(map, MAP_HEIGHT, MAP_WIDTH, pos_inicial);
         player = createPlayer(pos_inicial);
-        inimigo = createInimigo(pos_inicial_i);
-        pos_lvl = level_entry(map);
-        pos_damage = plus_damage_obj(map);
-        pos_traps = traps(map);
-        pos_fruit = fruits(map);
-        pos_treasure = treasure(map);
-        pos_mystery = mystery(map);
+        inimigo = createInimigo(pos_inicial_i, dungeon_level);
+        pos_lvl = level_entry(map, MAP_HEIGHT, MAP_WIDTH, pos_inicial, pos_inicial_i);
+        pos_damage = plus_damage_obj(map, MAP_HEIGHT, MAP_WIDTH, pos_inicial, pos_inicial_i, pos_lvl);
+        pos_traps = traps(map, MAP_HEIGHT, MAP_WIDTH, pos_inicial, pos_inicial_i, pos_lvl);
+        pos_fruit = fruits(map, MAP_HEIGHT, MAP_WIDTH, pos_inicial, pos_inicial_i, pos_lvl);
+        pos_treasure = treasure(map, MAP_HEIGHT, MAP_WIDTH, pos_inicial, pos_inicial_i, pos_lvl);
+        pos_mystery = mystery(map, MAP_HEIGHT, MAP_WIDTH, pos_inicial, pos_inicial_i, pos_lvl);
 
-        gameLoop();
-        closeGame();
+        gameLoop(player, inimigo, MAP_HEIGHT, MAP_WIDTH, map, pos_inicial, pos_inicial_i, pos_lvl, pos_damage, pos_traps, pos_fruit, dungeon_level);
+        closeGame(player, inimigo, MAP_HEIGHT, map, pos_damage, pos_traps, pos_fruit);
     }
     else if (highlight == 1 || choice == 'q')
     {

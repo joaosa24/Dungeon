@@ -1,6 +1,6 @@
 #include <dungeon.h>
 
-void cursesSetup(void)
+void cursesSetup(int MAP_HEIGHT, int MAP_WIDTH)
 {
     initscr();
     noecho();
@@ -15,37 +15,37 @@ void cursesSetup(void)
     keypad(win, true);
 }
 
-void gameLoop(void)
+void gameLoop(Entidade *player, Inimigo *inimigo, int MAP_HEIGHT, int MAP_WIDTH, Terreno **map, Posicao pos_inicial, Posicao pos_inicial_i, Posicao pos_lvl, Posicao *pos_damage, Posicao *pos_traps,Posicao *pos_fruit,int dungeon_level)
 {
     int ch = -1; // inicializamos o inteiro com -1 (valor default) para não aparecer um warning "uninitialized" na chamada da função next_level;
     int menu;
 
-    drawAll();
+    drawAll(player, inimigo, MAP_HEIGHT, MAP_WIDTH, map, pos_lvl, pos_damage, pos_traps,pos_fruit,dungeon_level);
 
-    while (player->vida > 0 && (ch = getch()) && next_level(player, ch) != 1)
+    while (player->vida > 0 && (ch = getch()) && next_level(player, ch, pos_lvl) != 1)
     {
         if (ch == 'q')
         {
             break;
         }
-        handleInput(ch);
+        handleInput(player, inimigo, ch, MAP_HEIGHT, MAP_WIDTH, map);
         moveInimigo(inimigo, player, map);
         damage(inimigo, player);
-        heal(inimigo, player, ch);
+        trigger = dica(player, ch);
+        heal(inimigo, player, ch,dungeon_level);
         if (dungeon_level % 5 != 0)
         {
-            respawn(inimigo);
+            respawn(player, inimigo, MAP_HEIGHT, MAP_WIDTH, map);
         }
-        trigger = dica(player, ch);
-        treasure_loot(player, ch);
-        plus_damage(player, ch);
-        fruits_heal(player, ch);
-        traps_damage(player);
+        treasure_loot(player, ch, MAP_HEIGHT);
+        plus_damage(player, ch, MAP_HEIGHT, pos_damage);
+        fruits_heal(player, ch, MAP_HEIGHT,pos_fruit);
+        mystery_loot(player, ch, MAP_HEIGHT);
+        traps_damage(player,pos_traps);
         pickaxe(player, ch);
-        mystery_loot(player, ch);
-        drawAll();
+        drawAll(player, inimigo, MAP_HEIGHT, MAP_WIDTH, map, pos_lvl, pos_damage, pos_traps,pos_fruit,dungeon_level);
     }
-    if (next_level(player, ch) == 1)
+    if (next_level(player, ch, pos_lvl) == 1)
     {
         int vida_atual = player->vida;
         int gold_atual = player->gold;
@@ -53,36 +53,36 @@ void gameLoop(void)
         vida_atual_inimigo += 20;
         srand(time(NULL));
 
-        map = generate_map();
-        pos_inicial = setupMap(map);
-        pos_inicial_i = setupMapi(map);
+        map = generate_map(MAP_HEIGHT, MAP_WIDTH);
+        pos_inicial = setupMap(map, MAP_HEIGHT, MAP_WIDTH);
+        pos_inicial_i = setupMapi(map, MAP_HEIGHT, MAP_WIDTH, pos_inicial);
         player = createPlayer(pos_inicial);
         dungeon_level++;
         if (dungeon_level % 5 == 0)
         {
-            inimigo = createInimigo(pos_inicial_i);
+            inimigo = createInimigo(pos_inicial_i,dungeon_level);
             inimigo->ent.vida = vida_atual_inimigo + 100;
             inimigo->ent.damage += dungeon_level;
         }
         else
-            inimigo = createInimigo(pos_inicial_i);
+            inimigo = createInimigo(pos_inicial_i,dungeon_level);
 
-        pos_lvl = level_entry(map);
-        pos_damage = plus_damage_obj(map);
-        pos_traps = traps(map);
-        pos_fruit = fruits(map);
-        pos_treasure = treasure(map);
-        pos_mystery = mystery(map);
+        pos_lvl = level_entry(map, MAP_HEIGHT, MAP_WIDTH, pos_inicial, pos_inicial_i);
+        pos_damage = plus_damage_obj(map, MAP_HEIGHT, MAP_WIDTH, pos_inicial, pos_inicial_i, pos_lvl);
+        pos_traps = traps(map, MAP_HEIGHT, MAP_WIDTH, pos_inicial, pos_inicial_i, pos_lvl);
+        pos_fruit = fruits(map, MAP_HEIGHT, MAP_WIDTH, pos_inicial, pos_inicial_i, pos_lvl);
+        pos_treasure = treasure(map, MAP_HEIGHT, MAP_WIDTH, pos_inicial, pos_inicial_i, pos_lvl);
+        pos_mystery = mystery(map, MAP_HEIGHT, MAP_WIDTH, pos_inicial, pos_inicial_i, pos_lvl);
         player->vida = vida_atual;
         player->damage = damage_atual;
         player->gold = gold_atual;
-        gameLoop();
+        gameLoop(player, inimigo, MAP_HEIGHT, MAP_WIDTH, map, pos_inicial, pos_inicial_i, pos_lvl, pos_damage, pos_traps,pos_fruit,dungeon_level);
     }
 
     if (player->vida <= 0)
     {
 
-        menu = drawMenuMorte(ch);
+        menu = drawMenuMorte(ch, MAP_HEIGHT, MAP_WIDTH);
     }
     else
         menu = 0;
@@ -92,25 +92,25 @@ void gameLoop(void)
 
         srand(time(NULL));
 
-        map = generate_map();
-        pos_inicial = setupMap(map);
-        pos_inicial_i = setupMapi(map);
+        map = generate_map(MAP_HEIGHT, MAP_WIDTH);
+        pos_inicial = setupMap(map, MAP_HEIGHT, MAP_WIDTH);
+        pos_inicial_i = setupMapi(map, MAP_HEIGHT, MAP_WIDTH, pos_inicial);
         player = createPlayer(pos_inicial);
-        inimigo = createInimigo(pos_inicial_i);
-        pos_lvl = level_entry(map);
+        inimigo = createInimigo(pos_inicial_i,dungeon_level);
+        pos_lvl = level_entry(map, MAP_HEIGHT, MAP_WIDTH, pos_inicial, pos_inicial_i);
         dungeon_level = 1;
-        pos_damage = plus_damage_obj(map);
-        pos_traps = traps(map);
-        pos_fruit = fruits(map);
-        pos_treasure = treasure(map);
-        pos_mystery=mystery(map);
-        inimigo->ent.ch= 'b';
+        pos_damage = plus_damage_obj(map, MAP_HEIGHT, MAP_WIDTH, pos_inicial, pos_inicial_i, pos_lvl);
+        pos_traps = traps(map, MAP_HEIGHT, MAP_WIDTH, pos_inicial, pos_inicial_i, pos_lvl);
+        pos_fruit = fruits(map, MAP_HEIGHT, MAP_WIDTH, pos_inicial, pos_inicial_i, pos_lvl);
+        pos_treasure = treasure(map, MAP_HEIGHT, MAP_WIDTH, pos_inicial, pos_inicial_i, pos_lvl);
+        pos_mystery = mystery(map, MAP_HEIGHT, MAP_WIDTH, pos_inicial, pos_inicial_i, pos_lvl);
+        inimigo->ent.ch = 'b';
 
-        gameLoop();
+        gameLoop(player, inimigo, MAP_HEIGHT, MAP_WIDTH, map, pos_inicial, pos_inicial_i, pos_lvl, pos_damage, pos_traps,pos_fruit,dungeon_level);
     }
 }
 
-void closeGame(void)
+void closeGame(Entidade *player, Inimigo *inimigo, int MAP_HEIGHT, Terreno **map, Posicao *pos_damage, Posicao *pos_traps,Posicao *pos_fruit)
 {
     endwin();
     free(player);
@@ -118,5 +118,5 @@ void closeGame(void)
     free(pos_damage);
     free(pos_fruit);
     free(pos_traps);
-    FreeMapa(map);
+    FreeMapa(map, MAP_HEIGHT);
 }

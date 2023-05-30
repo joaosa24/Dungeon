@@ -28,6 +28,7 @@ typedef struct
     char ch;
     int vida;
     int damage;
+    int mana;
     int gold;
 } Entidade;
 
@@ -42,82 +43,69 @@ int is_enemy_visible(Entidade *player, Inimigo *inimigo);
 int vision_range(Entidade *player);
 
 // draw.c functions
-void drawMapa(void);
-void drawEntidade(Entidade *entidade);
-void drawDicaBoss();
-void drawDica();
-void drawAll(void);
-void drawHUD();
-void drawInimigo(Inimigo *inimigo);
-void drawLvlEntry(Posicao pos_lvl);
-int drawMenuMorte(int choice);
-void drawObjDamage(Posicao *pos_damage);
-void drawtraps(Posicao *pos_traps);
-void drawHealFruit(Posicao *pos_fruit);
-void drawTreasure(Posicao pos_treasure);
-void drawMysteryBox(Posicao pos_mystery);
-void drawBossHealth();
+void drawMapa(Entidade *player,int MAP_HEIGHT, int MAP_WIDTH,Terreno **map,int dungeon_level);
+void drawPlayer(Entidade *player);
+void drawDicaBoss(Inimigo *inimigo,int MAP_HEIGHT,int dungeon_level);
+void drawDica(Entidade *player,int MAP_HEIGHT,Posicao pos_lvl);
+void drawHUD(Entidade *player,int MAP_HEIGHT, int MAP_WIDTH,int dungeon_level);
+void drawInimigo(Entidade *player, Inimigo *inimigo,int MAP_HEIGHT, int MAP_WIDTH);
+void drawLvlEntry(Entidade *player, Posicao pos_lvl);
+int drawMenuMorte(int choice,int MAP_HEIGHT, int MAP_WIDTH);
+void drawObjDamage(Entidade *player, Posicao *pos_damage);
+void drawtraps(Entidade *player, Posicao *pos_traps,int dungeon_level);
+void drawHealFruit(Entidade *player, Posicao *pos_fruit);
+void drawTreasure(Entidade *player, Inimigo *inimigo,int dungeon_level);
+void drawMysteryBox(Entidade *player,int dungeon_level);
+void drawBossHealth(Inimigo *inimigo,int MAP_HEIGHT,int dungeon_level);
+void drawAll(Entidade *player, Inimigo *inimigo,int MAP_HEIGHT, int MAP_WIDTH,Terreno **map,Posicao pos_lvl,Posicao *pos_damage,Posicao *pos_traps,Posicao *pos_fruit,int dungeon_level);
 
 // engine.c functions
-void cursesSetup(void);
-void gameLoop(void);
-void closeGame(void);
+void cursesSetup(int MAP_HEIGHT, int MAP_WIDTH);
+void gameLoop(Entidade *player, Inimigo *inimigo,int MAP_HEIGHT, int MAP_WIDTH,Terreno **map,Posicao pos_inicial,Posicao pos_inicial_i,Posicao pos_lvl,Posicao *pos_damage,Posicao *pos_traps,Posicao *pos_fruit,int dungeon_level);
+void closeGame(Entidade *player, Inimigo *inimigo,int MAP_HEIGHT,Terreno **map,Posicao *pos_damage,Posicao *pos_traps,Posicao *pos_fruit);
 
 // map.c functions
-Terreno **generate_map(void);
-void FreeMapa(Terreno **map);
-Posicao setupMap(Terreno **map);
-Posicao setupMapi(Terreno **map);
-Posicao level_entry(Terreno **map);
-int next_level(Entidade *player, int input);
-Posicao *plus_damage_obj(Terreno **map);
-Posicao *traps(Terreno **map);
-Posicao *fruits(Terreno **map);
-Posicao treasure(Terreno **map);
-Posicao mystery(Terreno **map);
+Terreno **generate_map(int MAP_HEIGHT, int MAP_WIDTH);
+void FreeMapa(Terreno **map,int MAP_HEIGHT);
+Posicao setupMap(Terreno **map,int MAP_HEIGHT, int MAP_WIDTH);
+Posicao setupMapi(Terreno **map,int MAP_HEIGHT, int MAP_WIDTH,Posicao pos_inicial);
+Posicao level_entry(Terreno **map,int MAP_HEIGHT,int MAP_WIDTH,Posicao pos_inicial,Posicao pos_inicial_i);
+int next_level(Entidade *player, int input,Posicao pos_lvl);
+Posicao *plus_damage_obj(Terreno **map,int MAP_HEIGHT,int MAP_WIDTH,Posicao pos_inicial,Posicao pos_inicial_i,Posicao pos_lvl);
+Posicao *traps(Terreno **map,int MAP_HEIGHT,int MAP_WIDTH,Posicao pos_inicial,Posicao pos_inicial_i,Posicao pos_lvl);
+Posicao *fruits(Terreno **map,int MAP_HEIGHT,int MAP_WIDTH,Posicao pos_inicial,Posicao pos_inicial_i,Posicao pos_lvl);
+Posicao treasure(Terreno **map,int MAP_HEIGHT,int MAP_WIDTH,Posicao pos_inicial,Posicao pos_inicial_i,Posicao pos_lvl);
+Posicao mystery(Terreno **map,int MAP_HEIGHT,int MAP_WIDTH,Posicao pos_inicial,Posicao pos_inicial_i,Posicao pos_lvl);
 int distance(Posicao pos1, Posicao pos2);
 
 // player.c functions
 Entidade *createPlayer(Posicao pos_inicial);
-void handleInput(int input);
-void movePlayer(Posicao newPos, Inimigo *inimigo);
-Inimigo *createInimigo(Posicao pos_inicial);
+void handleInput(Entidade *player, Inimigo *inimigo, int input,int MAP_HEIGHT,int MAP_WIDTH,Terreno **map);
+void movePlayer(Posicao newPos, Entidade *player, Inimigo *inimigo,int MAP_HEIGHT,int MAP_WIDTH,Terreno **map);
+Inimigo *createInimigo(Posicao pos_inicial,int dungeon_level);
 int distance_inimigo(Entidade *player, Inimigo *inimigo);
 void damage(Inimigo *inimigo, Entidade *player);
 int enemy_pos(Posicao newPos, Inimigo *inimigo);
 void moveInimigo(Inimigo *inimigo, Entidade *player, Terreno **map);
-void heal(Inimigo *inimigo, Entidade *player, int input);
-void respawn(Inimigo *inimigo);
-void plus_damage(Entidade *player, int input);
+void heal(Inimigo *inimigo, Entidade *player, int input,int dungeon_level);
+void respawn(Entidade *player,Inimigo *inimigo,int MAP_HEIGHT,int MAP_WIDTH,Terreno **map);
+void plus_damage(Entidade *player, int input,int MAP_HEIGHT,Posicao *pos_damage);
 int dica(Entidade *player, int input);
 int distancia_portal(Entidade *player, Posicao entrada);
 int pickaxe(Entidade *player, int input);
-void traps_damage(Entidade *player);
-void fruits_heal(Entidade *player, int input);
-void treasure_loot(Entidade *player, int input);
-void mystery_loot(Entidade *player, int input);
+void traps_damage(Entidade *player,Posicao *pos_traps);
+void fruits_heal(Entidade *player, int input,int MAP_HEIGHT,Posicao *pos_fruit);
+void treasure_loot(Entidade *player, int input,int MAP_HEIGHT);
+void mystery_loot(Entidade *player, int input,int MAP_HEIGHT);
 
 // variaveis externas
-extern int MAP_HEIGHT;
-extern int MAP_WIDTH;
-extern Entidade *player;
-extern Terreno **map;
-extern Inimigo *inimigo;
-extern Posicao pos_inicial;
-extern Posicao pos_inicial_i;
-extern Posicao pos_lvl;
-extern Posicao *pos_damage;
-extern Posicao *pos_traps;
-extern Posicao *pos_fruit;
-extern Posicao pos_treasure;
 extern Posicao pos_mystery;
-extern int dungeon_level;
+extern Posicao pos_treasure; // ao remover de variavel global, não apagava pois não estava a receber um pointer!
 extern int damage_buff;
+extern int trigger; // nao consigo tirar trigger de variavel global pois tenho um warning quando apenas faço trigger = 5 na função
 extern int vida_atual_inimigo;
-extern int trigger;
 extern int has_pickaxe;
 extern int flag_boss;
-extern int visao_teste;
 extern WINDOW *win;
 
 #endif

@@ -1,6 +1,6 @@
 #include <dungeon.h>
 
-void drawMapa(void)
+void drawMapa(Entidade *player,int MAP_HEIGHT, int MAP_WIDTH,Terreno **map,int dungeon_level)
 {
     for (int i = 0; i < MAP_HEIGHT; i++)
     {
@@ -37,7 +37,7 @@ void drawMapa(void)
     }
 }
 
-void drawHUD()
+void drawHUD(Entidade *player,int MAP_HEIGHT, int MAP_WIDTH,int dungeon_level)
 {
     attron(A_BOLD);
     mvprintw(MAP_HEIGHT, 1, "Health: ");
@@ -85,43 +85,52 @@ void drawHUD()
     attron(COLOR_PAIR(6));
     mvprintw(MAP_HEIGHT + 2, MAP_WIDTH - 38, "Press 'p' to buy a PICKAXE (200 gold) ");
     attroff(COLOR_PAIR(6));
+    // desenha o parametro "damage"
     attron(A_BOLD);
     mvprintw(MAP_HEIGHT + 1, 1, "Damage: ");
     attroff(A_BOLD);
     attron(COLOR_PAIR(3) | A_BOLD);
     mvprintw(MAP_HEIGHT + 1, 9, "%d", player->damage);
     attroff(COLOR_PAIR(3) | A_BOLD);
+    // desenha o parametro "gold"
     attron(A_BOLD);
     mvprintw(MAP_HEIGHT + 2, 1, "Gold: ");
     attroff(A_BOLD);
-    attron(COLOR_PAIR(2) | A_BOLD); // a corlor_pair(7) que deveria ser dourado está amarelo ??
+    attron(COLOR_PAIR(7) | A_BOLD); // a corlor_pair(7) que deveria ser dourado está amarelo ??
     mvprintw(MAP_HEIGHT + 2, 9, "%d", player->gold);
-    attroff(COLOR_PAIR(2) | A_BOLD);
+    attroff(COLOR_PAIR(7) | A_BOLD);
+    // desenha o parametro mana
+    attron(A_BOLD);
+    mvprintw(MAP_HEIGHT + 3, 1, "Mana: ");
+    attroff(A_BOLD);
+    attron(COLOR_PAIR(4) | A_BOLD);
+    mvprintw(MAP_HEIGHT + 3, 9, "%d", player->mana);
+    attroff(COLOR_PAIR(4) | A_BOLD);
 }
 
-void drawEntidade(Entidade *entidade)
+void drawPlayer(Entidade *player)
 {
     if (player->vida >= 70)
     {
         attron(COLOR_PAIR(1) | A_BOLD);
-        mvaddch(entidade->pos.y, entidade->pos.x, entidade->ch);
+        mvaddch(player->pos.y, player->pos.x, player->ch);
         attroff(COLOR_PAIR(1) | A_BOLD);
     }
     else if (player->vida >= 35)
     {
         attron(COLOR_PAIR(2) | A_BOLD);
-        mvaddch(entidade->pos.y, entidade->pos.x, entidade->ch);
+        mvaddch(player->pos.y, player->pos.x, player->ch);
         attroff(COLOR_PAIR(2) | A_BOLD);
     }
     else
     {
         attron(COLOR_PAIR(3) | A_BOLD);
-        mvaddch(entidade->pos.y, entidade->pos.x, entidade->ch);
+        mvaddch(player->pos.y, player->pos.x, player->ch);
         attroff(COLOR_PAIR(3) | A_BOLD);
     }
 }
 
-void drawInimigo(Inimigo *inimigo)
+void drawInimigo(Entidade *player,Inimigo *inimigo,int MAP_HEIGHT, int MAP_WIDTH)
 {
     for (int i = 0; i < MAP_HEIGHT; i++)
     {
@@ -146,7 +155,7 @@ void drawInimigo(Inimigo *inimigo)
     }
 }
 
-void drawLvlEntry(Posicao pos_lvl)
+void drawLvlEntry(Entidade *player,Posicao pos_lvl)
 {
     char lvl = '>';
     if (is_visible(player, pos_lvl))
@@ -157,7 +166,7 @@ void drawLvlEntry(Posicao pos_lvl)
     }
 }
 
-void drawDica()
+void drawDica(Entidade *player,int MAP_HEIGHT,Posicao pos_lvl)
 {
     if (trigger == 1)
     {
@@ -176,7 +185,7 @@ void drawDica()
     }
 }
 
-void drawBossHealth()
+void drawBossHealth(Inimigo *inimigo,int MAP_HEIGHT,int dungeon_level)
 {
     if (dungeon_level % 5 == 0 && inimigo->ent.vida > 0)
     {
@@ -200,7 +209,7 @@ void drawBossHealth()
         }
     }
 }
-void drawDicaBoss()
+void drawDicaBoss(Inimigo *inimigo,int MAP_HEIGHT,int dungeon_level)
 {
     if ((dungeon_level % 5 == 0) && inimigo->ent.vida <= 0 && pos_treasure.x < 600) // pos_treasure.x < 600 pois quando apanhamos o loot, para remover o bau do mapa, atribuimos a coordenada x = 600
     {
@@ -211,7 +220,7 @@ void drawDicaBoss()
     }
 }
 
-void drawObjDamage(Posicao *pos_damage)
+void drawObjDamage(Entidade *player,Posicao *pos_damage)
 {
     char obj = '+';
 
@@ -226,7 +235,7 @@ void drawObjDamage(Posicao *pos_damage)
     }
 }
 
-void drawtraps(Posicao *pos_traps)
+void drawtraps(Entidade *player,Posicao *pos_traps,int dungeon_level)
 {
     char trap = '^';
     if (dungeon_level % 5 == 0)
@@ -246,7 +255,7 @@ void drawtraps(Posicao *pos_traps)
         }
     }
 }
-void drawTreasure(Posicao pos_treasure)
+void drawTreasure(Entidade *player,Inimigo *inimigo,int dungeon_level)
 {
     char treasure = '$';
     if (dungeon_level % 5 == 0 && inimigo->ent.vida <= 0)
@@ -260,7 +269,7 @@ void drawTreasure(Posicao pos_treasure)
     }
 }
 
-void drawMysteryBox(Posicao pos_mystery)
+void drawMysteryBox(Entidade *player,int dungeon_level)
 {
     char mystery = '?';
     if (dungeon_level % 5 != 0)
@@ -274,7 +283,7 @@ void drawMysteryBox(Posicao pos_mystery)
     }
 }
 
-void drawHealFruit(Posicao *pos_fruit)
+void drawHealFruit(Entidade *player,Posicao *pos_fruit)
 {
     char fruit = 'f';
 
@@ -289,7 +298,7 @@ void drawHealFruit(Posicao *pos_fruit)
     }
 }
 
-void drawEventMessage(int trigger)
+void drawEventMessage(int MAP_HEIGHT)
 {
     attron(COLOR_PAIR(6) | A_BOLD);
     mvprintw(MAP_HEIGHT, 100, "RECENT EVENTS:");
@@ -332,9 +341,9 @@ void drawEventMessage(int trigger)
     }
     else if (trigger == 9)
     {
-        attron(COLOR_PAIR(7) | A_BOLD);
+        attron(COLOR_PAIR(8) | A_BOLD);
         mvprintw(MAP_HEIGHT + 1, 100, "YOU PICKED UP A HOLY SWORD AND SOME ANCIENT COINS (+150 Gold / +20 Damage)");
-        attron(COLOR_PAIR(7) | A_BOLD);
+        attron(COLOR_PAIR(8) | A_BOLD);
     }
     else if (trigger == 10)
     {
@@ -348,16 +357,21 @@ void drawEventMessage(int trigger)
         mvprintw(MAP_HEIGHT + 1, 100, "YOU PICKED UP AN IRON PICKAXE");
         attron(COLOR_PAIR(7) | A_BOLD);
     }
-
     else if (trigger == 12)
     {
         attron(COLOR_PAIR(1) | A_BOLD);
         mvprintw(MAP_HEIGHT + 1, 100, "YOU FOUND A ROTTEN AND SMELLY SHOE (NOW YOU STINK)");
         attron(COLOR_PAIR(1) | A_BOLD);
     }
+    else if (trigger == 13)
+    {
+        attron(COLOR_PAIR(1) | A_BOLD);
+        mvprintw(MAP_HEIGHT + 1, 100, "YOU SEARCH THE CORPSE AND FIND SOME POTIONS AND SOME COINS (+10 Health / +20 Gold)");
+        attron(COLOR_PAIR(1) | A_BOLD);
+    }
 }
 
-int drawMenuMorte(int choice)
+int drawMenuMorte(int choice,int MAP_HEIGHT, int MAP_WIDTH)
 {
 
     WINDOW *win = NULL;
@@ -452,22 +466,22 @@ int drawMenuMorte(int choice)
     return 0;
 }
 
-void drawAll(void)
+void drawAll(Entidade *player,Inimigo *inimigo,int MAP_HEIGHT, int MAP_WIDTH,Terreno **map,Posicao pos_lvl,Posicao *pos_damage,Posicao *pos_traps,Posicao *pos_fruit,int dungeon_level)
 {
     clear();
     refresh();
-    drawMapa();
-    drawHUD();
-    drawDica();
-    drawBossHealth();
-    drawDicaBoss();
-    drawtraps(pos_traps);
-    drawObjDamage(pos_damage);
-    drawHealFruit(pos_fruit);
-    drawTreasure(pos_treasure);
-    drawMysteryBox(pos_mystery);
-    drawEventMessage(trigger);
-    drawLvlEntry(pos_lvl);
-    drawInimigo(inimigo);
-    drawEntidade(player);
+    drawMapa(player,MAP_HEIGHT,MAP_WIDTH,map,dungeon_level);
+    drawHUD(player,MAP_HEIGHT,MAP_WIDTH,dungeon_level);
+    drawDica(player,MAP_HEIGHT,pos_lvl);
+    drawBossHealth(inimigo,MAP_HEIGHT,dungeon_level);
+    drawDicaBoss(inimigo,MAP_HEIGHT,dungeon_level);
+    drawtraps(player,pos_traps,dungeon_level);
+    drawObjDamage(player,pos_damage);
+    drawHealFruit(player,pos_fruit);
+    drawTreasure(player,inimigo,dungeon_level);
+    drawMysteryBox(player,dungeon_level);
+    drawEventMessage(MAP_HEIGHT);
+    drawLvlEntry(player,pos_lvl);
+    drawInimigo(player,inimigo,MAP_HEIGHT,MAP_WIDTH);
+    drawPlayer(player);
 }
