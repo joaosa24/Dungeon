@@ -28,7 +28,6 @@ typedef struct
     char ch;
     int vida;
     int damage;
-    int mana;
     int gold;
 } Entidade;
 

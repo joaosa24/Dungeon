@@ -28,10 +28,10 @@ void gameLoop(Entidade *player, Inimigo *inimigo, int MAP_HEIGHT, int MAP_WIDTH,
         {
             break;
         }
+        trigger = dica(player, ch);
         handleInput(player, inimigo, ch, MAP_HEIGHT, MAP_WIDTH, map);
         moveInimigo(inimigo, player, map);
         damage(inimigo, player);
-        trigger = dica(player, ch);
         heal(inimigo, player, ch,dungeon_level);
         if (dungeon_level % 5 != 0)
         {

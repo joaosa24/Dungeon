@@ -8,9 +8,8 @@ Entidade *createPlayer(Posicao pos_inicial)
     newPlayer->pos.x = pos_inicial.x;
     newPlayer->ch = '@';
     newPlayer->vida = 100;
-    newPlayer->damage = 10000;
-    newPlayer->mana = 100;
-    newPlayer->gold = 2000;
+    newPlayer->damage = 10;
+    newPlayer->gold = 200;
 
     return newPlayer;
 }
@@ -104,6 +103,10 @@ void movePlayer(Posicao newPos, Entidade *player, Inimigo *inimigo, int MAP_HEIG
     else if (!(enemy_pos(newPos, inimigo)))
     {
         inimigo->ent.vida -= player->damage;
+    }
+    else if (((newPos.y == MAP_HEIGHT - 2) || (newPos.y == 1) || (newPos.x == MAP_WIDTH - 2) || (newPos.x == 1)) && has_pickaxe > 0) // caso em que o jogador tenta minerar o bound do mapa 
+    {
+        trigger = 14;
     }
     else if (!(map[newPos.y][newPos.x].walkable) && enemy_pos(newPos, inimigo) && has_pickaxe != 0 && ((newPos.y != MAP_HEIGHT - 2) && (newPos.y != 1) && (newPos.x != MAP_WIDTH - 2) && (newPos.x != 1)))
     {
@@ -267,7 +270,7 @@ void heal(Inimigo *inimigo, Entidade *player, int input, int dungeon_level)
                 inimigo->ent.vida--;
             }
         }
-        else if (player->vida + 25 > 150) // Repetimos o caso em cima para funcionar tanto nos bosses como nos minions
+        else if (player->vida + 25 > 150) // Repetimos o caso em cima para funcionar tanto nos bosses como nos minions (rewards sao piores)
         {
             player->vida = 150;
             player->gold += 20;
@@ -298,16 +301,16 @@ void respawn(Entidade *player, Inimigo *inimigo, int MAP_HEIGHT, int MAP_WIDTH, 
 
 int dica(Entidade *player, int input)
 {
-    if (player->gold >= 80)
+    if (player->gold >= 50)
     {
         if (input == 'h')
         {
-            if (player->gold == 80)
+            if (player->gold == 50)
             {
                 player->gold = 0;
             }
             else
-                player->gold -= 80;
+                player->gold -= 50;
             return 1;
         }
     }
@@ -317,17 +320,17 @@ int dica(Entidade *player, int input)
 
 int pickaxe(Entidade *player, int input)
 {
-    if (player->gold >= 200)
+    if (player->gold >= 150)
     {
         if (input == 'p')
         {
             has_pickaxe += 5;
-            if (player->gold == 200)
+            if (player->gold == 150)
             {
                 player->gold = 0;
             }
             else
-                player->gold -= 200;
+                player->gold -= 150;
             return 1;
         }
     }

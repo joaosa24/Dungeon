@@ -1,6 +1,6 @@
 #include <dungeon.h>
 
-int vision_range(Entidade * player)
+int vision_range(Entidade * player) // função responsável por determinar o "range" da visão do jogador, consoante a vida do mesmo
 {
     if (player->vida >= 70)
     {
@@ -18,7 +18,7 @@ int vision_range(Entidade * player)
     
 }
 
-int is_visible(Entidade *player, Posicao pos)
+int is_visible(Entidade *player, Posicao pos) // função que serve de parâmetro para desenho do mapa
 {
     int range = vision_range(player);
     int dx = abs(pos.x - player->pos.x);
@@ -32,7 +32,7 @@ int is_visible(Entidade *player, Posicao pos)
     return 0;
 }
 
-int is_enemy_visible(Entidade *player, Inimigo *inimigo)
+int is_enemy_visible(Entidade *player, Inimigo *inimigo) // função que serve de parâmetro para desenho do inimigo
 {
     int range = vision_range(player);
     int dx = abs(inimigo->ent.pos.x - player->pos.x);

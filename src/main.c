@@ -27,13 +27,13 @@ int main(void)
     int dungeon_level = 1;
 
     initscr();
-    getmaxyx(stdscr, MAP_HEIGHT, MAP_WIDTH);
-    MAP_HEIGHT -= 4;
+    getmaxyx(stdscr, MAP_HEIGHT, MAP_WIDTH); // usamos a função getmaxyx para obter as dimensões para cada terminal
+    MAP_HEIGHT -= 3; // subtraimos 3 para ter espaço para desenhar stats do player no fundo da tela
     noecho();
     cbreak();
     curs_set(0);
 
-    start_color();
+    start_color(); // usamos a função start_color para iniciar as cores que serão chamadas futuramente.
     init_color(COLOR_CYAN, 1000, 600, 0); // iniciamos a cor ciano para um rgb correspondente a laranja para a cor do inimigo.
     init_pair(1, COLOR_GREEN, COLOR_BLACK);
     init_pair(2, COLOR_YELLOW, COLOR_BLACK);
