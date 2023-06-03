@@ -8,7 +8,6 @@
 #include <math.h>
 #include <unistd.h>
 
-#define N 5
 
 typedef struct
 {
@@ -47,7 +46,7 @@ void drawPlayer(Entidade *player);
 void drawDicaBoss(Inimigo *inimigo,int MAP_HEIGHT,int dungeon_level);
 void drawDica(Entidade *player,int MAP_HEIGHT,Posicao pos_lvl);
 void drawHUD(Entidade *player,int MAP_HEIGHT, int MAP_WIDTH,int dungeon_level);
-void drawInimigo(Entidade *player, Inimigo *inimigo,int MAP_HEIGHT, int MAP_WIDTH);
+void drawInimigo(Entidade *player, Inimigo *inimigo);
 void drawLvlEntry(Entidade *player, Posicao pos_lvl);
 int drawMenuMorte(int choice,int MAP_HEIGHT, int MAP_WIDTH);
 void drawObjDamage(Entidade *player, Posicao *pos_damage);
@@ -94,7 +93,7 @@ int distancia_portal(Entidade *player, Posicao entrada);
 int pickaxe(Entidade *player, int input);
 void traps_damage(Entidade *player,Posicao *pos_traps);
 void fruits_heal(Entidade *player, int input,int MAP_HEIGHT,Posicao *pos_fruit);
-void treasure_loot(Entidade *player, int input,int MAP_HEIGHT);
+void treasure_loot(Entidade *player, int input);
 void mystery_loot(Entidade *player, int input,int MAP_HEIGHT);
 
 // variaveis externas

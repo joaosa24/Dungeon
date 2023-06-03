@@ -1,6 +1,6 @@
 #include <dungeon.h>
 
-void drawMapa(Entidade *player,int MAP_HEIGHT, int MAP_WIDTH,Terreno **map,int dungeon_level)
+void drawMapa(Entidade *player, int MAP_HEIGHT, int MAP_WIDTH, Terreno **map, int dungeon_level) // (manecas)
 {
     for (int i = 0; i < MAP_HEIGHT; i++)
     {
@@ -37,7 +37,7 @@ void drawMapa(Entidade *player,int MAP_HEIGHT, int MAP_WIDTH,Terreno **map,int d
     }
 }
 
-void drawHUD(Entidade *player,int MAP_HEIGHT, int MAP_WIDTH,int dungeon_level)
+void drawHUD(Entidade *player, int MAP_HEIGHT, int MAP_WIDTH, int dungeon_level) // (cisco)
 {
     attron(A_BOLD);
     mvprintw(MAP_HEIGHT, 1, "Health: ");
@@ -101,7 +101,7 @@ void drawHUD(Entidade *player,int MAP_HEIGHT, int MAP_WIDTH,int dungeon_level)
     attroff(COLOR_PAIR(7) | A_BOLD);
 }
 
-void drawPlayer(Entidade *player) // função que desenha o jogador
+void drawPlayer(Entidade *player) // função que desenha o jogador (cisco)
 {
     if (player->vida >= 70) // se o jogador estiver com 70 ou mais de vida, o caracter '@' estará a verde
     {
@@ -123,32 +123,26 @@ void drawPlayer(Entidade *player) // função que desenha o jogador
     }
 }
 
-void drawInimigo(Entidade *player,Inimigo *inimigo,int MAP_HEIGHT, int MAP_WIDTH) // função que desenha o inimigo
+void drawInimigo(Entidade *player, Inimigo *inimigo) // função que desenha o inimigo (cisco)
 {
-    for (int i = 0; i < MAP_HEIGHT; i++)
+    if (is_enemy_visible(player, inimigo) && inimigo->ent.vida > 0)
     {
-        for (int j = 0; j < MAP_WIDTH; j++)
+        attron(COLOR_PAIR(5) | A_BOLD);
+        mvaddch(inimigo->ent.pos.y, inimigo->ent.pos.x, inimigo->ent.ch);
+        attroff(COLOR_PAIR(5) | A_BOLD);
+    }
+    else
+    {
+        if (is_enemy_visible(player, inimigo)) // se a vida do inimigo for menor que 0 , i.e o inimigo está morto, a cor dele muda
         {
-            if (is_enemy_visible(player, inimigo) && inimigo->ent.vida > 0)
-            {
-                attron(COLOR_PAIR(5) | A_BOLD);
-                mvaddch(inimigo->ent.pos.y, inimigo->ent.pos.x, inimigo->ent.ch);
-                attroff(COLOR_PAIR(5) | A_BOLD);
-            }
-            else
-            {
-                if (is_enemy_visible(player, inimigo)) // se a vida do inimigo for menor que 0 , i.e o inimigo está morto, a cor dele muda
-                {
-                    attron(COLOR_PAIR(3) | A_BOLD);
-                    mvaddch(inimigo->ent.pos.y, inimigo->ent.pos.x, inimigo->ent.ch);
-                    attroff(COLOR_PAIR(3) | A_BOLD);
-                }
-            }
+            attron(COLOR_PAIR(3) | A_BOLD);
+            mvaddch(inimigo->ent.pos.y, inimigo->ent.pos.x, inimigo->ent.ch);
+            attroff(COLOR_PAIR(3) | A_BOLD);
         }
     }
 }
 
-void drawLvlEntry(Entidade *player,Posicao pos_lvl) // função que desenha a entrada para o proximo nivel
+void drawLvlEntry(Entidade *player, Posicao pos_lvl) // função que desenha a entrada para o proximo nivel (Sá)
 {
     char lvl = '>';
     if (is_visible(player, pos_lvl))
@@ -159,9 +153,9 @@ void drawLvlEntry(Entidade *player,Posicao pos_lvl) // função que desenha a en
     }
 }
 
-void drawDica(Entidade *player,int MAP_HEIGHT,Posicao pos_lvl) // função que vai desenhar uma dica sobre a posição da entrada para o proximo nivel
+void drawDica(Entidade *player, int MAP_HEIGHT, Posicao pos_lvl) // função que vai desenhar uma dica sobre a posição da entrada para o proximo nivel (Sá)
 {
-    if (trigger == 1) 
+    if (trigger == 1)
     {
         if (distancia_portal(player, pos_lvl)) // a função distancia_portal (player.c) retorna 1 se o portal estiver à esquerda e 0 se estiver à direita
         {
@@ -178,9 +172,9 @@ void drawDica(Entidade *player,int MAP_HEIGHT,Posicao pos_lvl) // função que v
     }
 }
 
-void drawBossHealth(Inimigo *inimigo,int MAP_HEIGHT,int dungeon_level) // função que desenha, ao lado das stats, a vida do boss e o nome (respetivamente)
+void drawBossHealth(Inimigo *inimigo, int MAP_HEIGHT, int dungeon_level) // função que desenha, ao lado das stats, a vida do boss e o nome (respetivamente) (Sá)
 {
-    if (dungeon_level % 5 == 0 && inimigo->ent.vida > 0) 
+    if (dungeon_level % 5 == 0 && inimigo->ent.vida > 0)
     {
         if (dungeon_level == 5)
         {
@@ -202,18 +196,18 @@ void drawBossHealth(Inimigo *inimigo,int MAP_HEIGHT,int dungeon_level) // funç�
         }
     }
 }
-void drawDicaBoss(Inimigo *inimigo,int MAP_HEIGHT,int dungeon_level) // apos o boss morrer, é spawnado um bau 
+void drawDicaBoss(Inimigo *inimigo, int MAP_HEIGHT, int dungeon_level) // apos o boss morrer, é spawnado um bau (Gon)
 {
     if ((dungeon_level % 5 == 0) && inimigo->ent.vida <= 0 && pos_treasure.x < 600) // pos_treasure.x < 600 pois quando apanhamos o loot, para remover o bau do mapa, atribuimos a coordenada x = 600
     {
         attron(COLOR_PAIR(7) | A_BOLD);
         mvprintw(MAP_HEIGHT + 1, 50, "AS THE BOSS DROPS DEAD, A CHEST STARTS TO GLOW");
         mvprintw(MAP_HEIGHT + 2, 65, "Location: %d, %d", pos_treasure.x, pos_treasure.y);
-        attron(COLOR_PAIR(7) | A_BOLD);
+        attroff(COLOR_PAIR(7) | A_BOLD);
     }
 }
 
-void drawObjDamage(Entidade *player,Posicao *pos_damage) // função que desenha os objetos responsáveis por adicionar damage
+void drawObjDamage(Entidade *player, Posicao *pos_damage) // função que desenha os objetos responsáveis por adicionar damage (Manecas)
 {
     char obj = '+';
 
@@ -228,9 +222,9 @@ void drawObjDamage(Entidade *player,Posicao *pos_damage) // função que desenha
     }
 }
 
-void drawtraps(Entidade *player,Posicao *pos_traps,int dungeon_level) // função que desenha traps
+void drawtraps(Entidade *player, Posicao *pos_traps, int dungeon_level) // função que desenha traps (Sá)
 {
-    char trap = '^'; 
+    char trap = '^';
     if (dungeon_level % 5 == 0)
     {
         flag_boss = 50; // no andar do boss existem mais traps (+20)
@@ -248,10 +242,10 @@ void drawtraps(Entidade *player,Posicao *pos_traps,int dungeon_level) // funçã
         }
     }
 }
-void drawTreasure(Entidade *player,Inimigo *inimigo,int dungeon_level) // função que desenha o tesouro 
+void drawTreasure(Entidade *player, Inimigo *inimigo, int dungeon_level) // função que desenha o tesouro (Sá)
 {
     char treasure = '$';
-    if (dungeon_level % 5 == 0 && inimigo->ent.vida <= 0) // apenas desenha no nível dos bosses e quando o boss morre 
+    if (dungeon_level % 5 == 0 && inimigo->ent.vida <= 0) // apenas desenha no nível dos bosses e quando o boss morre
     {
         if (is_visible(player, pos_treasure))
         {
@@ -262,7 +256,7 @@ void drawTreasure(Entidade *player,Inimigo *inimigo,int dungeon_level) // funç�
     }
 }
 
-void drawMysteryBox(Entidade *player,int dungeon_level) // função que desenha uma caixa mistério
+void drawMysteryBox(Entidade *player, int dungeon_level) // função que desenha uma caixa mistério (Sá)
 {
     char mystery = '?';
     if (dungeon_level % 5 != 0) // apenas desenha nos níveis aonde existe boss
@@ -276,11 +270,11 @@ void drawMysteryBox(Entidade *player,int dungeon_level) // função que desenha 
     }
 }
 
-void drawHealFruit(Entidade *player,Posicao *pos_fruit) // função que desenha frutas responsáveis por dar vida ao jogador
+void drawHealFruit(Entidade *player, Posicao *pos_fruit) // função que desenha frutas responsáveis por dar vida ao jogador (Sá)
 {
     char fruit = 'f';
 
-    for (int i = 0; i < 3; i++) // desenha apenas 3 
+    for (int i = 0; i < 3; i++) // desenha apenas 3
     {
         if (is_visible(player, pos_fruit[i]))
         {
@@ -365,13 +359,12 @@ void drawEventMessage(int MAP_HEIGHT) // função que desenha mensagens por cada
     else if (trigger == 14)
     {
         attron(COLOR_PAIR(4) | A_BOLD);
-        mvprintw(MAP_HEIGHT+1,100,"THE DUNGEON IS PROTECTED BY SOME WEIRD RUNES YOU CAN'T BREAK");
+        mvprintw(MAP_HEIGHT + 1, 100, "THE DUNGEON IS PROTECTED BY SOME WEIRD RUNES THAT YOU CAN'T BREAK");
         attroff(COLOR_PAIR(4) | A_BOLD);
     }
-    
 }
 
-int drawMenuMorte(int choice,int MAP_HEIGHT, int MAP_WIDTH)
+int drawMenuMorte(int choice, int MAP_HEIGHT, int MAP_WIDTH) // (gon)
 {
 
     WINDOW *win = NULL;
@@ -466,22 +459,22 @@ int drawMenuMorte(int choice,int MAP_HEIGHT, int MAP_WIDTH)
     return 0;
 }
 
-void drawAll(Entidade *player,Inimigo *inimigo,int MAP_HEIGHT, int MAP_WIDTH,Terreno **map,Posicao pos_lvl,Posicao *pos_damage,Posicao *pos_traps,Posicao *pos_fruit,int dungeon_level) // função responsável por desenhar todos os componentes
+void drawAll(Entidade *player, Inimigo *inimigo, int MAP_HEIGHT, int MAP_WIDTH, Terreno **map, Posicao pos_lvl, Posicao *pos_damage, Posicao *pos_traps, Posicao *pos_fruit, int dungeon_level) // função responsável por desenhar todos os componentes
 {
     clear();
     refresh();
-    drawMapa(player,MAP_HEIGHT,MAP_WIDTH,map,dungeon_level);
-    drawHUD(player,MAP_HEIGHT,MAP_WIDTH,dungeon_level);
-    drawDica(player,MAP_HEIGHT,pos_lvl);
-    drawBossHealth(inimigo,MAP_HEIGHT,dungeon_level);
-    drawDicaBoss(inimigo,MAP_HEIGHT,dungeon_level);
-    drawtraps(player,pos_traps,dungeon_level);
-    drawObjDamage(player,pos_damage);
-    drawHealFruit(player,pos_fruit);
-    drawTreasure(player,inimigo,dungeon_level);
-    drawMysteryBox(player,dungeon_level);
+    drawMapa(player, MAP_HEIGHT, MAP_WIDTH, map, dungeon_level);
+    drawHUD(player, MAP_HEIGHT, MAP_WIDTH, dungeon_level);
+    drawDica(player, MAP_HEIGHT, pos_lvl);
+    drawBossHealth(inimigo, MAP_HEIGHT, dungeon_level);
+    drawDicaBoss(inimigo, MAP_HEIGHT, dungeon_level);
+    drawtraps(player, pos_traps, dungeon_level);
+    drawObjDamage(player, pos_damage);
+    drawHealFruit(player, pos_fruit);
+    drawTreasure(player, inimigo, dungeon_level);
+    drawMysteryBox(player, dungeon_level);
     drawEventMessage(MAP_HEIGHT);
-    drawLvlEntry(player,pos_lvl);
-    drawInimigo(player,inimigo,MAP_HEIGHT,MAP_WIDTH);
+    drawLvlEntry(player, pos_lvl);
+    drawInimigo(player, inimigo);
     drawPlayer(player);
 }

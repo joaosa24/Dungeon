@@ -1,6 +1,6 @@
 #include <dungeon.h>
 
-Entidade *createPlayer(Posicao pos_inicial)
+Entidade *createPlayer(Posicao pos_inicial) // cisco
 {
     Entidade *newPlayer = calloc(1, sizeof(Entidade));
 
@@ -14,7 +14,7 @@ Entidade *createPlayer(Posicao pos_inicial)
     return newPlayer;
 }
 
-Inimigo *createInimigo(Posicao pos_inicial_i, int dungeon_level)
+Inimigo *createInimigo(Posicao pos_inicial_i, int dungeon_level) // cisco
 {
     Inimigo *newInimigo = calloc(1, sizeof(Inimigo));
 
@@ -28,12 +28,12 @@ Inimigo *createInimigo(Posicao pos_inicial_i, int dungeon_level)
         newInimigo->ent.ch = 'B';
 
     newInimigo->ent.vida = vida_atual_inimigo;
-    newInimigo->ent.damage = 5;
+    newInimigo->ent.damage = 15;
 
     return newInimigo;
 }
 
-void handleInput(Entidade *player, Inimigo *inimigo, int input, int MAP_HEIGHT, int MAP_WIDTH, Terreno **map)
+void handleInput(Entidade *player, Inimigo *inimigo, int input, int MAP_HEIGHT, int MAP_WIDTH, Terreno **map) // Sá
 {
     Posicao newPos = {player->pos.y, player->pos.x};
     switch (input)
@@ -85,7 +85,7 @@ void handleInput(Entidade *player, Inimigo *inimigo, int input, int MAP_HEIGHT, 
     movePlayer(newPos, player, inimigo, MAP_HEIGHT, MAP_WIDTH, map);
 }
 
-int enemy_pos(Posicao newPos, Inimigo *inimigo)
+int enemy_pos(Posicao newPos, Inimigo *inimigo) //Sá
 {
     if ((newPos.y == inimigo->ent.pos.y) && (newPos.x == inimigo->ent.pos.x) && (inimigo->ent.vida > 0))
         return 0;
@@ -93,7 +93,7 @@ int enemy_pos(Posicao newPos, Inimigo *inimigo)
     return 1;
 }
 
-void movePlayer(Posicao newPos, Entidade *player, Inimigo *inimigo, int MAP_HEIGHT, int MAP_WIDTH, Terreno **map)
+void movePlayer(Posicao newPos, Entidade *player, Inimigo *inimigo, int MAP_HEIGHT, int MAP_WIDTH, Terreno **map) // Sá
 {
     if (map[newPos.y][newPos.x].walkable && enemy_pos(newPos, inimigo))
     {
@@ -116,7 +116,7 @@ void movePlayer(Posicao newPos, Entidade *player, Inimigo *inimigo, int MAP_HEIG
     }
 }
 
-int distance_inimigo(Entidade *player, Inimigo *inimigo)
+int distance_inimigo(Entidade *player, Inimigo *inimigo) // manecas
 {
     int x = player->pos.x;
     int y = player->pos.y;
@@ -127,7 +127,7 @@ int distance_inimigo(Entidade *player, Inimigo *inimigo)
     return distancia;
 }
 
-void moveInimigo(Inimigo *inimigo, Entidade *player, Terreno **map)
+void moveInimigo(Inimigo *inimigo, Entidade *player, Terreno **map) // manecas
 {
     int difx = player->pos.x - inimigo->ent.pos.x;
     int dify = player->pos.y - inimigo->ent.pos.y;
@@ -243,7 +243,7 @@ void moveInimigo(Inimigo *inimigo, Entidade *player, Terreno **map)
     }
 }
 
-void damage(Inimigo *inimigo, Entidade *player)
+void damage(Inimigo *inimigo, Entidade *player) // Gon
 {
     if ((inimigo->ent.vida > 0) && (distance_inimigo(player, inimigo) == 1))
     {
@@ -251,7 +251,7 @@ void damage(Inimigo *inimigo, Entidade *player)
     }
 }
 
-void heal(Inimigo *inimigo, Entidade *player, int input, int dungeon_level)
+void heal(Inimigo *inimigo, Entidade *player, int input, int dungeon_level) // Gon
 {
     if ((inimigo->ent.vida <= 0) && (inimigo->ent.vida % 2 == 0) && (distance_inimigo(player, inimigo) == 0) && input == 'e')
     {
@@ -286,20 +286,20 @@ void heal(Inimigo *inimigo, Entidade *player, int input, int dungeon_level)
     }
 }
 
-void respawn(Entidade *player, Inimigo *inimigo, int MAP_HEIGHT, int MAP_WIDTH, Terreno **map)
+void respawn(Entidade *player, Inimigo *inimigo, int MAP_HEIGHT, int MAP_WIDTH, Terreno **map) // Gon
 {
-    if (((inimigo->ent.vida <= 0) && distance_inimigo(player, inimigo) > 8))
+    if (((inimigo->ent.vida <= 0) && distance_inimigo(player, inimigo) > 6))
     {
         do
         {
             inimigo->ent.vida = vida_atual_inimigo;
             inimigo->ent.pos.x = rand() % MAP_WIDTH;
             inimigo->ent.pos.y = rand() % MAP_HEIGHT;
-        } while (map[inimigo->ent.pos.y][inimigo->ent.pos.x].walkable == false || (distance_inimigo(player, inimigo) < 8));
+        } while (map[inimigo->ent.pos.y][inimigo->ent.pos.x].walkable == false || (distance_inimigo(player, inimigo) < 6));
     }
 }
 
-int dica(Entidade *player, int input)
+int dica(Entidade *player, int input) // cisco
 {
     if (player->gold >= 50)
     {
@@ -314,11 +314,10 @@ int dica(Entidade *player, int input)
             return 1;
         }
     }
-    // Retorno padrão caso nenhuma das condições seja atendida
     return 0;
 }
 
-int pickaxe(Entidade *player, int input)
+int pickaxe(Entidade *player, int input) // cisco
 {
     if (player->gold >= 150)
     {
@@ -338,7 +337,7 @@ int pickaxe(Entidade *player, int input)
     return 0;
 }
 
-int distancia_portal(Entidade *player, Posicao entrada)
+int distancia_portal(Entidade *player, Posicao entrada) // Sá
 {
     int dx = player->pos.x - entrada.x;
     if (dx > 0) // porta está à esquerda
@@ -349,7 +348,7 @@ int distancia_portal(Entidade *player, Posicao entrada)
         return 0; // portal está à direita
 }
 
-void plus_damage(Entidade *player, int input, int MAP_HEIGHT, Posicao *pos_damage)
+void plus_damage(Entidade *player, int input, int MAP_HEIGHT, Posicao *pos_damage) // manecas
 {
     int i;
 
@@ -367,7 +366,7 @@ void plus_damage(Entidade *player, int input, int MAP_HEIGHT, Posicao *pos_damag
     }
 }
 
-void fruits_heal(Entidade *player, int input, int MAP_HEIGHT, Posicao *pos_fruit)
+void fruits_heal(Entidade *player, int input, int MAP_HEIGHT, Posicao *pos_fruit) // sá
 {
     int i;
 
@@ -394,7 +393,7 @@ void fruits_heal(Entidade *player, int input, int MAP_HEIGHT, Posicao *pos_fruit
     }
 }
 
-void traps_damage(Entidade *player, Posicao *pos_traps)
+void traps_damage(Entidade *player, Posicao *pos_traps) // sá
 {
     int i;
 
@@ -409,19 +408,18 @@ void traps_damage(Entidade *player, Posicao *pos_traps)
     }
 }
 
-void treasure_loot(Entidade *player, int input, int MAP_HEIGHT)
+void treasure_loot(Entidade *player, int input) // Sá
 {
     if ((player->pos.x == pos_treasure.x && player->pos.y == pos_treasure.y) && input == 'e')
     {
         player->gold += 250;
         player->damage += 20;
         pos_treasure.x = 600;
-        pos_treasure.y = MAP_HEIGHT;
         trigger = 7;
     }
 }
 
-void mystery_loot(Entidade *player, int input, int MAP_HEIGHT)
+void mystery_loot(Entidade *player, int input, int MAP_HEIGHT) // Sá
 {
     srand(time(NULL));
     static int flag = 0; // uso a static int pois assim quando a função for chamada da proxima vez o valor vai ser mantido

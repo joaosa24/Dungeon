@@ -1,6 +1,6 @@
 #include <dungeon.h>
 
-void cursesSetup(int MAP_HEIGHT, int MAP_WIDTH)
+void cursesSetup(int MAP_HEIGHT, int MAP_WIDTH) // inicializa a biblioteca ncurses
 {
     initscr();
     noecho();
@@ -15,7 +15,7 @@ void cursesSetup(int MAP_HEIGHT, int MAP_WIDTH)
     keypad(win, true);
 }
 
-void gameLoop(Entidade *player, Inimigo *inimigo, int MAP_HEIGHT, int MAP_WIDTH, Terreno **map, Posicao pos_inicial, Posicao pos_inicial_i, Posicao pos_lvl, Posicao *pos_damage, Posicao *pos_traps,Posicao *pos_fruit,int dungeon_level)
+void gameLoop(Entidade *player, Inimigo *inimigo, int MAP_HEIGHT, int MAP_WIDTH, Terreno **map, Posicao pos_inicial, Posicao pos_inicial_i, Posicao pos_lvl, Posicao *pos_damage, Posicao *pos_traps,Posicao *pos_fruit,int dungeon_level) // (manecas e sá)
 {
     int ch = -1; // inicializamos o inteiro com -1 (valor default) para não aparecer um warning "uninitialized" na chamada da função next_level;
     int menu;
@@ -37,7 +37,7 @@ void gameLoop(Entidade *player, Inimigo *inimigo, int MAP_HEIGHT, int MAP_WIDTH,
         {
             respawn(player, inimigo, MAP_HEIGHT, MAP_WIDTH, map);
         }
-        treasure_loot(player, ch, MAP_HEIGHT);
+        treasure_loot(player, ch);
         plus_damage(player, ch, MAP_HEIGHT, pos_damage);
         fruits_heal(player, ch, MAP_HEIGHT,pos_fruit);
         mystery_loot(player, ch, MAP_HEIGHT);
@@ -50,7 +50,7 @@ void gameLoop(Entidade *player, Inimigo *inimigo, int MAP_HEIGHT, int MAP_WIDTH,
         int vida_atual = player->vida;
         int gold_atual = player->gold;
         int damage_atual = player->damage;
-        vida_atual_inimigo += 20;
+        vida_atual_inimigo += 40;
         srand(time(NULL));
 
         map = generate_map(MAP_HEIGHT, MAP_WIDTH);
@@ -61,7 +61,7 @@ void gameLoop(Entidade *player, Inimigo *inimigo, int MAP_HEIGHT, int MAP_WIDTH,
         if (dungeon_level % 5 == 0)
         {
             inimigo = createInimigo(pos_inicial_i,dungeon_level);
-            inimigo->ent.vida = vida_atual_inimigo + 100;
+            inimigo->ent.vida = vida_atual_inimigo + 180;
             inimigo->ent.damage += dungeon_level;
         }
         else
@@ -96,6 +96,7 @@ void gameLoop(Entidade *player, Inimigo *inimigo, int MAP_HEIGHT, int MAP_WIDTH,
         pos_inicial = setupMap(map, MAP_HEIGHT, MAP_WIDTH);
         pos_inicial_i = setupMapi(map, MAP_HEIGHT, MAP_WIDTH, pos_inicial);
         player = createPlayer(pos_inicial);
+        vida_atual_inimigo=40;
         inimigo = createInimigo(pos_inicial_i,dungeon_level);
         pos_lvl = level_entry(map, MAP_HEIGHT, MAP_WIDTH, pos_inicial, pos_inicial_i);
         dungeon_level = 1;
@@ -110,7 +111,7 @@ void gameLoop(Entidade *player, Inimigo *inimigo, int MAP_HEIGHT, int MAP_WIDTH,
     }
 }
 
-void closeGame(Entidade *player, Inimigo *inimigo, int MAP_HEIGHT, Terreno **map, Posicao *pos_damage, Posicao *pos_traps,Posicao *pos_fruit)
+void closeGame(Entidade *player, Inimigo *inimigo, int MAP_HEIGHT, Terreno **map, Posicao *pos_damage, Posicao *pos_traps,Posicao *pos_fruit) // manecas
 {
     endwin();
     free(player);
