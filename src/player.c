@@ -339,13 +339,41 @@ int pickaxe(Entidade *player, int input) // cisco
 
 int distancia_portal(Entidade *player, Posicao entrada) // Sá
 {
-    int dx = player->pos.x - entrada.x;
-    if (dx > 0) // porta está à esquerda
+    int dx = entrada.x - player->pos.x;
+    int dy = player->pos.y - entrada.y;
+    if (dx > 0 && dx > 0)
+    {
+        return 0;
+    }
+    else if (dx < 0 && dy < 0)
     {
         return 1;
     }
-    else
-        return 0; // portal está à direita
+    else if (dx > 0 && dy < 0)
+    {
+        return 2;
+    }
+    else if (dx < 0 && dy == 0)
+    {
+        return 3;
+    }
+    else if (dx > 0 && dy == 0)
+    {
+        return 4;
+    }
+    else if (dx == 0 && dy < 0)
+    {
+        return 5;
+    }
+    else if (dx == 0 && dy > 0)
+    {
+        return 6;
+    }
+    else if (dx < 0 && dy > 0)
+    {
+        return 7;
+    }
+    else return 8;
 }
 
 void plus_damage(Entidade *player, int input, int MAP_HEIGHT, Posicao *pos_damage) // manecas

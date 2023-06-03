@@ -153,20 +153,56 @@ void drawLvlEntry(Entidade *player, Posicao pos_lvl) // função que desenha a e
     }
 }
 
-void drawDica(Entidade *player, int MAP_HEIGHT, Posicao pos_lvl) // função que vai desenhar uma dica sobre a posição da entrada para o proximo nivel (Sá)
+void drawDica(Entidade *player,int MAP_HEIGHT,Posicao pos_lvl)
 {
     if (trigger == 1)
     {
-        if (distancia_portal(player, pos_lvl)) // a função distancia_portal (player.c) retorna 1 se o portal estiver à esquerda e 0 se estiver à direita
+        if (distancia_portal(player, pos_lvl) == 0)
+        {
+            attron(COLOR_PAIR(7) | A_BOLD);
+            mvprintw(MAP_HEIGHT + 1, 100, "THE GATE IS IN THE NORTHEAST");
+            attroff(COLOR_PAIR(7) | A_BOLD);
+        }
+        else if (distancia_portal(player, pos_lvl) == 1)
+        {
+            attron(COLOR_PAIR(7) | A_BOLD);
+            mvprintw(MAP_HEIGHT + 1, 100, "THE GATE IS IN THE SOUTHWEST");
+            attron(COLOR_PAIR(7) | A_BOLD);
+        }
+        else if (distancia_portal(player, pos_lvl) == 2)
+        {
+            attron(COLOR_PAIR(7) | A_BOLD);
+            mvprintw(MAP_HEIGHT + 1, 100, "THE GATE IS IN THE SOUTHEAST");
+            attron(COLOR_PAIR(7) | A_BOLD);
+        }
+        else if (distancia_portal(player, pos_lvl) == 3)
         {
             attron(COLOR_PAIR(7) | A_BOLD);
             mvprintw(MAP_HEIGHT + 1, 100, "THE GATE IS IN THE WEST");
-            attroff(COLOR_PAIR(7) | A_BOLD);
+            attron(COLOR_PAIR(7) | A_BOLD);
         }
-        else
+        else if (distancia_portal(player, pos_lvl) == 4)
         {
             attron(COLOR_PAIR(7) | A_BOLD);
             mvprintw(MAP_HEIGHT + 1, 100, "THE GATE IS IN THE EAST");
+            attron(COLOR_PAIR(7) | A_BOLD);
+        }
+        else if (distancia_portal(player, pos_lvl) == 5)
+        {
+            attron(COLOR_PAIR(7) | A_BOLD);
+            mvprintw(MAP_HEIGHT + 1, 100, "THE GATE IS IN THE NORTH");
+            attron(COLOR_PAIR(7) | A_BOLD);
+        }
+        else if (distancia_portal(player, pos_lvl) == 6)
+        {
+            attron(COLOR_PAIR(7) | A_BOLD);
+            mvprintw(MAP_HEIGHT + 1, 100, "THE GATE IS IN THE SOUTH");
+            attron(COLOR_PAIR(7) | A_BOLD);
+        }
+        else if (distancia_portal(player, pos_lvl) == 7)
+        {
+            attron(COLOR_PAIR(7) | A_BOLD);
+            mvprintw(MAP_HEIGHT + 1, 100, "THE GATE IS IN THE NORTHWEST");
             attron(COLOR_PAIR(7) | A_BOLD);
         }
     }
