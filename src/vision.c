@@ -4,17 +4,17 @@ int vision_range(Entidade * player) // função responsável por determinar o "r
 {
     if (player->vida >= 70)
     {
-        return 6;
+        return 7;
     }
     else if (player->vida >= 35)
     {
-        return 4;
+        return 5;
     }
     else if (player->vida >= 20)
     {
-        return 2;
+        return 3;
     }
-    else return 1;
+    else return 2;
     
 }
 

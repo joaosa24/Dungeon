@@ -295,7 +295,7 @@ void respawn(Entidade *player, Inimigo *inimigo, int MAP_HEIGHT, int MAP_WIDTH, 
             inimigo->ent.vida = vida_atual_inimigo;
             inimigo->ent.pos.x = rand() % MAP_WIDTH;
             inimigo->ent.pos.y = rand() % MAP_HEIGHT;
-        } while (map[inimigo->ent.pos.y][inimigo->ent.pos.x].walkable == false || (distance_inimigo(player, inimigo) < 6));
+        } while (map[inimigo->ent.pos.y][inimigo->ent.pos.x].walkable == false || (distance_inimigo(player, inimigo) < 7));
     }
 }
 

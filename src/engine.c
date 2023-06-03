@@ -22,12 +22,8 @@ void gameLoop(Entidade *player, Inimigo *inimigo, int MAP_HEIGHT, int MAP_WIDTH,
 
     drawAll(player, inimigo, MAP_HEIGHT, MAP_WIDTH, map, pos_lvl, pos_damage, pos_traps, pos_fruit, dungeon_level);
 
-    while (player->vida > 0 && (ch = getch()) && next_level(player, ch, pos_lvl) != 1)
+    while (player->vida > 0 && (ch = getch()) && (ch != 'q') && next_level(player, ch, pos_lvl) != 1)
     {
-        if (ch == 'q')
-        {
-            break;
-        }
         trigger = dica(player, ch);
         handleInput(player, inimigo, ch, MAP_HEIGHT, MAP_WIDTH, map);
         moveInimigo(inimigo, player, map);
