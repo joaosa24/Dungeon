@@ -79,7 +79,7 @@ Terreno **generate_map(int MAP_HEIGHT, int MAP_WIDTH)
     {
         for (j = 2; j < MAP_WIDTH - 2; j++)
         {
-            if (rand() % 100 < 45)
+            if (rand() % 100 < 46)
             {
                 map[i][j].ch = '#';
                 map[i][j].walkable = false;
@@ -92,15 +92,13 @@ Terreno **generate_map(int MAP_HEIGHT, int MAP_WIDTH)
         }
     }
 
-    mapborder(map, MAP_HEIGHT, MAP_WIDTH);
-
     int fst = 4, snd = 3;
 
     for (int k = 0; k < fst; k++)
     {
-        for (i = 0; i < MAP_HEIGHT; i++)
+        for (i = 1; i < MAP_HEIGHT - 1; i++)
         {
-            for (j = 0; j < MAP_WIDTH; j++)
+            for (j = 1; j < MAP_WIDTH - 1; j++)
             {
                 if (WallCount(map, 1, i, j, MAP_HEIGHT, MAP_WIDTH) >= 5 || WallCount(map, 2, i, j, MAP_HEIGHT, MAP_WIDTH) <= 2)
                 {
@@ -116,14 +114,12 @@ Terreno **generate_map(int MAP_HEIGHT, int MAP_WIDTH)
         }
     }
 
-    mapborder(map, MAP_HEIGHT, MAP_WIDTH);
-
     for (int k = 0; k < snd; k++)
     {
 
-        for (i = 0; i < MAP_HEIGHT; i++)
+        for (i = 1; i < MAP_HEIGHT - 1; i++)
         {
-            for (j = 0; j < MAP_WIDTH; j++)
+            for (j = 1; j < MAP_WIDTH - 1; j++)
             {
                 if (WallCount(map, 1, i, j, MAP_HEIGHT, MAP_WIDTH) >= 5)
                 {
@@ -173,7 +169,7 @@ Posicao setupMapi(Terreno **map, int MAP_HEIGHT, int MAP_WIDTH, Posicao pos_inic
     return pos_inicial_i;
 }
 
-Posicao level_entry(Terreno **map, int MAP_HEIGHT, int MAP_WIDTH, Posicao pos_inicial, Posicao pos_inicial_i) //Sá
+Posicao level_entry(Terreno **map, int MAP_HEIGHT, int MAP_WIDTH, Posicao pos_inicial, Posicao pos_inicial_i) // Sá
 {
     Posicao pos_lvl;
     int x, y;

@@ -341,7 +341,7 @@ int distancia_portal(Entidade *player, Posicao entrada) // Sá
 {
     int dx = entrada.x - player->pos.x;
     int dy = player->pos.y - entrada.y;
-    if (dx > 0 && dx > 0)
+    if (dx > 0 && dy > 0)
     {
         return 0;
     }
