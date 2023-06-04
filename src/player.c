@@ -255,7 +255,7 @@ void heal(Inimigo *inimigo, Entidade *player, int input, int dungeon_level) // G
 {
     if ((inimigo->ent.vida <= 0) && (inimigo->ent.vida % 2 == 0) && (distance_inimigo(player, inimigo) == 0) && input == 'e')
     {
-        if (dungeon_level % 5 == 0)
+        if (dungeon_level % 5 == 0) // caso em que é um Boss
         {
             if (player->vida + 40 > 150)
             {
@@ -288,14 +288,14 @@ void heal(Inimigo *inimigo, Entidade *player, int input, int dungeon_level) // G
 
 void respawn(Entidade *player, Inimigo *inimigo, int MAP_HEIGHT, int MAP_WIDTH, Terreno **map) // Gon
 {
-    if (((inimigo->ent.vida <= 0) && distance_inimigo(player, inimigo) > 6))
+    if (((inimigo->ent.vida <= 0) && distance_inimigo(player, inimigo) > 7))
     {
         do
         {
             inimigo->ent.vida = vida_atual_inimigo;
             inimigo->ent.pos.x = rand() % MAP_WIDTH;
             inimigo->ent.pos.y = rand() % MAP_HEIGHT;
-        } while (map[inimigo->ent.pos.y][inimigo->ent.pos.x].walkable == false || (distance_inimigo(player, inimigo) < 7));
+        } while (map[inimigo->ent.pos.y][inimigo->ent.pos.x].walkable == false || (distance_inimigo(player, inimigo) <= 7));
     }
 }
 
