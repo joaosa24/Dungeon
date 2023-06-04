@@ -407,15 +407,15 @@ int drawMenuMorte(int choice, int MAP_HEIGHT, int MAP_WIDTH) // (gon)
     int length1 = strlen(opcoes[0]);
     int length2 = strlen(opcoes[1]);
 
-    WINDOW *menu_win_morte = newwin(40, 72, MAP_HEIGHT / 2 - 20, MAP_WIDTH / 2 - 36);
+    WINDOW *menu_win_morte = newwin(40, 72, MAP_HEIGHT / 2 - 20, MAP_WIDTH / 2 - 36); // cria uma janela com 40 de altura e 72 de largura
 
     initscr();
-    noecho();
+    noecho(); // entrada do teclado deixa de aparecer
     cbreak();
-    curs_set(0);
+    curs_set(0); // cursor deixa de ser visivel
 
-    refresh();
-    wrefresh(menu_win_morte);
+    refresh(); // atualiza o que é mostrado
+    wrefresh(menu_win_morte); // atualiza a janela
     keypad(menu_win_morte, true);
 
     while (1)
@@ -432,7 +432,7 @@ int drawMenuMorte(int choice, int MAP_HEIGHT, int MAP_WIDTH) // (gon)
         {
             if (i == highlight)
             {
-                wattron(menu_win_morte, A_BOLD);
+                wattron(menu_win_morte, A_BOLD); // no caso de estar selecionada esta string, troca a cor das letras com a do fundo
             }
             if (i == 0)
             {
@@ -445,7 +445,7 @@ int drawMenuMorte(int choice, int MAP_HEIGHT, int MAP_WIDTH) // (gon)
                 wattroff(menu_win_morte, A_BOLD);
             }
         }
-        choice = wgetch(menu_win_morte);
+        choice = wgetch(menu_win_morte); // lê um caractere
 
         switch (choice)
         {
@@ -472,17 +472,17 @@ int drawMenuMorte(int choice, int MAP_HEIGHT, int MAP_WIDTH) // (gon)
         default:
             break;
         }
-        if ((choice == 10) || (choice == 'q'))
+        if ((choice == 10) || (choice == 'q')) // se o caractere for enter ou 'q', sai do ciclo while
         {
             break;
         }
     }
 
-    if (highlight == 0 && choice == 10)
+    if (highlight == 0 && choice == 10) // se selecionar "Play Again", dá return 1
     {
         return 1;
     }
-    else if (highlight == 1 || choice == 'q')
+    else if (highlight == 1 || choice == 'q') // se selecionar "Exit" ou clicar no 'q' dá return 2
     {
         return 2;
     }

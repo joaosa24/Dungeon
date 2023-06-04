@@ -9,7 +9,7 @@ int WallCount(Terreno **map, int r, int col, int row, int MAP_HEIGHT, int MAP_WI
     {
         for (x = row - r; x <= row + r; x++)
         {
-            if ((y >= 1) && (y < MAP_HEIGHT - 1) && (x >= 1) && (x < MAP_WIDTH - 1))
+            if ((y >= 0) && (y < MAP_HEIGHT) && (x >= 0) && (x < MAP_WIDTH))
             {
                 if (map[y][x].ch == '#')
                 {
@@ -39,12 +39,6 @@ Terreno **mapborder(Terreno **map, int MAP_HEIGHT, int MAP_WIDTH) // manecas
                 map[y][x].ch = '#';
                 map[y][x].walkable = false;
             }
-        }
-    }
-    for (x = 0; x < MAP_WIDTH; x++)
-    {
-        for (y = 0; y < MAP_HEIGHT; y++)
-        {
             if (x == 0 || x == MAP_WIDTH - 1)
             {
                 map[y][x].ch = '#';
@@ -96,9 +90,9 @@ Terreno **generate_map(int MAP_HEIGHT, int MAP_WIDTH)
 
     for (int k = 0; k < fst; k++)
     {
-        for (i = 1; i < MAP_HEIGHT - 1; i++)
+        for (i = 1; i <= MAP_HEIGHT - 1; i++)
         {
-            for (j = 1; j < MAP_WIDTH - 1; j++)
+            for (j = 1; j <= MAP_WIDTH - 1; j++)
             {
                 if (WallCount(map, 1, i, j, MAP_HEIGHT, MAP_WIDTH) >= 5 || WallCount(map, 2, i, j, MAP_HEIGHT, MAP_WIDTH) <= 2)
                 {
@@ -114,12 +108,14 @@ Terreno **generate_map(int MAP_HEIGHT, int MAP_WIDTH)
         }
     }
 
+    mapborder(map, MAP_HEIGHT, MAP_WIDTH);
+
     for (int k = 0; k < snd; k++)
     {
 
-        for (i = 1; i < MAP_HEIGHT - 1; i++)
+        for (i = 1; i <= MAP_HEIGHT - 1; i++)
         {
-            for (j = 1; j < MAP_WIDTH - 1; j++)
+            for (j = 1; j <= MAP_WIDTH - 1; j++)
             {
                 if (WallCount(map, 1, i, j, MAP_HEIGHT, MAP_WIDTH) >= 5)
                 {
