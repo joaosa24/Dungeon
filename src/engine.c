@@ -64,7 +64,7 @@ void gameLoop(Entidade *player, Inimigo *inimigo, int MAP_HEIGHT, int MAP_WIDTH,
         pos_lvl = level_entry(map, MAP_HEIGHT, MAP_WIDTH, pos_inicial, pos_inicial_i);
         dungeon_level = 1;
         pos_damage = plus_damage_obj(map, MAP_HEIGHT, MAP_WIDTH, pos_inicial, pos_inicial_i, pos_lvl);
-        pos_traps = traps(map, MAP_HEIGHT, MAP_WIDTH, pos_inicial, pos_inicial_i, pos_lvl);
+        pos_traps = traps(map, MAP_HEIGHT, MAP_WIDTH, pos_inicial, pos_inicial_i, pos_lvl, dungeon_level);
         pos_fruit = fruits(map, MAP_HEIGHT, MAP_WIDTH, pos_inicial, pos_inicial_i, pos_lvl);
         pos_treasure = treasure(map, MAP_HEIGHT, MAP_WIDTH, pos_inicial, pos_inicial_i, pos_lvl);
         pos_mystery = mystery(map, MAP_HEIGHT, MAP_WIDTH, pos_inicial, pos_inicial_i, pos_lvl);
@@ -96,7 +96,7 @@ void gameLoop(Entidade *player, Inimigo *inimigo, int MAP_HEIGHT, int MAP_WIDTH,
 
         pos_lvl = level_entry(map, MAP_HEIGHT, MAP_WIDTH, pos_inicial, pos_inicial_i);
         pos_damage = plus_damage_obj(map, MAP_HEIGHT, MAP_WIDTH, pos_inicial, pos_inicial_i, pos_lvl);
-        pos_traps = traps(map, MAP_HEIGHT, MAP_WIDTH, pos_inicial, pos_inicial_i, pos_lvl);
+        pos_traps = traps(map, MAP_HEIGHT, MAP_WIDTH, pos_inicial, pos_inicial_i, pos_lvl, dungeon_level);
         pos_fruit = fruits(map, MAP_HEIGHT, MAP_WIDTH, pos_inicial, pos_inicial_i, pos_lvl);
         pos_treasure = treasure(map, MAP_HEIGHT, MAP_WIDTH, pos_inicial, pos_inicial_i, pos_lvl);
         pos_mystery = mystery(map, MAP_HEIGHT, MAP_WIDTH, pos_inicial, pos_inicial_i, pos_lvl);

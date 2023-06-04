@@ -216,13 +216,20 @@ Posicao *plus_damage_obj(Terreno **map, int MAP_HEIGHT, int MAP_WIDTH, Posicao p
     return pos_damage;
 }
 
-Posicao *traps(Terreno **map, int MAP_HEIGHT, int MAP_WIDTH, Posicao pos_inicial, Posicao pos_inicial_i, Posicao pos_lvl) // Sá
+Posicao *traps(Terreno **map, int MAP_HEIGHT, int MAP_WIDTH, Posicao pos_inicial, Posicao pos_inicial_i, Posicao pos_lvl, int dungeon_level) // Sá
 {
 
-    Posicao *pos_traps = calloc(flag_boss, sizeof(Posicao));
+    Posicao *pos_traps = calloc(50, sizeof(Posicao));
     int x, y;
 
-    for (int i = 0; i < 30; i++)
+    if (dungeon_level % 5 == 0)
+    {
+        flag_boss = 50; // no andar do boss existem mais traps (+20)
+    }
+    else
+        flag_boss = 30;
+
+    for (int i = 0; i < flag_boss; i++)
     {
 
         do

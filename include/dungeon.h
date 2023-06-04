@@ -50,7 +50,7 @@ void drawInimigo(Entidade *player, Inimigo *inimigo);
 void drawLvlEntry(Entidade *player, Posicao pos_lvl);
 int drawMenuMorte(int choice,int MAP_HEIGHT, int MAP_WIDTH);
 void drawObjDamage(Entidade *player, Posicao *pos_damage);
-void drawtraps(Entidade *player, Posicao *pos_traps,int dungeon_level);
+void drawtraps(Entidade *player, Posicao *pos_traps);
 void drawHealFruit(Entidade *player, Posicao *pos_fruit);
 void drawTreasure(Entidade *player, Inimigo *inimigo,int dungeon_level);
 void drawMysteryBox(Entidade *player,int dungeon_level);
@@ -70,7 +70,7 @@ Posicao setupMapi(Terreno **map,int MAP_HEIGHT, int MAP_WIDTH,Posicao pos_inicia
 Posicao level_entry(Terreno **map,int MAP_HEIGHT,int MAP_WIDTH,Posicao pos_inicial,Posicao pos_inicial_i);
 int next_level(Entidade *player, int input,Posicao pos_lvl);
 Posicao *plus_damage_obj(Terreno **map,int MAP_HEIGHT,int MAP_WIDTH,Posicao pos_inicial,Posicao pos_inicial_i,Posicao pos_lvl);
-Posicao *traps(Terreno **map,int MAP_HEIGHT,int MAP_WIDTH,Posicao pos_inicial,Posicao pos_inicial_i,Posicao pos_lvl);
+Posicao *traps(Terreno **map,int MAP_HEIGHT,int MAP_WIDTH,Posicao pos_inicial,Posicao pos_inicial_i,Posicao pos_lvl, int dungeon_level);
 Posicao *fruits(Terreno **map,int MAP_HEIGHT,int MAP_WIDTH,Posicao pos_inicial,Posicao pos_inicial_i,Posicao pos_lvl);
 Posicao treasure(Terreno **map,int MAP_HEIGHT,int MAP_WIDTH,Posicao pos_inicial,Posicao pos_inicial_i,Posicao pos_lvl);
 Posicao mystery(Terreno **map,int MAP_HEIGHT,int MAP_WIDTH,Posicao pos_inicial,Posicao pos_inicial_i,Posicao pos_lvl);

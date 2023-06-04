@@ -258,15 +258,9 @@ void drawObjDamage(Entidade *player, Posicao *pos_damage) // função que desenh
     }
 }
 
-void drawtraps(Entidade *player, Posicao *pos_traps, int dungeon_level) // função que desenha traps (Sá)
+void drawtraps(Entidade *player, Posicao *pos_traps) // função que desenha traps (Sá)
 {
     char trap = '^';
-    if (dungeon_level % 5 == 0)
-    {
-        flag_boss = 50; // no andar do boss existem mais traps (+20)
-    }
-    else
-        flag_boss = 30;
 
     for (int i = 0; i < flag_boss; i++)
     {
@@ -504,7 +498,7 @@ void drawAll(Entidade *player, Inimigo *inimigo, int MAP_HEIGHT, int MAP_WIDTH, 
     drawDica(player, MAP_HEIGHT, pos_lvl);
     drawBossHealth(inimigo, MAP_HEIGHT, dungeon_level);
     drawDicaBoss(inimigo, MAP_HEIGHT, dungeon_level);
-    drawtraps(player, pos_traps, dungeon_level);
+    drawtraps(player, pos_traps);
     drawObjDamage(player, pos_damage);
     drawHealFruit(player, pos_fruit);
     drawTreasure(player, inimigo, dungeon_level);

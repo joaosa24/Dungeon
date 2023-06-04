@@ -361,11 +361,11 @@ int distancia_portal(Entidade *player, Posicao entrada) // Sá
     {
         return 4;
     }
-    else if (dx == 0 && dy < 0)
+    else if (dx == 0 && dy > 0)
     {
         return 5;
     }
-    else if (dx == 0 && dy > 0)
+    else if (dx == 0 && dy < 0)
     {
         return 6;
     }
