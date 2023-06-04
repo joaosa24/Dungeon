@@ -219,7 +219,7 @@ Posicao *plus_damage_obj(Terreno **map, int MAP_HEIGHT, int MAP_WIDTH, Posicao p
 Posicao *traps(Terreno **map, int MAP_HEIGHT, int MAP_WIDTH, Posicao pos_inicial, Posicao pos_inicial_i, Posicao pos_lvl) // Sá
 {
 
-    Posicao *pos_traps = calloc(30, sizeof(Posicao));
+    Posicao *pos_traps = calloc(flag_boss, sizeof(Posicao));
     int x, y;
 
     for (int i = 0; i < 30; i++)
